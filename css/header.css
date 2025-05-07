@@ -1,0 +1,293 @@
+/* ヘッダーの初期状態 */
+.header {
+  width: 100%;
+  height: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+/* 透過状態(TOPページのみ) */
+.header-transparent {
+  background: rgba(0, 0, 0, 0); /* 完全透過 */
+  box-shadow: none;
+}
+/* スクロールしたら適用するデフォルトヘッダー */
+.header:not(.header-transparent) {
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+@media screen and (max-width: 980px) {
+  .header {
+    height: 68px;
+    padding: 0;
+  }
+}
+
+.header-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 10px;
+}
+@media screen and (max-width: 980px) {
+  .header-box {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* スクロール時のヘッダー */
+.header-scroll {
+  background-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+/* ロゴ */
+.header-logo-img {
+  display: inline-block;
+  z-index: 1000;
+}
+
+/* ナビゲーション */
+.header-nav {
+  width: 80%;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+/* ナビゲーションメニュー */
+.header-nav-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+@media screen and (max-width: 980px) {
+  .header-nav-menu {
+    height: 100svh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 0;
+  }
+}
+
+/* ナビゲーションアイテム */
+.header-nav-menu-item {
+  font-size: clamp(0.8rem, 1vw, 1.2vw);
+}
+
+@media screen and (max-width: 980px) {
+  .header-nav-menu-item {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* ナビゲーションリンク */
+.header-nav-menu-link {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #1c1c1c;
+  transition: color 0.3s;
+}
+
+@media screen and (max-width: 980px) {
+  .header-nav-menu-link {
+    color: #ffffff;
+    font-size: 14px;
+    padding: 24px 0;
+  }
+}
+
+/* ナビゲーションホバー時 */
+.header-nav-menu-link:hover {
+  color: #0084ad;
+}
+
+/* サブリンク（英語表記） */
+.header-nav-menu-sub {
+  color: #686f75;
+  font-size: 0.8rem;
+  transition: 0.3s;
+}
+@media screen and (max-width: 980px) {
+  .header-nav-menu-sub {
+    display: none;
+  }
+}
+
+
+/* ヘッダーリンク ホバー時 */
+.header-nav-menu-link:hover .header-nav-menu-sub {
+  color: #0084ad;
+}
+
+/* お問い合わせボタン */
+.header-nav-menu-item-contact {
+  background: #005b94;
+  border-radius: 50px;
+  width: 192px;
+  padding: 15px 0;
+  text-align: center;
+  font-size: 15px;
+  transition: 0.3s;
+}
+.header-nav-menu-item-contact:hover {
+  background: #0084ad;
+}
+@media screen and (max-width: 980px) {
+  .header-nav-menu-item.contact-box {
+    display: flex;
+    justify-content: center;
+  }
+  .header-nav-menu-item-contact {
+    width: 75%;
+    max-width: 300px;
+    padding: 0;
+  }
+}
+
+.header-contact-text-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.header-contact-icon {
+  width: 20px;
+  margin-right: 8px;
+}
+
+
+/* モバイル画面 */
+/* ナビゲーションを初期状態で非表示 */
+@media screen and (max-width: 980px) {
+  .header-nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100svh;
+    background: rgba(0, 0, 0, 0.9);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .header-nav.active {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+/* ハンバーガーメニュー */
+.header-menu-button {
+  display: none;
+}
+
+@media screen and (max-width: 980px) {
+  .header-menu-button {
+    display: block;
+    width: 68px;
+    height: 68px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 17px;
+    border: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 10000;
+    background: #005b94;
+    cursor: pointer;
+  }
+}
+
+/* ハンバーガーメニューのボタン */
+.header-menu-button.active {
+  background: transparent;
+}
+
+/* メニューアイコンのアニメーション */
+.header-menu-button-line {
+  width: 100%;
+  height: 2px;
+  border-radius: 4px;
+  background: #ffffff;
+  display: block;
+  transition: 0.4s;
+}
+
+.header-menu-button-line::before,
+.header-menu-button-line::after {
+  content: "";
+  position: absolute;
+  width: 50%;
+  height: 2px;
+  background: inherit;
+  border-radius: 4px;
+  transition: inherit;
+}
+.header-menu-button-line::before {
+  top: 35%;
+  left: 25%;
+}
+.header-menu-button-line::after {
+  bottom: 35%;
+  left: 25%;
+}
+
+.header-menu-button-line.active {
+  background: transparent;
+}
+
+.header-menu-button-line.active::before,
+.header-menu-button-line.active::after {
+  top: 0;
+  background-color: #fff;
+}
+
+.header-menu-button-line.active::before {
+  top: 50%;
+  transform: rotate(-45deg);
+}
+
+.header-menu-button-line.active::after {
+  top: 50%;
+  transform: rotate(45deg);
+}
+
+
+
+
+
+
+/* ハンバーガーメニュー開閉時 */
+/* .header-menu-button .active {
+  background: transparent;
+}
+
+.header-menu-button .active .header-menu-button-line {
+  background-color: transparent;
+}
+
+.header-menu-button .active .header-menu-button-line::before,
+.header-menu-button .active .header-menu-button-line::after {
+  top: 0;
+  background-color: #fff;
+}
+
+.header-menu-button .active .header-menu-button-line::before {
+  transform: rotate(-45deg);
+}
+
+.header-menu-button .active .header-menu-button-line::after {
+  transform: rotate(45deg);
+} */ 

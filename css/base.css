@@ -1,0 +1,85 @@
+/* base.css */
+html {
+  scroll-padding-top: 96px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-size: 16px;
+  font-family: "Roboto", "Noto Sans JP", sans-serif;
+  color: #1c1c1c;
+  overflow-wrap: break-word;
+  letter-spacing: 0.05em;
+}
+
+a {
+  text-decoration: none;
+  color: #1c1c1c;
+  transition: 0.3s;
+}
+a:hover {
+  color: #ffffff;
+}
+
+li {
+  list-style: none;
+}
+
+::selection {
+  background: #005B94;
+  color: #ffffff;
+}
+
+input, select {
+  vertical-align: middle;
+}
+
+/* span .LiNE  */
+#LiNE, #PARK {
+  letter-spacing: -0.1rem;
+}
+
+/* ページのレイアウト関連 */
+
+/* layout.css */
+.l-inner {
+  padding: 0 15px;
+}
+@media screen and (min-width: 960px) {
+  .l-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 30px;
+  }
+}
+.scroll-top-link {
+  width: 56px;
+  height: 56px;
+}
+@media screen and (max-width: 980px) {
+  .c-page-top-link {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+.scroll-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 56px;
+  height: 56px;
+  background-color: #005b94;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  transition: 0.5s;
+}
+@media screen and (max-width: 980px) {
+  .scroll-top {
+    right: 15px;
+    bottom: 15px;
+  }
+}

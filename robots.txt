@@ -1,0 +1,5 @@
+User-agent: *
+Disallow : /ciensee/
+Disallow : /score/
+Disallow : /kbtest/
+Sitemap: https://linepark.co.jp/sitemap.xml

@@ -1,0 +1,81 @@
+/* 採用情報 背景画像 */
+.p-subhero-recruitment {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/img/recruit-hero.webp) no-repeat center center;
+  background-size: cover;
+  margin-top: 68px;
+}
+@media screen and (min-width: 981px) {
+  .p-subhero-recruitment {
+    margin-top: 84px;
+  }
+  
+}
+
+.p-recruitment {
+  background-image: url(/img/recruit-iconbg.svg);
+  background-repeat: repeat;
+  background-size: contain;
+}
+.p-recruitment-body {
+  background: #ffffff;
+  border: solid 3px #005b94;
+  /* padding: 64px 0; */
+  border-radius: 12px;
+}
+
+/* 募集事項 下の余白 */
+.p-recruitment-heading {
+  margin-bottom: 10%;
+}
+@media screen and (min-width: 960px) {
+  .p-recruitment-heading {
+    margin-bottom: 90px;
+  }
+}
+
+/* 募集要項のテーブルスタイル */
+.p-recruitment-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 3vw 1vw;
+}
+@media screen and (min-width: 960px) {
+  .p-recruitment-item {
+    padding: 30px 10px;
+  }
+}
+.p-recruitment-item:nth-of-type(2) {
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+}
+
+/* dt要素 */
+.p-recruitment-title {
+  width: 20%;
+  text-align: center;
+  font-weight: 700;
+  line-height: 24px;
+  margin: auto 0;
+  font-size: clamp(0.7rem, 2vw, 1rem);
+}
+@media screen and (min-width: 960px) {
+  .p-recruitment-title {
+    font-size: 24px;
+  }
+}
+
+/* dd要素 */
+.p-recruitment-desc {
+  width: 80%;
+  line-height: 24px;
+  font-size: clamp(0.7rem, 2vw, 1rem);
+}
+@media screen and (min-width: 960px) {
+  .p-recruitment-desc {
+    font-size: 18px;
+  }
+}

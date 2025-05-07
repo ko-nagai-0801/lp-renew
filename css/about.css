@@ -1,0 +1,345 @@
+/* LiNE PARKについて 背景画像 */
+.p-subhero-aboutpage {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/img/about-hero.jpg) no-repeat center center;
+  background-size: cover;
+  margin-top: 68px;
+}
+@media screen and (min-width: 981px) {
+  .p-subhero-aboutpage {
+    margin-top: 84px;
+  }
+  
+}
+
+.p-meg-heading {
+  margin-top: 42px;
+}
+
+.p-meg-left {
+  width: 100%;
+  text-align: left;
+}
+
+@media screen and (max-width: 640px) {
+  /* aboutの画像 */
+  .p-meg-wrap {
+    width: 100%;
+    display: flex;
+  }
+  .p-meg-title {
+    line-height: 42px;
+    margin-top: 84px;
+    margin-bottom: 105px;
+    font-size: 28px;
+  }
+  .msg {
+    font-size: calc(3.6vw + 16px);
+  }
+}
+.p-meg-wrap {
+  width: 100%;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+.p-meg-title {
+  text-align: center;
+  font-weight: 700;
+  -webkit-font-feature-settings: "palt";
+  font-feature-settings: "palt";
+  line-height: 42px;
+  margin-top: 84px;
+  margin-bottom: 105px;
+  color: #005b94;
+  font-size: 28px;
+}
+
+/* 代表者サイン・署名 */
+.p-represent-wrap {
+  display: flex;
+  justify-content: space-around;
+}
+
+/* サイン */
+.p-meg-sign {
+  display: block;
+  width: 30vw;
+}
+
+@media screen and (min-width: 390px) {
+  .p-meg-sign {
+    width: 30vw;
+  }
+}
+@media screen and (min-width: 500px) {
+  .p-meg-sign {
+    width: 30vw;
+  }
+}
+@media screen and (min-width: 768px) {
+  .p-meg-sign {
+    width: 30vw;
+  }
+}
+@media screen and (min-width: 960px) {
+  .p-meg-sign {
+    width: 20vw;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .p-meg-sign {
+    width: 300px;
+  }
+}
+/* 署名 */
+.p-meg-name p {
+  display: inline-block;
+  text-align: right;
+  font-weight: 500;
+  display: block;
+  font-size: 4vw;
+  margin-bottom: 1vw;
+}
+@media screen and (min-width: 390px) {
+  .p-meg-name p {
+    font-size: 3vw;
+    margin-bottom: 1vw;
+  }
+}
+@media screen and (min-width: 500px) {
+  .p-meg-name p {
+    font-size: 3vw;
+  }
+}
+@media screen and (min-width: 768px) {
+  .p-meg-name p {
+    font-size: 2vw;
+  }
+}
+@media screen and (min-width: 960px) {
+  .p-meg-name p {
+    font-size: 2vw;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .p-meg-name p {
+    font-size: 20px;
+  }
+}
+
+.p-meg-desc p {
+  margin-bottom: 28px;
+}
+
+@media screen and (max-width: 640px) {
+  .p-meg-img {
+    width: 100%;
+    position: relative;
+  }
+  .p-meg-desc {
+    width: 100%;
+  }
+}
+
+.p-phiso-heading {
+  margin-bottom: 92px;
+}
+.p-phiso-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/*about見出しのレイアウト*/
+@media screen and (max-width: 640px) {
+  .p-phiso-item {
+    display: flex;
+    flex-flow: column;
+    align-items: start;
+  }
+}
+
+.p-phiso-item:not(:last-of-type) {
+  margin-bottom: 78px;
+}
+
+.p-phiso-title {
+  margin-left: 52px;
+  font-weight: 700;
+  font-size: 48px;
+}
+@media screen and (max-width: 640px) {
+  .p-phiso-title {
+    margin-left: 52px;
+    font-weight: 700;
+    font-size: 32px;
+  }
+}
+
+.p-phiso-title::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  background-image: url(/img/common/star-icon.svg);
+  background-size: contain;
+  width: 44px;
+  height: 44px;
+}
+.p-phiso-title .large {
+  color: #005b94;
+}
+.p-phiso-title .small {
+  margin-top: 6px;
+  font-feature-settings: "palt";
+  display: block;
+  color: #005b94;
+  font-size: 16px;
+  font-size: 1rem;
+}
+.p-phiso-text {
+  margin-top: 10px;
+  margin-left: 50px;
+  width: 53.2258064516%;
+  line-height: 24px;
+}
+
+/*テキストの幅*/
+@media screen and (max-width: 640px) {
+  .p-phiso-text {
+    width: 80%;
+  }
+}
+
+.p-phiso-bg {
+  width: 70%;
+  height: 533px;
+  position: absolute;
+  top: 50%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-size: contain;
+  background-image: url(/img/phiso-bg.svg);
+  background-repeat: no-repeat;
+}
+/*背景イメージの位置*/
+@media screen and (max-width: 640px) {
+  .p-phiso-bg {
+    top: 50%;
+    left: 50%;
+  }
+}
+.p-phiso-flow-wrap {
+  display: flex;
+  align-items: center;
+  height: 274px;
+  overflow: hidden;
+}
+.p-phiso-flow-list {
+  display: flex;
+  animation: loop-slide 50s infinite linear 0s both;
+}
+
+.p-phiso-flow-item {
+  width: 1000px;
+  margin-right: 72px;
+}
+@media screen and (max-width: 640px) {
+  .p-phiso-flow-item {
+    width: 1000px;
+  }
+}
+
+
+.p-company {
+  padding-bottom: 180px;
+}
+.p-company-heading {
+  margin-bottom: 92px;
+}
+.p-company-service {
+  margin-bottom: 18px;
+}
+.p-company-table tr:not(:last-of-type) {
+  border-bottom: 1px solid #ffffff;
+}
+.p-company-table tr:first-of-type th {
+  border-top-left-radius: 6px;
+}
+.p-company-table tr:last-of-type th {
+  border-bottom-left-radius: 6px;
+}
+.p-company-table th {
+  width: 325px;
+  padding: 1rem 0 1rem 0.5rem;
+  vertical-align: middle;
+  font-weight: 500;
+  text-align: left;
+  color: #ffffff;
+  background-color: #005b94;
+  height: 100%;
+}
+@media screen and (max-width: 640px) {
+  .p-company-table th {
+    width: 30%;
+  }
+  .p-company-table th span {
+    line-height: 60px;
+  }
+  .p-company-table td {
+    vertical-align: middle;
+  }
+  .p-company-table td span {
+    line-height: 15px;
+    letter-spacing: -0.3px;
+  }
+}
+.p-company-table td {
+  width: 915px;
+  padding-left: 18px;
+  background: #f6f8fa;
+  vertical-align: middle;
+  height: 100%;
+}
+
+/*about 表の表示サイズ*/
+.p-company-table {
+  width: 100%;
+  height: 100%;
+}
+
+.p-company-table td span {
+  line-height: 25px;
+}
+
+
+
+.p-company-table td:first-of-type {
+  border-top-right-radius: 6px;
+}
+.p-company-table td:last-of-type {
+  border-bottom-left-radius: 6px;
+}
+
+.th-inquiry {
+  font-size: 0.9rem;
+}
+
+@media screen and (min-width: 960px){
+  .th-inquiry {
+    font-size: 16px;
+  }
+}
+
+.td-biz-desc {
+  font-size: 0.9rem;
+}
+
+@media screen and (min-width: 960px){
+  .td-biz-desc {
+    font-size: 16px;
+  }
+}

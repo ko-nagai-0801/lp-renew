@@ -1,0 +1,36 @@
+/* 協賛企業CSS */
+.p-subhero-sponsors {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/img/sponsors.jpg) no-repeat center center;
+  background-size: cover;
+  margin-top: 70px;
+}
+@media screen and (min-width: 960px) {
+  .p-subhero-sponsors {
+    margin-top: 0;
+  }
+}
+img {
+  height: auto;
+}
+
+.p-sponsors-body {
+  background: #ffffff;
+  border: solid 3px #005B94;
+  /* padding: 64px 0; */
+  border-radius: 12px;
+}
+
+/* .p-sponsors-body ul {
+  padding: 2vw;
+}
+.p-sponsors-body ul li {
+  padding: 1vw;
+} */
+.p-sponsors-heading {
+  margin-bottom: 50px;
+}
+
+.sponsors a {
+  color: #009dff;
+  text-decoration: underline;
+}

@@ -1,0 +1,179 @@
+<?php
+session_start();
+var_dump($_SESSION);
+// echo $full_postcode1;
+// エスケープ関数の定義
+function h($str) {
+    return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
+}
+
+// SESSIONデータを取得
+if (isset($_SESSION)) {
+    $company_name = isset($_SESSION['company-name']) ? h($_SESSION['company-name']) : '';
+    $company_kana = isset($_SESSION['company-kana']) ? h($_SESSION['company-kana']) : '';
+    $name = isset($_SESSION['name']) ? h($_SESSION['name']) : '';
+    $name_kana = isset($_SESSION['name-kana']) ? h($_SESSION['name-kana']) : '';
+    $postcode1 = isset($_SESSION['postcode1']) ? h($_SESSION['postcode1']) : '';
+    $postcode2 = isset($_SESSION['postcode2']) ? h($_SESSION['postcode2']) : '';
+    $address1 = isset($_SESSION['address1']) ? h($_SESSION['address1']) : '';
+    $address2 = isset($_SESSION['address2']) ? h($_SESSION['address2']) : '';
+    $address_kana1 = isset($_SESSION['address-kana1']) ? h($_SESSION['address-kana1']) : '';
+    $telnum1 = isset($_SESSION['telnum1']) ? h($_SESSION['telnum1']) : '';
+    $email = isset($_SESSION['email']) ? h($_SESSION['email']) : '';
+    $post_name = isset($_SESSION['post-name']) ? h($_SESSION['post-name']) : '';
+    $post_name_kana = isset($_SESSION['post-name-kana']) ? h($_SESSION['post-name-kana']) : '';
+    $postcode3 = isset($_SESSION['postcode3']) ? h($_SESSION['postcode3']) : '';
+    $postcode4 = isset($_SESSION['postcode4']) ? h($_SESSION['postcode4']) : '';
+    $address2 = isset($_SESSION['address2']) ? h($_SESSION['address2']) : '';
+    $address_kana2 = isset($_SESSION['address-kana2']) ? h($_SESSION['address-kana2']) : '';
+    $telnum2 = isset($_SESSION['telnum2']) ? h($_SESSION['telnum2']) : '';
+    $order_spray = isset($_SESSION['order-spray']) ? h($_SESSION['order-spray']) : '';
+    $order_bottle = isset($_SESSION['order-bottle']) ? h($_SESSION['order-bottle']) : '';
+    $payment = isset($_SESSION['payment']) ? h($_SESSION['payment']) : '';
+} else {
+    die('不正なアクセスです。');
+}
+?>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>確認ページ</title>
+    <!-- Bootstrap 5 CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2>入力内容の確認</h2>
+
+    <div>
+        <h3 class="mt-3 mb-5">お客様情報</h3>
+        <div class="mb-5">
+            <h5><label class="form-label">貴社名:</label></h5>
+            <h4>
+                <div><?php echo $company_name; ?></div>
+            </h4>
+        </div>
+        <div class="mb-5">
+            <h5><label class="form-label">ご担当者様氏名:</label></h5>
+            <h4>
+                <div><?php echo $name1; ?></div>
+            </h4>
+        </div>
+        <div class="mb-5">
+            <h5><label class="form-label">郵便番号:</label></h5>
+            <h4>
+                <div><?php echo $postcode1.'-'.$postcode2; ?></div>
+            </h4>
+        </div>
+        <div class="mb-5">
+            <h5><label class="form-label">ご住所:</label></h5>
+            <h4>
+                <div><?php echo $address1; ?></div>
+            </h4>
+        </div>
+        <div class="mb-5">
+            <h5><label class="form-label">お電話番号:</label></h5>
+            <h4>
+                <div><?php echo $telnum1; ?></div>
+            </h4>
+        </div>
+        <div class="mb-5">
+            <h5><label class="form-label">メールアドレス:</label></h5>
+            <h4>
+                <div><?php echo $email; ?></div>
+            </h4>
+        </div>
+    </div>
+
+    <div>
+        <h3 class="mt-3 mb-5">お届け先情報</h3>
+        <div class="mb-5">
+            <h5><label class="form-label">お届け先氏名:</label></h5>
+            <h4>
+                <div><?php echo $company_name; ?></div>
+            </h4>
+        </div>
+        <div class="mb-5">
+            <h5><label class="form-label">お届け先郵便番号:</label></h5>
+            <h4>
+                <div><?php echo $postcode3.'-'.$postcode4; ?></div>
+            </h4>
+        </div>
+        <div class="mb-5">
+            <h5><label class="form-label">お届け先ご住所:</label></h5>
+            <h4>
+                <div><?php echo $address2; ?></div>
+            </h4>
+        </div>
+        <div class="mb-5">
+            <h5><label class="form-label">お届け先お電話番号:</label></h5>
+            <h4>
+                <div><?php echo $telnum2; ?></div>
+            </h4>
+        </div>
+    </div>
+
+    <div>
+        <h3 class="mt-3 mb-5">ご注文商品</h3>
+        <div class="mb-5">
+            <h5><label class="form-label">Adox M GUARD＋ スプレーボトル:</label></h5>
+            <h4>
+                <div><?php echo $order_spray; ?>個</div>
+            </h4>
+        </div>
+        <div class="mb-5">
+            <h5><label class="form-label">Adox M GUARD＋ 詰め替えボトル:</label></h5>
+            <h4>
+                <div><?php echo $order_bottle; ?>個</div>
+            </h4>
+        </div>
+        <div class="mb-5">
+            <h5><label class="form-label">お支払方法:</label></h5>
+            <h4>
+                <div><?php echo $payment; ?></div>
+            </h4>
+        </div>
+        <div class="mb-5">
+            <h5><label class="form-label">お支払い金額:</label></h5>
+            <h4>
+                <div><?php echo ($order_spray*23520)+ ($order_bottle*12960); ?>円</div>
+            </h4>
+        </div>
+    </div>
+
+    <form action="complete.php" method="post">
+        <input type="hidden" name="company-name" value="<?php echo $company_name; ?>">
+        <input type="hidden" name="company-kana" value="<?php echo $company_kana; ?>">
+        <input type="hidden" name="name1" value="<?php echo $name1; ?>">
+        <input type="hidden" name="name-kana1" value="<?php echo $name_kana1; ?>">
+        <input type="hidden" name="full-postcode1" value="<?php echo $postcode1.'-'.$postcode2;; ?>">
+        <input type="hidden" name="address1" value="<?php echo $address1; ?>">
+        <input type="hidden" name="address-kana1" value="<?php echo $address_kana1; ?>">
+        <input type="hidden" name="telnum1" value="<?php echo $telnum1; ?>">
+        <input type="hidden" name="email" value="<?php echo $email; ?>">
+
+        <input type="hidden" name="post-name" value="<?php echo $post_name; ?>">
+        <input type="hidden" name="post-name-kana" value="<?php echo $post_name_kana; ?>">
+        <input type="hidden" name="full-postcode2" value="<?php echo $postcode3.'-'.$postcode4;; ?>">
+        <input type="hidden" name="address2" value="<?php echo $address2; ?>">
+        <input type="hidden" name="address-kana2" value="<?php echo $address_kana2; ?>">
+        <input type="hidden" name="telnum2" value="<?php echo $telnum2; ?>">
+
+        <input type="hidden" name="order-spray" value="<?php echo $order_spray; ?>">
+        <input type="hidden" name="order-bottle" value="<?php echo $order_bottle; ?>">
+
+        <input type="hidden" name="payment" value="<?php echo $payment; ?>">
+
+        <button type="button" class="btn btn-secondary" onclick="history.back()">戻って修正する</button>
+        <button type="submit" class="btn btn-primary">ご注文を確定する</button>
+    </form>
+</div>
+
+<!-- Bootstrap 5 JS and Popper.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+/* アクセス 背景画像 */
+.p-subhero-accesspage {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/img/access-hero.jpg) no-repeat center center;
+  background-size: cover;
+  margin-top: 68px;
+}
+@media screen and (min-width: 981px) {
+  .p-subhero-accesspage {
+    margin-top: 84px;
+  }
+}
+
+.p-access-body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-flow: column;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+@media screen and (min-width: 960px) {
+  .p-access-body {
+    display:flex;
+    flex-flow: row;
+  }
+}
+
+/* googleMap */
+.p-access-map {
+  width: 90vw;
+  height: 90vw;
+  margin: 0 auto;
+  border-radius: 50px;
+  position: relative;
+  overflow: hidden;
+  -webkit-transition: all 1s;
+  -o-transition: all 1s;
+  transition: all 1s;
+}
+@media screen and (min-width: 960px) {
+  .p-access-map {
+    width: 60vw;
+    height: 60vw;
+  }
+}
+
+/* .p-access-address {
+  outline: solid 1px #ffffff;
+} */
+
+.p-access-map-img {
+  width: 100%;
+  height: 100%;
+}
+.p-access-map-img:hover {
+  -webkit-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+  -webkit-transition: 1s all;
+  -o-transition: 1s all;
+  transition: 1s all;
+}
+
+
+@media screen and (max-width: 960px) {
+  .p-access-wayto {
+    display: block;
+    line-height: 10px;
+    text-size-adjust: none;
+    -webkit-text-size-adjust: none;
+    -moz-text-size-adjust: none;
+  }
+  .p-access-wayto p {
+    line-height: 10px;
+    text-size-adjust: none;
+    -webkit-text-size-adjust: none;
+    -moz-text-size-adjust: none;
+  }
+}
+.p-access-wayto {
+  line-height: 24px;
+}
+.p-access-wayto p {
+  margin-bottom: 16px;
+}
+
+
+.p-access-desc {
+  background-image: url(/img/Palm-seagull.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  color :#333;
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  font-size: 3vw;
+
+}
+@media screen and (min-width: 500px) {
+  .p-access-desc {
+    width: 80vw;
+    position: relative;
+    bottom: 0;
+    font-size: 2vw;
+    margin-left: 2vw;
+  }
+}
+@media screen and (min-width: 768px) {
+  .p-access-desc {
+    width: 80vw;
+    position: relative;
+    bottom: 0;
+    font-size: 16px;
+    margin: 0 auto;
+  }
+}
+@media screen and (min-width: 960px) {
+  .p-access-desc {
+    width: 40vw;
+    position: relative;
+    bottom: 0;
+    font-size: 16px;
+    margin: 0 2vw;
+  }
+}
+
+.p-access-desc-title {
+  font-weight: 700;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #B4B4B4;
+  margin-bottom: 6px;
+}
+.p-access-desc-text {
+  margin: -4px 0;
+  line-height: 24px;
+  margin-bottom: 26px;
+}
+.p-access-phone-number {
+  margin-top: 4px;
+}
+.p-access-phone-number span {
+  font-weight: 700;
+  color: #005B94;
+  vertical-align: text-top;
+}
+.p-access-reception-time {
+  color: #005B94;
+  margin-top: 6px;
+}
+.p-access-contact {
+  margin-top: 64px;
+}
+.p-access-phone-number {
+  margin-top: 4px;
+}
+.p-access-phone-number span a{
+  font-weight: 700;
+  color: #005B94;
+  vertical-align: text-top;
+}
+.p-access-reception-time {
+  color: #005B94;
+  margin-top: 6px;
+}
+
+.place-icon {
+  width: 56px;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  z-index: 100;
+}

@@ -1,0 +1,535 @@
+/* 動画編集 CSS */
+/* hero セクション*/
+.p-subhero-movie-products {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url(/img/movie-hero.webp) no-repeat center center;
+  background-size: cover;
+  margin-top: 68px;
+}
+@media screen and (min-width: 981px) {
+  .p-subhero-movie-products {
+    margin-top: 84px;
+  }
+}
+
+a:hover {
+  color: #ffffff;
+  cursor: pointer;
+}
+
+p {
+  font-size: clamp(1rem, 1.1rem, 1.5rem);
+}
+.main-cover {
+  background-color: rgb(244, 250, 251);
+}
+
+.wide-view {
+  display: none;
+}
+.narrow-view {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 0 3vw 0;
+}
+@media screen and (min-width: 960px) {
+  .wide-view {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .narrow-view {
+    display: none;
+  }
+}
+
+/* 動画制作 */
+.p-movie {
+  background-image: url(/img/recruit-iconbg.svg);
+  background-repeat: repeat;
+  background-size: contain;
+}
+.p-movie-body {
+  display: block;
+  margin: 0 auto 3vw;
+  background-image: url(/img/recruit-iconbg.svg);
+  background-repeat: repeat;
+  background-size: contain;
+  text-align: center;
+  width: 100%;
+  background: #ffffff;
+  border: solid 3px #005b94;
+  padding: 32px 0;
+  border-radius: 12px;
+}
+@media screen and (min-width: 960px) {
+  .p-movie-body {
+    width: 80%;
+  }
+}
+.p-movie-heading {
+  margin-bottom: 62px;
+}
+.p-movie-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+.p-movie-item:nth-of-type(2) {
+  padding-top: 3vw;
+}
+@media screen and (min-width: 960px) {
+  .p-movie-item:nth-of-type(2) {
+    padding-top: 30px;
+  }
+}
+
+.p-movie-item:not(:last-of-type) {
+  border-bottom: 2px solid #b4b4b4;
+  padding-bottom: 30px;
+}
+.p-movie-title {
+  width: 100%;
+  font-size: 20px;
+  color: #005b94;
+  text-align: center;
+  font-weight: 700;
+  line-height: 24px;
+  margin: auto 0;
+}
+.p-movie-desc {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  font-size: 20px;
+  text-align: left;
+  line-height: 24px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 15px;
+}
+
+.p-moviepage-link {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.plan-table-container {
+  display: flex;
+  justify-content: center;
+  padding: 0;
+}
+
+/* mobile用 料金プランテーブル */
+.plan-table-mb {
+  border-collapse: separate;
+  /* collapseから変更 */
+  border-spacing: 0;
+  overflow: hidden;
+  width: 100%;
+}
+@media screen and (min-width: 960px) {
+  .plan-table-mb {
+    display: none;
+  }
+}
+.column-heading-mb {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #ffffff;
+  text-align: center;
+  background: linear-gradient(
+    90deg,
+    rgba(28, 152, 190, 1) 0%,
+    rgba(52, 96, 171, 1) 100%
+  );
+}
+.column-heading-mb {
+  border-radius: 20px 20px 0 0;
+}
+.row-heading-mb.first {
+  border-radius: 0;
+  border-top: 0;
+}
+.row-heading-mb {
+  width: 30%;
+  font-size: calc((100vw - 320px) / 140 + 12px);
+  font-weight: 400;
+  text-align: center;
+  background-color: #c2e4f0;
+  border: 2px solid #6982b5;
+  border-bottom: 0;
+}
+.row-heading-mb.last {
+  border-bottom: 2px solid #6982b5;
+  border-radius: 0 0 0 20px;
+}
+.row-data-mb {
+  font-size: calc((100vw - 320px) / 140 + 15px);
+  text-align: center;
+}
+.row-data-mb.price-data {
+  font-size: calc((100vw - 320px) / 140 + 12px);
+}
+
+.row-data-mb.material-data {
+  font-size: 0.8rem;
+}
+
+.row-data-mb.minute,
+.price,
+.free,
+.picture {
+  font-size: calc((100vw - 320px) / 140 + 16px);
+  font-weight: 400;
+}
+
+.row-data-mb.first {
+  border-right: 2px solid #6982b5;
+  border-top: 0;
+}
+.row-data-mb {
+  border-right: 2px solid #6982b5;
+  border-top: 2px solid #6982b5;
+}
+.row-data-mb.row-data-mb-last {
+  border-right: 2px solid #6982b5;
+}
+.row-data-mb.edit-desc {
+  text-align: left;
+  vertical-align: top;
+}
+tbody tr:last-child td.last-td {
+  border-radius: 0 0 20px 0;
+  border-bottom: 2px solid #6982b5;
+}
+/* mobile用 料金プランテーブル */
+
+
+/* PC用 料金プランテーブル */
+.plan-table {
+  display: none;
+}
+@media screen and (min-width: 960px) {
+  .plan-table {
+    display: block;
+    border-collapse: separate; /*collapseから変更*/
+    border-spacing: 0;
+    overflow: hidden;
+  }
+
+  .column-heading {
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: #ffffff;
+    text-align: center;
+    border-left: 1px solid #ffffff;
+    /* background: rgb(28,152,190); */
+    background: linear-gradient(
+      90deg,
+      rgba(28, 152, 190, 1) 0%,
+      rgba(52, 96, 171, 1) 100%
+    );
+  }
+  /* シンプルプランに角丸を適用 */
+  .column-heading:nth-of-type(2) {
+    border-radius: 20px 0 0 0;
+  }
+
+  /* Photoプランに角丸を適用 */
+  .column-heading:nth-of-type(4) {
+    border-left: 1px solid #ffffff;
+    border-radius: 0 20px 0 0;
+  }
+
+  .row-heading {
+    font-size: 1.2rem;
+    font-weight: 400;
+    text-align: center;
+    background-color: #c2e4f0;
+    border: 2px solid #6982b5;
+    border-right: 0;
+    border-bottom: 0;
+  }
+
+  /* tbody内の最初の行の最初の row-heading */
+  tbody tr:first-child th.row-heading {
+    border-radius: 20px 0 0 0;
+  }
+
+  /* tbody内の最後の行の最初の row-heading */
+  tbody tr:last-child th.row-heading {
+    border-radius: 0 0 0 20px;
+    border-bottom: 2px solid #6982b5;
+  }
+
+  .plan-table td {
+    font-size: 1rem;
+    font-weight: 100;
+    text-align: center;
+    border: 2px solid #6982b5;
+    border-right: 0;
+    border-bottom: 0;
+  }
+  .plan-table td.first-row {
+    border-top: 0;
+  }
+
+  .plan-table tbody tr:last-child td {
+    border-bottom: 2px solid #6982b5;
+  }
+  tbody tr:last-child td.last-td {
+    border-radius: 0 0 20px 0;
+    border-bottom: 2px solid #6982b5;
+  }
+
+  .row-data {
+    text-align: center;
+    font-size: 1.0rem;
+  }
+  /* .row-data .price-data,
+  .row-data .material-data {
+    font-size: 1.0rem;
+  } */
+
+  .row-data .minute {
+    font-size: 1.2rem;
+    font-weight: 100;
+  }
+
+  .row-data .price,
+  .free,
+  .picture {
+    font-size: 1.4rem;
+    font-weight: 400;
+  }
+
+  .row-data.row-data-last {
+    border-right: 2px solid #6982b5;
+  }
+  .row-data.edit-desc {
+    text-align: left;
+    vertical-align: top;
+  }
+}
+/* PC用 オプションテーブル */
+.option-table {
+  display: none;
+}
+@media screen and (min-width: 960px) {
+  .option-table {
+    display: block;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    width: 70%;
+    min-width: 960px;
+    max-width: 1080px;
+    border: 2px solid #6982b5;
+    border-radius: 20px;
+    padding: 0;
+  }
+
+  .option-table .op-row-heading {
+    border-right: 2px solid #6982b5;
+    text-align: center;
+    background-color: #c2e4f0;
+  }
+  .option-table .op-row-heading {
+    width: 20%;
+    font-size: 1.5rem;
+  }
+
+  .option-data-details {
+    width: 80vw;
+  }
+
+  .option-table .option-data {
+    width: 100%;
+  }
+
+  .option-table .option-data.odd {
+    background-color: #d7e4f5;
+  }
+
+  .option-table .option-data-desc {
+    display: flex;
+    justify-content: space-between;
+  }
+  .option-data-ttl {
+    width: 65%;
+    font-size: 1.2rem;
+  }
+  .option-data-price {
+    width: 35%;
+    text-align: left;
+    font-size: 1.2rem;
+  }
+}
+
+/* mobile用 optionテーブル */
+.option-table-mb {
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  width: 100%;
+  border: 2px solid #6982b5;
+  border-radius: 20px;
+}
+@media screen and (min-width: 960px) {
+  .option-table-mb {
+    display: none;
+  }
+}
+
+.option-table-mb .op-row-heading {
+  text-align: center;
+  background-color: #c2e4f0;
+}
+
+.option-table-mb .option-data.odd {
+  background-color: #d7e4f5;
+}
+
+.option-table-mb .option-data-desc {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.option-table-mb .option-data-ttl {
+  width: 60%;
+  font-size: calc((100vw - 320px) / 140 + 14px);
+}
+.option-table-mb .option-data-ttl.long-text {
+  width: 60%;
+  font-size: calc((100vw - 320px) / 140 + 10px);
+}
+.option-table-mb .option-data-price {
+  display: inline-block;
+  width: 40%;
+  height: auto;
+  text-align: left;
+  vertical-align: middle;
+  font-size: calc((100vw - 320px) / 140 + 12px);
+}
+/* mobile用 optionテーブル */
+
+.side-note p {
+  font-size: calc((100vw - 320px) / 140 + 8px);
+}
+@media screen and (min-width: 960px) {
+  .side-note {
+    padding-left: 10%;
+    width: 67vw;
+  }
+  .side-note p {
+    font-size: 0.8rem;
+  }
+}
+
+/* 動画編集サービス見積もりフォーム */
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+.option-label {
+  cursor: pointer;
+}
+
+.form-ttl {
+  display: flex;
+  justify-content: center;
+  font-size: calc((100vw - 320px) / 140 + 20px);
+}
+@media screen and (min-width: 960px) {
+  .form-ttl {
+    font-size: 1.6rem;
+  }
+}
+.form-label {
+  font-size: calc((100vw - 320px) / 140 + 20px);
+}
+@media screen and (min-width: 960px) {
+  .form-label {
+    font-size: 1.6rem;
+  }
+}
+.plan-container {
+  display: flex;
+  flex-direction: column;
+}
+@media screen and (min-width: 960px) {
+  .plan-container {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+}
+.plan-container-items {
+  font-size: calc((100vw - 320px) / 140 + 16px);
+}
+@media screen and (min-width: 960px) {
+  .plan-container-items {
+    font-size: 1.2rem;
+  }
+}
+.plan-container-items:not(:last-of-type) {
+  margin-right: 0;
+}
+@media screen and (min-width: 960px) {
+  .plan-container-items:not(:last-of-type) {
+    margin-right: 30px;
+  }
+}
+
+.form-item {
+  font-size: calc((100vw - 320px) / 140 + 16px);
+}
+@media screen and (min-width: 960px) {
+  .form-item {
+    font-size: 1.2rem;
+  }
+}
+
+.form-check {
+  position: relative;
+  display: block;
+  padding-left: 1.5em;
+}
+
+.form-check-input {
+  position: absolute;
+  margin-top: 0.3em;
+  margin-left: -1.5em;
+}
+
+.form-check-label {
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+
+input[type="radio"] {
+  transform: scale(1.3);
+}
+input[type="checkbox"] {
+  transform: scale(1.5);
+}
+
+#photoCountGroup {
+  display: none;
+}
+
+.total-estimate {
+  display: flex;
+  justify-content: center;
+  font-size: calc((100vw - 320px) / 140 + 20px);
+}
+@media screen and (min-width: 960px) {
+  .total-estimate {
+    font-size: 1.6rem;
+  }
+}

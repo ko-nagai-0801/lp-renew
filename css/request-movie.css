@@ -1,0 +1,210 @@
+/* 動画編集 CSS */
+/* hero セクション*/
+.p-subhero-movie-products {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url(/img/request-movie.jpg) no-repeat top center;
+  background-size: cover;
+  margin-top: 68px;
+}
+@media screen and (min-width: 981px) {
+  .p-subhero-movie-products {
+    margin-top: 84px;
+  }
+}
+
+a:hover {
+  color: #ffffff;
+  cursor: pointer;
+}
+
+p {
+  font-size: clamp(1rem, 1.1rem, 1.5rem);
+}
+.main-cover {
+  background-color: rgb(244, 250, 251);
+}
+
+.wide-view {
+  display: none;
+}
+.narrow-view {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 0 3vw 0;
+}
+@media screen and (min-width: 960px) {
+  .wide-view {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .narrow-view {
+    display: none;
+  }
+}
+
+/* 動画制作 */
+/* 背景画像の設定 */
+/* .p-movie {
+  background-image: url(/img/recruit-iconbg.svg);
+  background-repeat: repeat;
+  background-size: contain;
+} */
+
+/* 動画編集サービス見積もりフォーム */
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+.option-label {
+  cursor: pointer;
+}
+
+.form-ttl {
+  display: flex;
+  justify-content: center;
+  font-size: calc((100vw - 320px) / 140 + 20px);
+}
+@media screen and (min-width: 960px) {
+  .form-ttl {
+    font-size: 1.6rem;
+  }
+}
+.form-label {
+  font-size: calc((100vw - 320px) / 140 + 16px);
+}
+@media screen and (min-width: 960px) {
+  .form-label {
+    font-size: 1.2rem;
+  }
+}
+/* .video-length, .photo-count {
+
+} */
+@media screen and (min-width: 960px) {
+  .video-length, .photo-count {
+    width: 100px;
+  }
+}
+.plan-container {
+  display: flex;
+  flex-direction: column;
+}
+@media screen and (min-width: 960px) {
+  .plan-container {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+}
+.plan-container-items {
+  font-size: calc((100vw - 320px) / 140 + 16px);
+}
+@media screen and (min-width: 960px) {
+  .plan-container-items {
+    font-size: 1.2rem;
+  }
+}
+.plan-container-items:not(:last-of-type) {
+  margin-right: 0;
+}
+@media screen and (min-width: 960px) {
+  .plan-container-items:not(:last-of-type) {
+    margin-right: 30px;
+  }
+}
+
+.form-item {
+  font-size: calc((100vw - 320px) / 140 + 16px);
+}
+@media screen and (min-width: 960px) {
+  .form-item {
+    font-size: 1.2rem;
+  }
+}
+
+.form-check {
+  position: relative;
+  display: block;
+  padding-left: 1.5em;
+}
+
+.form-check-input {
+  position: absolute;
+  margin-top: 0.3em;
+  margin-left: -1.5em;
+}
+
+.form-check-label {
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+
+input[type="radio"] {
+  transform: scale(1.3);
+}
+input[type="checkbox"] {
+  transform: scale(1.5);
+}
+
+#photoCountGroup {
+  display: none;
+}
+/* 合計金額 */
+.total-estimate {
+  display: flex;
+  justify-content: center;
+  font-size: calc((100vw - 320px) / 140 + 16px);
+}
+@media screen and (min-width: 960px) {
+  .total-estimate {
+    font-size: 1.6rem;
+  }
+}
+.has-consultation-pc {
+  display: none;
+}
+@media screen and (min-width: 960px) {
+  .has-consultation-pc {
+    display: inline;
+  }
+}
+
+.has-consultation-mb {
+  display: block;
+  font-size: calc((100vw - 320px) / 140 + 14px);
+}
+@media screen and (min-width: 960px) {
+  .has-consultation-mb {
+    display: none;
+  }
+}
+
+/* 注意書き */
+.caution-txt {
+  font-size: calc((100vw - 320px) / 140 + 12px);
+}
+@media screen and (min-width: 960px) {
+  .caution-txt {
+    font-size: 0.8rem
+  }
+}
+
+/* ご依頼に際しての確認事項 */
+.terms-scroll {
+  max-height: 150px;
+  /* 垂直方向にスクロールバーを表示 */
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+}
+.terms-scroll p {
+  font-size: calc((100vw - 320px) / 140 + 14px);
+}
+@media screen and (min-width: 960px) {
+  .terms-scroll p {
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,20 @@
+/* Web実績 CSS */
+/* hero セクション*/
+.p-subhero-web-products {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/img/web-hero.webp) no-repeat center center;
+  background-size: cover;
+}
+
+a:hover {
+  color: #ffffff;
+}
+
+p {
+  font-size: clamp(1rem, 1.1rem, 1.5rem);
+}
+.main-cover {
+  background-color: rgb(244, 250, 251);
+}
+.component-block {
+  background-color: #ffffff;
+}
