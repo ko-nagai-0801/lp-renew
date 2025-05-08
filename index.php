@@ -64,20 +64,7 @@
 	<!-- google fonts -->
 	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
-	<!-- reset CSS -->
-	<link rel="stylesheet" href="/css/reset.css">
-
-	<!-- SwiperのCSS -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-
-	<!-- BootStrap CSS CDN -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-	<link rel="stylesheet" href="./css/mybootstrap.css" />
-
-	<link rel="stylesheet" href="/css/base.css">
-	<link rel="stylesheet" href="/css/header.css?v=2">
-	<link rel="stylesheet" href="/css/footer.css?v=2">
-	<link rel="stylesheet" href="/css/top.css?v=2">
+	<!-- favicons -->
 	<link rel="apple-touch-icon" sizes="180x180" href="/img/common/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/img/common/favicon-16x16.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="/img/common/favicon-32x32.png">
@@ -87,10 +74,28 @@
 	<link rel="mask-icon" href="/img/common/safari-pinned-tab.svg" color="#5bbad5">
 	<meta name="msapplication-TileColor" content="#da532c">
 	<meta name="theme-color" content="#ffffff">
+
+
+
+	<!-- BootStrap CSS CDN -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="./css/mybootstrap.css" />
+	<!-- Swiper CSS CDN -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+	<!-- reset CSS -->
+	<link rel="stylesheet" href="/css/reset.css">
+
+	<link rel="stylesheet" href="/css/common.css">
+	<link rel="stylesheet" href="/css/header.css?v=2">
+	<link rel="stylesheet" href="/css/footer.css?v=2">
+	<link rel="stylesheet" href="/css/top.css?v=2">
+
+
 	<meta name="format-detection" content="telephone=no">
 	<title>株式会社ＬｉＮＥ ＰＡＲＫ｜就労継続支援B型事業所｜Web制作・デザイン・動画編集</title>
 	<meta name="description" content="足立区綾瀬にある就労継続支援B型事業所。これまでにない視野で新たな障害福祉を創造する会社。1人1人が助け合い、笑い合い、理解し合う、そんな環境を目指しています。">
-	<meta name="keywords" content="就労継続支援B型, 就労継続支援事業所, 就B, B型, 足立区, 綾瀬, Web制作, HP制作, デザイン制作, 動画編集, バナー作成, チラシデザイン, 障害福祉　テスト">
+	<meta name="keywords" content="就労継続支援B型, 就労継続支援事業所, 就B, B型, 足立区, 綾瀬, Web制作, HP制作, デザイン制作, 動画編集, バナー作成, チラシデザイン, 障害福祉">
 
 	<meta name="robots" content="index, follow">
 	<!-- Google tag (gtag.js) -->
@@ -170,7 +175,7 @@
 						<h3 class="about-title py-3">誰もが当たり前のことを、当たり前にできる世界へ</h3>
 					</div>
 					<div class="about-text">
-						<p>できること、できないこと、には必ず環境要因があると我々は考えます。<br>
+						<p>できること、できないこと、には必ず環境要因があると私たちは考えます。<br>
 							自分が正しい、ではなく様々な方々が共存していることを理解する。そして、1人1人の気持ちを共有、理解しながら共に進んでいく。<br>
 							我々はそのような世界が実現されることを理想とし、まずはその歯車の1つになることを目指しています。</p>
 					</div>
