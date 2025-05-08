@@ -196,91 +196,100 @@
 			<img src="/img/about-big-text.svg" alt="" class="about-bg-text" aria-hidden="true">
 		</section>
 
-		<!-- Business -->
-		<section id="business" class="business container mt-5" tabindex="-1">
-			<div class="business-inner">
 
-				<div class="business-heading-wrapper heading-wrapper">
-					<span class="business-heading-sub heading-sub">Business</span>
-					<h2 class="business-heading-primary heading-primary">事業内容</h2>
-				</div>
-				<div class="p-business-message">
-					<P>下記、企業様のお困りごと解決のお手伝い事例も御座います。<br>
-						・営業先リストの代行作成。<br>
-						・データ収集とリスト化。<br>
-						・Webサイトシステムのバグ調査。<br>
-						・オンラインによるその他作業のお悩み相談。</P>
-				</div>
 
-				<!--実績紹介-->
-				<div class="p-business-body">
+		<!-- Business (Summary) -->
+		<section id="business" class="l-section business-summary" aria-labelledby="business-heading">
+			<header class="l-section-header">
+				<p class="heading-sub">Business</p>
+				<h2 id="business-heading" class="heading-primary">事業内容</h2>
+				<p class="lead">
+					Web 制作から軽作業まで——多様な業務をワンストップで請け負います。
+				</p>
+			</header>
 
-					<!-- ホームページ制作 -->
-					<div class="p-business-hp">
-						<div class="p-business-hp-desc u-cts">
-							<h3 class="p-business-hp-title">
-								<img src="/img/common/pc-icon.svg" alt="PCアイコン" class="p-business-icon-img">
-								<span>Web制作</span>
-							</h3>
-							<div class="p-business-hp-text">
-								<p>価値のあるユーザー体験とサービス等の成功に向けての最適化を一緒に考えます。<br>ユーザー中心設計でユーザー満足度を向上させ、ウェブサイトを利用したビジネスを成功へと導きます。</p>
-							</div>
-							<div class="p-business-hp-link">
-								<a href="/products-web/" class="c-btn c-btn-skyblue u-cts">View More</a>
-							</div>
-						</div>
-						<div class="p-business-hp-img-wrap scroll-item u-cts">
-							<p class="p-business-hp-img-back"></p>
-						</div>
-					</div>
+			<ul class="business-cards container">
 
-					<!-- 動画編集-->
-					<div class="p-business-mv">
-						<div class="p-business-mv-img-wrap scroll-item u-cts">
-							<p class="p-business-movie-img-back"></p>
-						</div>
-						<div class="p-business-mv-desc">
-							<h3 class="p-business-mv-title">
-								<img src="/img/common/palette-icon.webp" alt="パレット" class="p-business-icon-img">
-								<span>デザイン制作</span>
-							</h3>
-							<div class="p-business-mv-text">
-								<p>ポスターやチラシ、バナー広告や名刺等のデザイン業務も請け負っております。
-								</p>
+				<!-- 主要サービス１：Web 制作 -->
+				<li class="business-card">
+					<a href="/business/web/" class="business-card__link">
+						<h3 class="business-card__title">
+							<img src="/img/icon-web.png" alt="" aria-hidden="true">
+							Web制作
+						</h3>
+						<p class="business-card__text">
+							UX 設計から公開後の保守まで、成果につながるサイトを構築。
+						</p>
+						<span class="business-card__cta">詳しく見る</span>
+					</a>
+				</li>
 
-							</div>
-							<div class="p-business-mv-link">
-								<a href="/products-design/" class="c-btn c-btn-skyblue u-cts">View More</a>
-							</div>
-						</div>
-					</div>
+				<!-- 主要サービス２：デザイン -->
+				<li class="business-card">
+					<a href="/business/design/" class="business-card__link">
+						<h3 class="business-card__title">
+							<img src="/img/icon-design.svg" alt="" aria-hidden="true">
+							デザイン制作
+						</h3>
+						<p class="business-card__text">
+							ポスター・バナー・名刺など、ブランドを彩るビジュアルをご提案。
+						</p>
+						<span class="business-card__cta">詳しく見る</span>
+					</a>
+				</li>
 
-					<!-- デザイン制作 -->
-					<div class="p-business-other">
-						<div class="p-business-other-img-wrap scroll-item u-cts">
-							<p class="p-business-other-img-back"></p>
-						</div>
-						<div class="p-business-mv-desc">
-							<h3 class="p-business-mv-title">
-								<img src="/img/common/mv-icon.svg" alt="動画アイコン" class="p-business-icon-img">
-								<span>動画編集</span>
-							</h3>
-							<div class="p-business-mv-text">
-								<p>
-									動画編集を行なっています。<br>
-									自社でもYouTubeチャンネル配信中。
-								</p>
-							</div>
-							<div class="p-business-mv-link">
-								<a href="/products-movie/" class="c-btn c-btn-skyblue u-cts">View More</a>
-							</div>
-						</div>
-					</div>
+				<!-- 主要サービス３：動画編集 -->
+				<li class="business-card">
+					<a href="/business/movie/" class="business-card__link">
+						<h3 class="business-card__title">
+							<img src="/img/icon-movie.svg" alt="" aria-hidden="true">
+							動画編集
+						</h3>
+						<p class="business-card__text">
+							SNS／YouTube 向け動画を企画〜編集までワンストップ対応。
+						</p>
+						<span class="business-card__cta">詳しく見る</span>
+					</a>
+				</li>
 
-					<div class="p-business-big-text-img-wrap">
-						<!-- <img src="/img/service-big-text.svg" alt="Business"> -->
-					</div>
-				</div>
+				<!-- 主要サービス４：軽作業 -->
+				<li class="business-card">
+					<a href="/business/lightwork/" class="business-card__link">
+						<h3 class="business-card__title">
+							<img src="/img/icon-box.svg" alt="" aria-hidden="true">
+							軽作業
+						</h3>
+						<p class="business-card__text">
+							封入・梱包・検品などバックオフィス業務を正確・迅速に代行。
+						</p>
+						<span class="business-card__cta">詳しく見る</span>
+					</a>
+				</li>
+
+				<!-- その他業務（カスタム対応） -->
+				<li class="business-card business-card--more">
+					<a href="/business/#others" class="business-card__link">
+						<h3 class="business-card__title">
+							<img src="/img/icon-more.svg" alt="" aria-hidden="true">
+							その他の業務
+						</h3>
+						<p class="business-card__text">
+							リスト作成・データ収集・システム検証など<br>
+							「こんなこと頼める？」もお気軽にご相談ください。
+						</p>
+						<span class="business-card__cta">事例を見る</span>
+					</a>
+				</li>
+
+			</ul>
+
+			<!-- 事業インデックスへのグローバル CTA -->
+			<div class="business-summary__cta">
+				<a href="/business/" class="c-btn c-btn-skyblue">
+					すべてのサービスを見る
+					<i class="fa-solid fa-angle-right" aria-hidden="true"></i>
+				</a>
+			</div>
 		</section>
 
 		<!-- Recruit -->
