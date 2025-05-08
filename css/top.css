@@ -284,31 +284,30 @@
   }
 }
 
-.p-about-text {
+.about-text {
   line-height: 24px;
-  margin-bottom: 5%;
 }
 
 @media screen and (max-width: 959px) {
-  .p-about-text {
+  .about-text {
     line-height: 18px;
-    margin-bottom: 10px;
   }
 }
 
-.p-about-link {
-  text-align: center;
+.about-cta {
+  display: flex;
+  justify-content: center;
 }
 
 
-.p-about-big-text-img-wrap {
+.about-bg-text-img-wrap {
   width: 125%;
   position: absolute;
   display: none;
 }
 
 @media screen and (min-width: 960px) {
-  .p-about-big-text-img-wrap {
+  .about-bg-text-img-wrap {
     display: block;
     left: 0;
     bottom: 100px;

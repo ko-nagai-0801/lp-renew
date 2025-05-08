@@ -149,46 +149,51 @@
 			</div>
 		</div>
 
-
-		<!-- about us -->
-		<section class="about container mt-5">
+		<!-- About -->
+		<section id="about" class="about container mt-5" aria-labelledby="about-heading">
 			<div class="about-inner">
-
-				<div class="about-img-wrapper">
-					<div class="about-img01-box">
-						<img src="/img/about-img01.webp" alt="" class="about-img01">
-					</div>
-					<div class="about-img02-box">
-						<img src="/img/about-img02.webp" alt="" class="about-img02">
-					</div>
-					<div class="about-img03-box">
-						<img src="/img/about-img03.webp" alt="" class="about-img03">
-					</div>
+				<!-- 装飾用画像（スクリーンリーダーから除外） -->
+				<div class="about-img-wrapper" aria-hidden="true">
+					<img src="/img/about-img01.webp" alt="" loading="lazy" class="about-img01">
+					<img src="/img/about-img02.webp" alt="" loading="lazy" class="about-img02">
+					<img src="/img/about-img03.webp" alt="" loading="lazy" class="about-img03">
 				</div>
 
+				<!-- テキストサマリー -->
 				<div class="about-summary">
-					<div class="about-heading-wrapper heading-wrapper">
-						<span class="about-heading-sub heading-sub">About us</span>
-						<h2 class="about-heading-primary heading-primary"><span id="LiNE">ＬｉＮＥ</span> <span id="PARK">ＰＡＲＫ</span> について</h2>
-					</div>
-					<div class="about-title-wrapper">
-						<h3 class="about-title py-3">誰もが当たり前のことを、当たり前にできる世界へ</h3>
-					</div>
+					<header class="about-heading-wrapper heading-wrapper">
+						<p class="about-heading-sub heading-sub">About&nbsp;us</p>
+						<h2 id="about-heading" class="about-heading-primary heading-primary">
+							<span id="LiNE">ＬｉＮＥ</span> <span id="PARK">ＰＡＲＫ</span> について
+						</h2>
+					</header>
+
+					<h3 class="about-title py-3">誰もが当たり前のことを、当たり前にできる世界へ</h3>
+
 					<div class="about-text">
-						<p>できること、できないこと、には必ず環境要因があると私たちは考えます。<br>
-							自分が正しい、ではなく様々な方々が共存していることを理解する。そして、1人1人の気持ちを共有、理解しながら共に進んでいく。<br>
-							我々はそのような世界が実現されることを理想とし、まずはその歯車の1つになることを目指しています。</p>
+						<p>
+							できること、できないことには必ず環境要因があると私たちは考えます。
+						</p>
+						<p>
+							「自分が正しい」ではなく、多様な人々が共存していることを理解し、ひとり一人の気持ちを共有しながら共に進んでいく――。
+						</p>
+						<p>
+							私たちはそんな世界の実現を理想とし、その歯車の一つとなることを目指しています。
+						</p>
 					</div>
-					<div class="p-about-link">
-						<a href="/about/" class="c-btn c-btn-skyblue">
-							<span class="">View More</span><i class="fa-solid fa-caret-right"></i>
+
+					<!-- CTA -->
+					<footer class="about-cta mt-3">
+						<a href="/about/" class="c-btn c-btn-skyblue" aria-label="企業紹介ページを詳しく見る">
+							<span>View&nbsp;More</span>
+							<i class="fa-solid fa-caret-right" aria-hidden="true"></i>
 						</a>
-					</div>
+					</footer>
 				</div>
 			</div>
-			<div class="p-about-big-text">
-				<img src="/img/about-big-text.svg" alt="">
-			</div>
+
+			<!-- 背景装飾用（スクリーンリーダーから除外） -->
+			<img src="/img/about-big-text.svg" alt="" class="about-bg-text" aria-hidden="true">
 		</section>
 
 		<!-- Business -->
