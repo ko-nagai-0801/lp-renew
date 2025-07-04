@@ -1,379 +1,396 @@
-/* TOPページ用CSS */
-/* FVセクション */
-.fv {
+/* =========================================================
+   top.css – BEM only
+   ====================================================== */
+
+/* =============== 1. HERO (first-view) ================== */
+.hero {
   position: relative;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
 }
-
-/* Swiper スライドアニメーション */
-.swiper-slide-active .swiper-img,
-.swiper-slide-duplicate-active .swiper-img,
-.swiper-slide-prev .swiper-img {
-  animation: zoomUp 10s linear 0s normal both;
+/* Swiper アニメーション */
+.swiper-slide-active .hero__bg,
+.swiper-slide-prev .hero__bg,
+.swiper-slide-duplicate-active .hero__bg {
+  animation: zoomUp 10s linear both;
   background-size: 120%;
 }
-
 @keyframes zoomUp {
   0% {
     background-size: 120%;
   }
-
   100% {
     background-size: 140%;
   }
 }
-
-.swiper-wrapper .swiper-slide .swiper-img {
-  height: 100vh;
+.hero__bg {
   width: 100%;
+  height: 100vh;
   background-size: cover;
   background-position: center;
 }
-
-/* FVタイトル */
-.fv-title {
+/* タイトル画像 */
+.hero__title {
   width: 45%;
-  height: auto;
   position: absolute;
-  text-align: center;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
+  text-align: center;
 }
-
-/* スクロールボタンのラッパー */
-.fv-scroll-box {
+/* Scroll cue（ボタン全体） */
+.hero__scroll-btn {
   position: absolute;
-  bottom: 30px;
   left: 50%;
+  bottom: 30px;
+  transform: translateX(-50%);
   display: flex;
-  justify-content: center;
   flex-direction: column;
   align-items: center;
   gap: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
   z-index: 100;
 }
-
-/* スクロールボタン */
-.fv-scroll {
+/* 円形 */
+.hero__scroll-circle {
+  width: 50px;
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 50px;
-  height: 50px;
-  border: 1px solid #ffffff;
+  border: 1px solid #fff;
   border-radius: 50%;
   position: relative;
 }
-
-/* 小さい画面サイズの調整 */
-@media screen and (max-width: 640px) {
-  .fv-scroll {
+@media (max-width: 640px) {
+  .hero__scroll-circle {
     width: 44px;
     height: 44px;
   }
 }
-
-/* 背景アニメーション */
-.fv-scroll::before {
+.hero__scroll-circle::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  width: inherit;
-  height: inherit;
-  border-radius: 100%;
+  inset: 0;
+  border-radius: 50%;
   box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.1);
   opacity: 0;
   animation: sdb 2s infinite ease-out;
 }
-
 @keyframes sdb {
   0% {
     opacity: 0;
     box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.1);
   }
-
   30% {
     opacity: 1;
     box-shadow: 0 0 10px 10px rgba(255, 255, 255, 0.2);
   }
-
   60% {
     opacity: 0;
     box-shadow: 0 0 20px 50px rgba(255, 255, 255, 0);
   }
-
   100% {
     opacity: 0;
   }
 }
-
-/* 矢印のデザイン */
-.fv-arrow {
+/* 矢印 */
+.hero__scroll-arrow {
   width: 16px;
   height: 16px;
-  border-left: 1px solid #ffffff;
-  border-bottom: 1px solid #ffffff;
+  border-left: 1px solid #fff;
+  border-bottom: 1px solid #fff;
   transform: rotate(-45deg);
   animation: arrowMove 2s infinite ease-in-out;
-  /* 2秒ごとに動く */
 }
-
 @keyframes arrowMove {
   0% {
     transform: translateY(0) rotate(-45deg);
   }
-
   50% {
     transform: translateY(5px) rotate(-45deg);
-    /* 下に少し移動 */
   }
-
   100% {
     transform: translateY(0) rotate(-45deg);
-    /* 元の位置に戻る */
   }
 }
-
-/* 小さい画面サイズ用の調整 */
-@media screen and (max-width: 640px) {
-  .fv-arrow {
+@media (max-width: 640px) {
+  .hero__scroll-arrow {
     width: 14px;
     height: 14px;
   }
 }
-
-/* "Scroll" のテキスト */
-.fv-scroll-text {
-  color: #ffffff;
+/* “Scroll” ラベル */
+.hero__scroll-text {
+  color: #fff;
   font-size: 12px;
 }
-
-/* 小さい画面サイズ用の調整 */
-@media screen and (max-width: 640px) {
-  .fv-scroll-text {
+@media (max-width: 640px) {
+  .hero__scroll-text {
     font-size: 11px;
   }
 }
 
-.about-inner {
-  display: flex;
-  justify-content: space-between;
-  max-width: 100%;
-}
+/* =========================================================
+   2. ABOUT  –  Desktop ▶ 画像は左に重ね／Mobile ▶ 縦並び
+   BEM 命名 + スライドインアニメーション
+   ====================================================== */
 
-@media screen and (max-width: 960px) {
-  .about-inner {
+/* ---------- ラッパー ---------------------------------- */
+.about {
+  position: relative;
+  overflow: hidden;
+  padding-block: 6rem;
+}
+.about__inner {
+  display: flex;
+  gap: 4rem;
+  align-items: center;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+@media (max-width: 960px) {
+  .about__inner {
     flex-direction: column;
+    gap: 3rem;
+  }
+}
+
+/* ---------- 画像群 ------------------------------------ */
+.about__images {
+  position: relative;
+  width: 50%;
+  min-width: 320px;
+}
+@media (max-width: 960px) {
+  .about__images {
+    width: 100%;
+    display: flex;
     justify-content: center;
-    align-items: center;
-    max-width: 100%;
   }
 }
-
-/* aboutの画像 */
-/* 画像の入っているボックスの高さ等指定 */
-.about-img-wrapper {
-  width: 30%;
-  display: flex;
+.about__image {
+  display: block;
+  border-radius: 8px;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.2s;
 }
 
-.about-img-wrapper img {
-  border-radius: 6px;
+/* 各画像の “デスクトップ位置・サイズ” */
+.about__image--01 {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 280px;
+  height: 380px;
+  transform: translateY(-50%);
 }
-
-/* 画像の大きさと位置 */
-
-.about-img01 {
-  position: relative;
-  top: 45%;
-  left: -20%;
-  z-index: 3;
-  width: 250px;
-  height: auto;
+.about__image--02 {
+  position: absolute;
+  bottom: 0;
+  right: 5%;
+  width: 440px;
+  height: 280px;
 }
-
-.about-img02 {
-  position: relative;
+.about__image--03 {
+  position: absolute;
   top: 0;
-  left: 40%;
-  z-index: 2;
-  width: 400px;
-  height: auto;
+  left: 50%;
+  width: 240px;
+  height: 240px;
 }
 
-.about-img03 {
-  position: relative;
-  top: 160%;
-  right: 110%;
-  z-index: 1;
-  width: 250px;
-  height: auto;
-}
-@media screen and (max-width: 1399px) {
-  .about-img01 {
-    width: 180px;
-    height: auto;
-  }
-
-  .about-img02 {
-    width: 300px;
-    height: auto;
-  }
-
-  .about-img03 {
+@media (max-width: 1399px) {
+  .about__image--01 {
     width: 200px;
-    height: auto;
+    height: 280px;
+  }
+  .about__image--02 {
+    width: 360px;
+    height: 230px;
+  }
+  .about__image--03 {
+    width: 200px;
+    height: 200px;
   }
 }
 
-.about-summary {
-  width: 70%;
-  max-width: 700px;
+/* モバイルでは上から縦並び + 表示済み */
+@media (max-width: 960px) {
+  .about__image {
+    position: static;
+    width: 60%;
+    max-width: 300px;
+    height: auto;
+    margin: 0 6% 12px;
+    opacity: 1;
+  }
 }
 
-.heading-wrapper {
+/* ---------- スライドインアニメーション ---------------- */
+.is-slide-in {
+  opacity: 1;
+}
+.is-slide-in.js-slide-from-left {
+  animation: slideLeft 0.9s cubic-bezier(0.42, 0, 0.2, 1) forwards;
+}
+.is-slide-in.js-slide-from-right {
+  animation: slideRight 0.9s cubic-bezier(0.42, 0, 0.2, 1) forwards;
+}
+
+@keyframes slideLeft {
+  0% {
+    transform: translateX(-60px) translateY(var(--ty, 0));
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) translateY(var(--ty, 0));
+    opacity: 1;
+  }
+}
+@keyframes slideRight {
+  0% {
+    transform: translateX(60px) translateY(var(--ty, 0));
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) translateY(var(--ty, 0));
+    opacity: 1;
+  }
+}
+
+/* ちょっとだけ上下に振るためのカスタムプロパティ */
+.about__image--01 {
+  --ty: -20px;
+}
+.about__image--02 {
+  --ty: 0px;
+}
+.about__image--03 {
+  --ty: 20px;
+}
+
+
+/* ---------- テキストブロック --------------------------- */
+.about__content {
+  width: 50%;
+  max-width: 650px;
+}
+@media (max-width: 960px) {
+  .about__content {
+    width: 100%;
+  }
+}
+
+.about__header {
+  position: relative;
+  margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: flex-start;
 }
-
-.heading-wrapper::before {
-  position: relative;
-  top: 55px;
-  left: -10px;
+.about__header::before {
   content: "";
+  position: absolute;
+  left: -10px;
+  top: 0.5rem;
   width: 4px;
   height: 40px;
   border-radius: 6px;
   background: #005b94;
 }
-
-.heading-sub {
-  font-weight: 700;
+.about__sub {
+  font: 700 16px/1 "inherit";
   color: #005b94;
-  display: block;
-  font-size: 16px;
+  margin-bottom: 0.5rem;
 }
-.heading-primary {
+.about__title {
   font-weight: 700;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  margin: 0 0 1.5rem;
 }
 
-.about-title {
-  font-weight: 700;
-  line-height: 32px;
+.about__catch {
+  font: 700 20px/32px "inherit";
   color: #005b94;
-  font-size: 20px;
+  margin-bottom: 1rem;
 }
-
-@media screen and (max-width: 959px) {
-  .about-title {
+@media (max-width: 959px) {
+  .about__catch {
+    font-size: 14px;
     line-height: 22px;
     margin-bottom: 10px;
-    font-size: 14px;
   }
 }
 
-.about-text {
+.about__text {
   line-height: 24px;
+  margin-bottom: 2rem;
 }
-
-@media screen and (max-width: 959px) {
-  .about-text {
+@media (max-width: 959px) {
+  .about__text {
     line-height: 18px;
   }
 }
 
-.about-cta {
+.about__cta {
   display: flex;
   justify-content: center;
 }
 
-.about-bg-text-img-wrap {
-  width: 125%;
+/* ---------- 背景巨大テキスト（SVG） ------------------- */
+.about__bg {
   position: absolute;
+  left: 0;
+  bottom: 80px;
+  width: 125%;
+  z-index: -1;
   display: none;
 }
-
-@media screen and (min-width: 960px) {
-  .about-bg-text-img-wrap {
+@media (min-width: 960px) {
+  .about__bg {
     display: block;
-    left: 0;
-    bottom: 100px;
-    z-index: -1;
   }
 }
 
-/* =========================================================================
-   カスタムプロパティ（色・影・半径など）
-   ====================================================================== */
-:root {
-  --clr-base: #ffffff;
-  --clr-primary: #009cdf;
-  --clr-primary-dark: #007bb5;
-  --clr-text: #333;
-  --clr-gray-050: #f9fafb;
-  --clr-gray-100: #f4f6f8;
-  --clr-gray-200: #e5e7eb;
-
-  --radius-card: 16px;
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.12);
-
-  /* グラデーション（アイコンバッジ背景） */
-  --grad-blue: linear-gradient(135deg, #0dcaf0 0%, #009cdf 100%);
-}
-
-/* =========================================================================
-     レイアウトラッパー
-     ====================================================================== */
-.l-section {
+/* =============== 3. SECTION WRAPPERS ==================== */
+.section {
   margin-block: 5rem;
 }
-.l-section-header {
+.section__header {
   text-align: center;
   margin-bottom: 2rem;
 }
 
-/* =========================================================================
-     カードレイアウト共通
-     ====================================================================== */
-.business-cards {
+/* =============== 4. BUSINESS ============================ */
+.business__cards {
   display: grid;
   gap: 1.5rem;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  grid-auto-rows: 1fr;
   list-style: none;
   padding: 0;
 }
-
-/* ── ブレークポイント微調整（3→2→1 列） ───────────── */
 @media (min-width: 1200px) {
-  .business-cards {
+  .business__cards {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 @media (min-width: 992px) and (max-width: 1199.98px) {
-  .business-cards {
+  .business__cards {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-
-/* =========================================================================
-     カード本体
-     ====================================================================== */
-.business-card {
-  display: flex; /* 行の高さをそのまま伝える器 */
+.business__card {
+  display: flex;
 }
-
-.business-card__link {
-  position: relative;
-  flex:1;
+.business__link {
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -384,24 +401,17 @@
   box-shadow: var(--shadow-sm);
   text-decoration: none;
   color: var(--clr-text);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  isolation: isolate; /* ::before の影が外へ漏れないように */
+  transition: transform 0.25s, box-shadow 0.25s;
+  isolation: isolate;
 }
-
-.business-card__link:hover {
+.business__link:hover {
   transform: translateY(-6px);
   box-shadow: var(--shadow-lg);
 }
-
-/* “その他業務” カードだけ薄グレー背景 */
-.business-card--more .business-card__link {
+.business__card--more .business__link {
   background: var(--clr-gray-100);
 }
-
-/* =========================================================================
-     タイトル行 & アイコンバッジ
-     ====================================================================== */
-.business-card__title {
+.business__card-title {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -409,8 +419,7 @@
   margin: 0;
   line-height: 1.25;
 }
-
-.business-card__title img {
+.business__card-title img {
   width: 44px;
   height: 44px;
   padding: 0.5rem;
@@ -418,249 +427,181 @@
   background: var(--grad-blue);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
-
-/* =========================================================================
-     本文テキスト
-     ====================================================================== */
-.business-card__text {
-  flex:1 1 auto;
+.business__card-text {
+  flex: 1;
   margin: 0;
   font-size: 0.95rem;
   line-height: 1.6;
 }
-
-/* =========================================================================
-     CTA（→ がスライド）
-     ====================================================================== */
-.business-card__cta {
+.business__card-cta {
   position: relative;
-  font-weight: 600;
-  font-size: 0.9rem;
+  font: 600 0.9rem/1 "inherit";
   color: var(--clr-primary);
-  padding-right: 1.2em; /* 矢印分の余白 */
+  padding-right: 1.2em;
 }
-
-.business-card__cta::after {
+.business__card-cta::after {
   content: "→";
   position: absolute;
   right: 0;
   top: 0;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
-.business-card__link:hover .business-card__cta::after {
+.business__link:hover .business__card-cta::after {
   transform: translateX(4px);
 }
-
-/* =========================================================================
-     グローバル CTA エリア
-     ====================================================================== */
-.business-summary__cta {
-  margin-top: 2.5rem;
+.business__cta {
   text-align: center;
+  margin-top: 2.5rem;
 }
 
-/* 採用情報 */
-@media screen and (max-width: 640px) {
-  .p-recruit {
+/* =============== 5. RECRUIT ============================= */
+.recruit {
+  position: relative;
+}
+@media (max-width: 640px) {
+  .recruit {
     padding-top: 19%;
   }
 }
-
-.p-recruit-bg {
+.recruit__bg {
   width: 95%;
   height: 582px;
   margin: 0 auto 100px;
   border-radius: 12px;
 }
-
-@media screen and (max-width: 640px) {
-  .p-recruit-bg {
+@media (max-width: 640px) {
+  .recruit__bg {
     width: 100%;
     height: 420px;
-    margin: 0 auto;
-    border-radius: 0px;
+    border-radius: 0;
   }
 }
-
-@media screen and (max-width: 640px) {
-  .p-recruit-inner {
-    padding: 0;
-  }
-}
-
-.p-recruit-body {
+.recruit__content {
   max-width: 598px;
+  margin: -24% 0 0 auto;
   padding: 4% 3% 5% 5%;
   border-radius: 6px;
-  margin: -24% 0 0 auto;
   background: #005b94;
 }
-
-@media screen and (max-width: 640px) {
-  .p-recruit-body {
+@media (max-width: 640px) {
+  .recruit__content {
     width: 100%;
     padding: 38px 15px 56px;
-    border-radius: 0px;
     margin-top: -190px;
+    border-radius: 0;
   }
 }
-
-.p-recruit-heading {
+.recruit__header {
   margin-bottom: 28px;
 }
-
-@media screen and (max-width: 640px) {
-  .p-recruit-heading {
+@media (max-width: 640px) {
+  .recruit__header {
     margin-bottom: 24px;
   }
 }
-
-.p-recruit-message {
-  font-weight: 700;
+.recruit__message {
+  font: 700 1.5rem/1.3 "inherit";
+  color: #fff;
   margin-bottom: 16px;
-  color: #ffffff;
-  font-size: 1.5rem;
 }
-
-@media screen and (max-width: 640px) {
-  .p-recruit-message {
+@media (max-width: 640px) {
+  .recruit__message {
+    font-size: 1rem;
     line-height: 22px;
     margin-bottom: 10px;
-    font-size: 1rem;
   }
 }
-
-.p-recruit-text {
+.recruit__text {
   margin-bottom: 32px;
   line-height: 24px;
-  color: #ffffff;
+  color: #fff;
 }
-
-@media screen and (max-width: 640px) {
-  .p-recruit-text {
+@media (max-width: 640px) {
+  .recruit__text {
     line-height: 18px;
     margin-bottom: 27px;
   }
 }
-
-@media screen and (max-width: 640px) {
-  .p-recruit-link {
+@media (max-width: 640px) {
+  .recruit__link {
     text-align: center;
   }
 }
-
-.p-recruit-big-text-img-wrap {
+.recruit__visual {
   width: 60%;
   position: absolute;
   bottom: -7%;
   z-index: -1;
 }
-
-@media screen and (max-width: 640px) {
-  .p-recruit-big-text-img-wrap {
+@media (max-width: 640px) {
+  .recruit__visual {
     display: none;
   }
 }
 
-.p-office-img {
+/* =============== 6. OFFICE FLOW IMAGE ================== */
+.office__img {
   width: 100%;
   height: 293px;
-  background-image: url("/img/recruit-flow.webp");
-  background-repeat: repeat-x;
+  background: url("/img/recruit-flow.webp") repeat-x;
   background-size: auto 293px;
   animation: loop 30s linear infinite;
   position: relative;
   z-index: 999;
   margin: 120px calc(50% - 50vw) 100px;
 }
-
 @keyframes loop {
   from {
     background-position: 0 0;
   }
-
   to {
     background-position: -2000px 0;
   }
 }
 
-@media screen and (max-width: 640px) {
-  .p-office-flow-slide {
-    width: 300px;
-  }
-}
-
-.p-news {
+/* =============== 7. NEWS ================================ */
+.news {
   padding-bottom: 140px;
 }
-
-.p-news-body {
-  width: 74%;
-}
-
-@media screen and (max-width: 640px) {
-  .p-news-body {
-    width: 100%;
-  }
-}
-
-.p-news-list-item {
-  border-bottom: 1px solid #b4b4b4;
-}
-
-.p-news-inner {
+.news__inner {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
-@media screen and (max-width: 640px) {
-  .p-news-inner {
+@media (max-width: 640px) {
+  .news__inner {
     flex-direction: column;
     align-items: flex-start;
   }
 }
-
-@media screen and (max-width: 640px) {
-  .p-news-heading {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.news__body {
+  width: 74%;
+}
+@media (max-width: 640px) {
+  .news__body {
+    width: 100%;
   }
 }
-
-.p-news-link {
-  margin-top: 24px;
+.news__item {
+  border-bottom: 1px solid #b4b4b4;
 }
-
-@media screen and (max-width: 640px) {
-  .p-news-link {
-    margin-top: 0;
-    position: relative;
-    top: 400px;
-  }
-}
-
-.p-news-list-link {
+.news__link {
   display: flex;
   align-items: center;
   padding: 24px 0;
+  position: relative;
 }
-
-@media screen and (max-width: 640px) {
-  .p-news-list-link {
+@media (max-width: 640px) {
+  .news__link {
     padding: 18px 0;
   }
 }
-
-@media screen and (max-width: 640px) {
-  .p-news-list-link img {
+@media (max-width: 640px) {
+  .news__link img {
     display: none;
   }
 }
-
-.p-news-list-link::after {
+.news__link::after {
   content: url(/img/common/right-arrow-blue.svg);
   width: 18px;
   height: 20px;
@@ -668,117 +609,86 @@
   right: 56px;
   transition: 0.3s;
 }
-
-@media screen and (max-width: 640px) {
-  .p-news-list-link::after {
+@media (max-width: 640px) {
+  .news__link::after {
     width: 10px;
     height: 14px;
     right: 30px;
   }
 }
-
-.p-news-list-link:hover::after {
-  position: absolute;
+.news__link:hover::after {
   right: 52px;
 }
-
-@media screen and (max-width: 640px) {
-  .p-news-list-link:hover::after {
+@media (max-width: 640px) {
+  .news__link:hover::after {
     right: 28px;
   }
 }
-
-.p-news-list-heading {
+.news__content {
+  margin-left: 42px;
+}
+@media (max-width: 640px) {
+  .news__content {
+    margin-left: 6px;
+  }
+}
+.news__heading {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
 }
-
-@media screen and (max-width: 640px) {
-  .p-news-list-heading {
+@media (max-width: 640px) {
+  .news__heading {
     margin-bottom: 6px;
   }
 }
-
-.p-news-list--date {
+.news__date {
   margin-right: 10px;
   color: #686f75;
   line-height: 24px;
 }
-
-@media screen and (max-width: 640px) {
-  .p-news-list--date {
+@media (max-width: 640px) {
+  .news__date {
     font-size: 11px;
   }
 }
-
-.p-news-list-body {
-  margin-left: 42px;
+.news__label {
+  display: inline-block;
 }
-
-@media screen and (max-width: 640px) {
-  .p-news-list-body {
-    margin-left: 6px;
-  }
-}
-
-.p-news-list-link:hover .p-news-list-text {
+.news__link:hover .news__text {
   color: #0084ad;
 }
-
-.p-news-list-text::after {
+.news__text::after {
+  content: "";
   position: absolute;
   left: 0;
-  content: "";
+  bottom: -2px;
   width: 100%;
   height: 2px;
   background: #0084ad;
-  bottom: -2px;
-  -webkit-transform: scale(0, 1);
-  -ms-transform: scale(0, 1);
   transform: scale(0, 1);
-  -webkit-transform-origin: left top;
-  -ms-transform-origin: left top;
   transform-origin: left top;
-  -webkit-transition: -webkit-transform 0.4s;
-  transition: -webkit-transform 0.4s;
-  -o-transition: transform 0.4s;
   transition: transform 0.4s;
-  transition: transform 0.4s, -webkit-transform 0.4s;
 }
-
-.p-news-list-link:hover .p-news-list-text::after {
-  -webkit-transform: scale(1, 1);
-  -ms-transform: scale(1, 1);
+.news__link:hover .news__text::after {
   transform: scale(1, 1);
 }
 
-.c-btn {
-  position: relative;
+/* =============== 8. BUTTON (汎用) ======================= */
+.button {
+  display: inline-block;
   width: 222px;
+  padding: 26px 0;
   font-weight: 700;
   text-align: center;
-  display: inline-block;
-  cursor: pointer;
-  color: rgb(255, 255, 255);
-  z-index: 999;
-  padding: 26px 0px;
+  color: #fff;
+  background: #005b94;
   border-radius: 6px;
+  cursor: pointer;
   transition: 0.3s;
-  background: rgb(0, 91, 148);
+  position: relative;
+  z-index: 1;
 }
-.c-btn:hover {
-  background: rgb(0, 132, 173);
+.button:hover {
+  background: #0084ad;
 }
-/* .c-btn::after {
-  position: absolute;
-  content: "";
-  bottom: 50%;
-  right: 23px;
-  width: 9px;
-  height: 11px;
-  clip-path: polygon(0px 0px, 0% 100%, 100% 50%);
-  border-radius: 2px;
-  transition: inherit;
-  background: rgb(255, 255, 255);
-} */

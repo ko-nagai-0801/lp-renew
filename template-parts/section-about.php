@@ -1,0 +1,59 @@
+<?php
+
+/**
+ * About section – with slide-in images
+ */
+if (! defined('ABSPATH')) {
+  exit;
+}
+?>
+<section id="about" class="about" aria-labelledby="about__heading">
+  <div class="about__inner container">
+
+    <!-- Images (slide-in) -->
+    <div class="about__images" aria-hidden="true">
+      <img
+        src="<?php echo esc_url(get_theme_file_uri('img/about-img01.webp')); ?>"
+        alt="" loading="lazy"
+        class="about__image about__image--01 js-slide-from-left">
+
+      <img
+        src="<?php echo esc_url(get_theme_file_uri('img/about-img02.webp')); ?>"
+        alt="" loading="lazy"
+        class="about__image about__image--02 js-slide-from-right">
+
+      <img
+        src="<?php echo esc_url(get_theme_file_uri('img/about-img03.webp')); ?>"
+        alt="" loading="lazy"
+        class="about__image about__image--03 js-slide-from-left">
+    </div>
+
+    <!-- Text block -->
+    <div class="about__content">
+      <header class="about__header">
+        <p class="about__sub">About&nbsp;us</p>
+        <h2 id="about__heading" class="about__title">ＬｉＮＥ&nbsp;ＰＡＲＫ について</h2>
+      </header>
+
+      <h3 class="about__catch">誰もが当たり前のことを、当たり前にできる世界へ</h3>
+
+      <div class="about__text">
+        <p>できること、できないことには必ず環境要因があると私たちは考えます。</p>
+        <p>「自分が正しい」ではなく、多様な人々が共存していることを理解し、
+          ひとり一人の気持ちを共有しながら共に進んでいく――。</p>
+        <p>私たちはそんな世界の実現を理想とし、その歯車の一つとなることを目指しています。</p>
+      </div>
+
+      <footer class="about__cta">
+        <a href="<?php echo esc_url(home_url('/about/')); ?>"
+          class="button button--primary">
+          View&nbsp;More <i class="fa-solid fa-caret-right" aria-hidden="true"></i>
+        </a>
+      </footer>
+    </div><!-- /.about__content -->
+
+  </div><!-- /.about__inner -->
+
+  <img src="<?php echo esc_url(get_theme_file_uri('img/about-big-text.svg')); ?>"
+    alt="" class="about__bg" aria-hidden="true">
+</section>

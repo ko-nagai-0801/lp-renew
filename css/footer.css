@@ -1,415 +1,256 @@
-.l-footer {
-  /* フッター背景 */
-  position: relative; /* 絶対位置指定の基準点となる */
-  min-height: 100vh; /* ビューポートの高さに合わせる */
-  /* height: 100%; */
-  background-position: right 0px bottom 0px;
-  background-image: url(/img/footer-sp.webp);
-  background-repeat: no-repeat;
-  background-size: cover;
+/* =============================================================
+   0.  背景イメージと基礎レイアウト
+   ========================================================== */
+.footer {
+  position: relative; /* copy-right を absolute で置きたいので基準化 */
+  min-height: 100vh;
+  background: url("/img/footer-sp.webp") no-repeat right bottom/cover;
 }
-@media screen and (min-width: 500px) {
-  .l-footer {
-    width: 100%;
+@media (min-width: 500px) {
+  .footer {
     height: 100%;
-    background-position: right 0px bottom 0px;
-    background-image: url(/img/footer-sp.webp);
-    background-repeat: no-repeat;
-    background-size: cover;
+    background: url("/img/footer-sp.webp") no-repeat right bottom/cover;
   }
 }
-@media screen and (min-width: 768px) {
-  .l-footer {
-    width: 100%;
-    height: 100%;
-    background-position: right 0px bottom 0px;
-    background-image: url(/img/footer-md.webp);
-    background-repeat: no-repeat;
-    background-size: cover;
+@media (min-width: 768px) {
+  .footer {
+    background: url("/img/footer-md.webp") no-repeat right bottom/cover;
   }
 }
-@media screen and (min-width: 960px) {
-  .l-footer {
-    width: 100%;
-    height: 100%;
-    background-position: right 0px bottom 0px;
-    background-image: url(/img/footer-pc.webp);
-    background-position: left;
-    background-repeat: no-repeat;
-    background-size: cover;
+@media (min-width: 960px) {
+  .footer {
+    background: url("/img/footer-pc.webp") no-repeat left/cover;
   }
 }
-@media screen and (min-width: 1280px) {
-  .l-footer {
-    width: 100%;
+@media (min-width: 1280px) {
+  .footer {
     height: 650px;
-    background-image: url(/img/footer-pc.webp);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    background: url("/img/footer-pc.webp") no-repeat center/cover;
   }
 }
 
-.f-cts {
-  padding: 0;
-}
-.l-footer-inner {
-  /* フッター全体 */
-  display: flex;
-  padding-top: 48px;
-  flex-direction: column;
-}
-@media screen and (min-width: 500px) {
-  .l-footer-inner {
-    display: flex;
-    padding-top: 48px;
-    flex-direction: column;
-  }
-}
-@media screen and (min-width: 768px) {
-  .l-footer-inner {
-    display: flex;
-    padding-top: 48px;
-    flex-direction: column;
-  }
-}
-@media screen and (min-width: 960px) {
-  .l-footer-inner {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    padding-top: 72px;
-  }
-}
-@media screen and (min-width: 1280px) {
-  .l-footer-inner {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    padding-top: 72px;
-  }
-}
-.f-inner {
+/* =============================================================
+   1.  インナーラッパー
+   ========================================================== */
+.footer__inner {
   max-width: 1300px;
   margin: 0 auto;
   padding: 0 30px;
+  display: flex;
+  flex-direction: column;
+  padding-top: 48px;
 }
-/* .l-inner {
-    max-width: 1300px;
-    margin: 0 auto;
-    padding: 0 30px;
+@media (min-width: 960px) {
+  .footer__inner {
+    flex-direction: row;
+    justify-content: space-between;
     padding-top: 72px;
-} */
-.l-footer-address {
-  padding-top: 72px;
+  }
 }
-.logo-white-img {
-  height: 100%;
+
+/* =============================================================
+   2.  住所・ロゴ・SNS
+   ========================================================== */
+/* --- ロゴ --- */
+.footer__logo {
+  width: 50vw;
+  margin: 0 auto 24px;
+}
+@media (min-width: 500px) {
+  .footer__logo {
+    width: 242px;
+  }
+}
+@media (min-width: 960px) {
+  .footer__logo {
+    margin: 0;
+  }
+}
+.footer__logo img {
   max-width: 100%;
+  height: auto;
   vertical-align: bottom;
 }
 
-.l-footer-logo {
-  width: 50vw;
-  margin-bottom: 24px;
-  margin: 0 auto;
+/* --- テキスト住所 --- */
+.footer__address {
+  padding-top: 72px;
 }
-@media screen and (min-width: 500px) {
-  .l-footer-logo {
-    width: 242px;
-    margin-bottom: 24px;
-    margin: 0 auto;
-  }
-}
-@media screen and (min-width: 768px) {
-  .l-footer-logo {
-    width: 242px;
-    margin-bottom: 24px;
-    margin: 0 auto;
-  }
-}
-@media screen and (min-width: 960px) {
-  .l-footer-logo {
-    width: 242px;
-    margin-bottom: 24px;
-    margin: 0;
-  }
-}
-@media screen and (min-width: 1280px) {
-  .l-footer-logo {
-    width: 242px;
-    margin-bottom: 24px;
-    margin: 0;
-  }
-}
-.l-footer-address-place {
+.footer__place {
+  margin: 50px 0 6px;
+  font-size: 14px;
   line-height: 18px;
-  margin-bottom: 6px;
-  color: #ffffff;
+  color: #fff;
+}
+/* メール・電話 */
+.footer__mail,
+.footer__phone {
   font-size: 14px;
-  margin-top: 50px;
-}
-@media screen and (min-width: 500px) {
-  .l-footer-address-place {
-    line-height: 18px;
-    margin-bottom: 6px;
-    color: #ffffff;
-    font-size: 14px;
-    margin-top: 50px;
-  }
-}
-.l-footer-address-mail {
+  color: #fff;
   margin-bottom: 4px;
-  color: #ffffff;
-  font-size: 14px;
 }
-/* メールアドレス平文 */
-.l-footer-address-mail span {
-  vertical-align: text-top;
-}
-/* アドレスクリックでメール送信  */
-.l-footer-address-mail a {
-  vertical-align: text-top;
-  color: #ffffff;
-}
-.l-footer-address-mail img {
+.footer__mail img,
+.footer__phone img {
   margin-right: 2px;
 }
-.l-footer-address-phone {
-  color: #ffffff;
-  font-size: 14px;
-}
-.l-footer-address-phone span {
-  vertical-align: text-top;
-  color: #ffffff;
-}
-/* iPhone用のデコレーション削除・文字色白を適用 */
-.l-footer-address-phone span a {
-  color: #ffffff;
+.footer__mail a,
+.footer__phone a {
+  color: #fff;
   text-decoration: none;
+  vertical-align: text-top;
 }
-.l-footer-address-phone img {
-  margin-right: 2px;
-}
-.l-footer-address-reception-time {
-  margin-top: 6px;
+/* 受付時間 */
+.footer__time {
   display: block;
+  margin-top: 6px;
   font-feature-settings: "palt";
-  margin-bottom: 30px;
-  /* 追記 */
   margin-bottom: 0;
   padding-bottom: 42px;
-  border-bottom: 1px solid #ffffff;
+  border-bottom: 1px solid #fff;
 }
-@media screen and (min-width: 500px) {
-  .l-footer-address-reception-time {
-    margin-bottom: 0;
-    padding-bottom: 42px;
-    border-bottom: 1px solid #ffffff;
-  }
-}
-@media screen and (min-width: 768px) {
-  .l-footer-address-reception-time {
-    margin-bottom: 0;
-    padding-bottom: 42px;
-    border-bottom: 1px solid #ffffff;
-  }
-}
-@media screen and (min-width: 960px) {
-  .l-footer-address-reception-time {
-    margin-top: 6px;
-    display: block;
-    font-feature-settings: "palt";
+@media (min-width: 960px) {
+  .footer__time {
     margin-bottom: 10px;
     padding-bottom: 0;
     border-bottom: none;
-  }
-}
-@media screen and (min-width: 1280px) {
-  .l-footer-address-reception-time {
-    margin-top: 6px;
-    display: block;
-    font-feature-settings: "palt";
-    margin-bottom: 10px;
-    padding-bottom: 0;
-    border-bottom: none;
-  }
-}
-.l-footer-sns-nav {
-  padding-top: 42px;
-}
-.l-footer-sns-nav-list {
-  display: flex;
-  padding: 0;
-  list-style: none;
-  justify-content: center;
-}
-@media screen and (min-width: 500px) {
-  .l-footer-sns-nav {
-    padding-top: 42px;
-  }
-  .l-footer-sns-nav-list {
-    justify-content: center;
-  }
-}
-@media screen and (min-width: 768px) {
-  .l-footer-sns-nav {
-    padding-top: 42px;
-  }
-  .l-footer-sns-nav-list {
-    justify-content: center;
-  }
-}
-@media screen and (min-width: 960px) {
-  .l-footer-sns-nav {
-    display: flex;
-    padding-top: 0;
-    list-style: none;
-  }
-  .l-footer-sns-nav-list {
-    justify-content: flex-start;
-  }
-}
-@media screen and (min-width: 1280px) {
-  .l-footer-sns-nav {
-    display: flex;
-    padding-top: 0;
-    list-style: none;
-  }
-  .l-footer-sns-nav-list {
-    justify-content: flex-start;
-  }
-}
-.l-footer-sns-nav-item:not(:last-of-type) {
-  margin-right: 18px;
-}
-.l-footer-sns-nav-item img {
-  width: 42px;
-}
-.l-footer-nav {
-  margin-top: 44px;
-}
-.l-footer-nav-title {
-  font-size: 13px;
-}
-@media screen and (min-width: 500px) {
-  .l-footer-nav {
-    margin-top: 44px;
-  }
-  .l-footer-nav-title {
-    font-size: 13px;
-  }
-}
-@media screen and (min-width: 768px) {
-  .l-footer-nav {
-    margin-top: 44px;
-  }
-  .l-footer-nav-title {
-    font-size: 16px;
-  }
-}
-@media screen and (min-width: 960px) {
-  .l-footer-nav {
-    width: 61%;
-    padding-top: 72px;
-    /* margin-top: 24px; */
-  }
-}
-@media screen and (min-width: 1280px) {
-  .l-footer-nav {
-    width: 61%;
-    padding-top: 72px;
-    /* margin-top: 24px; */
   }
 }
 
-.l-footer-nav-list {
+/* --- SNS --- */
+.footer__sns {
+  padding-top: 42px;
+}
+.footer__sns-list {
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  list-style: none;
+}
+.footer__sns-item:not(:last-of-type) {
+  margin-right: 18px;
+}
+.footer__sns-item img {
+  width: 42px;
+}
+@media (min-width: 960px) {
+  .footer__sns {
+    padding-top: 0;
+  }
+  .footer__sns-list {
+    justify-content: flex-start;
+  }
+}
+
+/* =============================================================
+   3.  ナビゲーション
+   ========================================================== */
+.footer__nav {
+  margin-top: 44px;
+}
+@media (min-width: 960px) {
+  .footer__nav {
+    width: 61%;
+    padding-top: 72px;
+  }
+}
+.footer__nav-list {
   display: flex;
   flex-wrap: wrap;
-  margin-bottom: 50px;
-  z-index: 100;
+  margin: 0 0 50px;
   list-style: none;
   padding: 0;
+  z-index: 100;
 }
-.l-footer-nav-title {
-  color: #ffffff;
-  width: fit-content;
-}
-.l-footer-nav-title::after {
-  position: absolute;
-  left: 0;
-  content: "";
-  width: 100%;
-  height: 1px;
-  display: inline-block;
-  background: #ffffff;
-  bottom: -2px;
-  transform: scale(0, 1);
-  transform-origin: top left;
-  transition: transform 0.4s;
-}
-.l-footer-nav-title:hover::after {
-  transform: scale(1, 1);
-}
-.l-footer-nav-item {
+.footer__nav-item {
   width: 200px;
-  /* width: 170px; */
   margin-bottom: 7vw;
+  position: relative;
 }
-@media screen and (min-width: 960px) {
-  .l-footer-nav-item {
+@media (min-width: 960px) {
+  .footer__nav-item {
     margin-bottom: 100px;
   }
 }
-.l-footer-nav-item:nth-of-type(2) {
+/* “事業内容” は子リンク縦並び */
+.footer__nav-item:nth-of-type(2) {
   display: flex;
   flex-direction: column;
 }
-.l-footer-nav-link {
-  width: fit-content;
-  color: #ffffff;
-  font-size: 14px;
-  line-height: 30px;
-  display: inline-block;
+
+/* --- タイトルリンク --- */
+.footer__nav-title {
+  color: #fff;
+  font-size: 13px;
+  width: max-content;
+  position: relative;
 }
-.l-footer-nav-link::after {
+.footer__nav-title::after {
+  content: "";
   position: absolute;
   left: 0;
-  content: "";
+  bottom: -2px;
   width: 100%;
   height: 1px;
-  background: #ffffff;
-  bottom: -2px;
-  transform: scale(0, 1);
-  transform-origin: top left;
+  background: #fff;
+  transform: scaleX(0);
+  transform-origin: left top;
   transition: transform 0.4s;
 }
-.l-footer-nav-link:hover::after {
-  transform: scale(1, 1);
+.footer__nav-title:hover::after {
+  transform: scaleX(1);
 }
-@media screen and (max-width: 640px) {
-  .l-footer-nav-link {
+@media (min-width: 768px) {
+  .footer__nav-title {
+    font-size: 16px;
+  }
+}
+/* 子リンク */
+.footer__nav-link {
+  font-size: 14px;
+  line-height: 30px;
+  color: #fff;
+  position: relative;
+  width: max-content;
+}
+.footer__nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: #fff;
+  transform: scaleX(0);
+  transform-origin: left top;
+  transition: transform 0.4s;
+}
+.footer__nav-link:hover::after {
+  transform: scaleX(1);
+}
+@media (max-width: 640px) {
+  .footer__nav-link {
     font-size: 11px;
   }
 }
-.l-footer-nav-link:nth-of-type(1) {
+.footer__nav-link:first-of-type {
   margin-bottom: 16px;
 }
-.l-footer-nav-list .l-footer-nav-item:nth-of-type(2) .l-footer-nav-title {
+.footer__nav-item:nth-of-type(2) .footer__nav-title {
   margin-bottom: 16px;
 }
 
-/* ©コピーライト */
-.f-center {
-  text-align: center;
-}
-.c-copyright {
+/* =============================================================
+   4.  コピーライト
+   ========================================================== */
+.footer__copyright {
   width: 100%;
+  text-align: center;
+  font-size: 13px;
   padding: 15px 0;
   background: #110d0d;
-  color: #ffffff;
-  position: absolute; /* フッター内で絶対位置指定 */
-  bottom: 0; /* 下端に固定 */
+  color: #fff;
+  position: absolute;
+  bottom: 0;
+  left: 0;
   z-index: 2;
-  font-size: 13px;
 }

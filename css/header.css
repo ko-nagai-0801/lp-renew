@@ -1,134 +1,152 @@
-/* ヘッダーの初期状態 */
+/* ===============================================================
+   Header  (BEM)   LP_WP_Theme/assets/css/header.css
+   ============================================================ */
+
+/* 1) 基本レイアウト ------------------------------------------ */
 .header {
-  width: 100%;
-  height: auto;
   position: fixed;
   top: 0;
   left: 0;
+  width: 100%;
   z-index: 1000;
-  transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  transition: background-color 0.3s, box-shadow 0.3s;
 }
-/* 透過状態(TOPページのみ) */
-.header-transparent {
-  background: rgba(0, 0, 0, 0); /* 完全透過 */
+
+/* モディファイア：透明（TOP 初期） */
+.header--transparent {
+  background: rgba(0, 0, 0, 0);
   box-shadow: none;
 }
-/* スクロールしたら適用するデフォルトヘッダー */
-.header:not(.header-transparent) {
-  background: rgba(255, 255, 255, 1);
+
+/* 通常時（透明以外） */
+.header:not(.header--transparent) {
+  background: #fff;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 }
 
-@media screen and (max-width: 980px) {
+/* スクロールで薄グレー背景を付けたい場合は JS で .header--scrolled を付与 */
+.header--scrolled {
+  background: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+/* 高さ（SP） */
+@media (max-width: 980px) {
   .header {
     height: 68px;
     padding: 0;
   }
 }
 
-.header-box {
+/* 2) インナー ------------------------------------------------- */
+.header__inner {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 0 10px;
 }
-@media screen and (max-width: 980px) {
-  .header-box {
+@media (max-width: 980px) {
+  .header__inner {
     flex-direction: column;
     align-items: flex-start;
   }
 }
 
-/* スクロール時のヘッダー */
-.header-scroll {
-  background-color: rgba(0, 0, 0, 0.1);
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-}
-
-/* ロゴ */
-.header-logo-img {
+/* 3) ロゴ ----------------------------------------------------- */
+.header__logo-image {
   display: inline-block;
   z-index: 1000;
 }
 
-/* ナビゲーション */
-.header-nav {
+/* 4) ナビゲーション ------------------------------------------- */
+.header__nav {
   width: 80%;
-  transition: opacity 0.6s ease, visibility 0.6s ease;
+  transition: opacity 0.6s, visibility 0.6s;
+}
+@media (max-width: 980px) {
+  .header__nav {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100svh;
+    background: rgba(0, 0, 0, 0.9);
+    opacity: 0;
+    visibility: hidden;
+  }
+  .header__nav.is-active {
+    opacity: 1;
+    visibility: visible;
+  }
 }
 
-/* ナビゲーションメニュー */
-.header-nav-menu {
+/* 4-1) メニューリスト */
+.header__menu {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-@media screen and (max-width: 980px) {
-  .header-nav-menu {
-    height: 100svh;
+@media (max-width: 980px) {
+  .header__menu {
     flex-direction: column;
-    align-items: center;
     justify-content: center;
     gap: 15px;
-    padding: 0;
+    height: 100%;
   }
 }
 
-/* ナビゲーションアイテム */
-.header-nav-menu-item {
+/* 4-2) アイテム */
+.header__item {
   font-size: clamp(0.8rem, 1vw, 1.2vw);
 }
-
-@media screen and (max-width: 980px) {
-  .header-nav-menu-item {
+@media (max-width: 980px) {
+  .header__item {
     width: 100%;
     text-align: center;
   }
 }
 
-/* ナビゲーションリンク */
-.header-nav-menu-link {
+/* CTA ボタン用モディファイア */
+.header__item--cta {
+  display: flex;
+  justify-content: center;
+}
+
+/* 4-3) リンク */
+.header__link {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   color: #1c1c1c;
   transition: color 0.3s;
 }
-
-@media screen and (max-width: 980px) {
-  .header-nav-menu-link {
-    color: #ffffff;
+.header__link:hover {
+  color: #0084ad;
+}
+@media (max-width: 980px) {
+  .header__link {
+    color: #fff;
     font-size: 14px;
     padding: 24px 0;
   }
 }
 
-/* ナビゲーションホバー時 */
-.header-nav-menu-link:hover {
-  color: #0084ad;
-}
-
-/* サブリンク（英語表記） */
-.header-nav-menu-sub {
+/* サブ（英語） */
+.header__sub {
   color: #686f75;
   font-size: 0.8rem;
   transition: 0.3s;
 }
-@media screen and (max-width: 980px) {
-  .header-nav-menu-sub {
+.header__link:hover .header__sub {
+  color: #0084ad;
+}
+@media (max-width: 980px) {
+  .header__sub {
     display: none;
   }
 }
 
-
-/* ヘッダーリンク ホバー時 */
-.header-nav-menu-link:hover .header-nav-menu-sub {
-  color: #0084ad;
-}
-
-/* お問い合わせボタン */
-.header-nav-menu-item-contact {
+/* 4-4) CTA ボタン本体 */
+.header__cta {
   background: #005b94;
   border-radius: 50px;
   width: 192px;
@@ -137,66 +155,38 @@
   font-size: 15px;
   transition: 0.3s;
 }
-.header-nav-menu-item-contact:hover {
+.header__cta:hover {
   background: #0084ad;
 }
-@media screen and (max-width: 980px) {
-  .header-nav-menu-item.contact-box {
-    display: flex;
-    justify-content: center;
-  }
-  .header-nav-menu-item-contact {
+@media (max-width: 980px) {
+  .header__cta {
     width: 75%;
     max-width: 300px;
     padding: 0;
   }
 }
 
-.header-contact-text-box {
+/* CTA 内テキスト＆アイコン */
+.header__cta-text {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: #fff;
 }
-
-.header-contact-icon {
+.header__cta-icon {
   width: 20px;
   margin-right: 8px;
 }
 
-
-/* モバイル画面 */
-/* ナビゲーションを初期状態で非表示 */
-@media screen and (max-width: 980px) {
-  .header-nav {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100svh;
-    background: rgba(0, 0, 0, 0.9);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease-in-out;
-  }
-
-  .header-nav.active {
-    opacity: 1;
-    visibility: visible;
-  }
-}
-
-/* ハンバーガーメニュー */
-.header-menu-button {
+/* 5) ハンバーガーボタン --------------------------------------- */
+.header__toggle {
   display: none;
 }
-
-@media screen and (max-width: 980px) {
-  .header-menu-button {
-    display: block;
+@media (max-width: 980px) {
+  .header__toggle {
+    display: flex;
     width: 68px;
     height: 68px;
-    display: flex;
     justify-content: center;
     align-items: center;
     padding: 17px;
@@ -204,29 +194,26 @@
     position: fixed;
     top: 0;
     right: 0;
-    z-index: 10000;
     background: #005b94;
     cursor: pointer;
+    z-index: 10000;
+  }
+  .header__toggle.is-active {
+    background: transparent;
   }
 }
 
-/* ハンバーガーメニューのボタン */
-.header-menu-button.active {
-  background: transparent;
-}
-
-/* メニューアイコンのアニメーション */
-.header-menu-button-line {
+/* アイコン線 */
+.header__toggle-line {
+  position: relative;
   width: 100%;
   height: 2px;
   border-radius: 4px;
-  background: #ffffff;
-  display: block;
+  background: #fff;
   transition: 0.4s;
 }
-
-.header-menu-button-line::before,
-.header-menu-button-line::after {
+.header__toggle-line::before,
+.header__toggle-line::after {
   content: "";
   position: absolute;
   width: 50%;
@@ -235,59 +222,27 @@
   border-radius: 4px;
   transition: inherit;
 }
-.header-menu-button-line::before {
+.header__toggle-line::before {
   top: 35%;
   left: 25%;
 }
-.header-menu-button-line::after {
+.header__toggle-line::after {
   bottom: 35%;
   left: 25%;
 }
 
-.header-menu-button-line.active {
+/* クリック後（×アイコン） */
+.header__toggle-line.is-active {
   background: transparent;
 }
-
-.header-menu-button-line.active::before,
-.header-menu-button-line.active::after {
-  top: 0;
-  background-color: #fff;
-}
-
-.header-menu-button-line.active::before {
+.header__toggle-line.is-active::before,
+.header__toggle-line.is-active::after {
   top: 50%;
+  background: #fff;
+}
+.header__toggle-line.is-active::before {
   transform: rotate(-45deg);
 }
-
-.header-menu-button-line.active::after {
-  top: 50%;
+.header__toggle-line.is-active::after {
   transform: rotate(45deg);
 }
-
-
-
-
-
-
-/* ハンバーガーメニュー開閉時 */
-/* .header-menu-button .active {
-  background: transparent;
-}
-
-.header-menu-button .active .header-menu-button-line {
-  background-color: transparent;
-}
-
-.header-menu-button .active .header-menu-button-line::before,
-.header-menu-button .active .header-menu-button-line::after {
-  top: 0;
-  background-color: #fff;
-}
-
-.header-menu-button .active .header-menu-button-line::before {
-  transform: rotate(-45deg);
-}
-
-.header-menu-button .active .header-menu-button-line::after {
-  transform: rotate(45deg);
-} */ 
