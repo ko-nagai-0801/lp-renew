@@ -30,16 +30,28 @@
   background-size: cover;
   background-position: center;
 }
-/* タイトル画像 */
+
+/* 画像用プロパティを削除し、テキストスタイルを指定 */
 .hero__title {
-  width: 45%;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
   text-align: center;
+  width: max-content;
 }
+
+.hero__title-text {
+  font-family: "Playball", "Brush Script MT", cursive;
+  font-size: clamp(3.2rem, 8vw, 7.5rem); /* SP〜PCで可変 */
+  font-weight: 400; /* Playball は 400 のみ */
+  line-height: 1;
+  color: #fff;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); /* 背景画像に埋もれないよう影 */
+  white-space: nowrap;
+}
+
 /* Scroll cue（ボタン全体） */
 .hero__scroll-btn {
   position: absolute;
@@ -136,164 +148,37 @@
 }
 
 /* =========================================================
-   2. ABOUT  –  Desktop ▶ 画像は左に重ね／Mobile ▶ 縦並び
-   BEM 命名 + スライドインアニメーション
+   About  –  text left / image right
    ====================================================== */
-
-/* ---------- ラッパー ---------------------------------- */
 .about {
-  position: relative;
-  overflow: hidden;
   padding-block: 6rem;
 }
+
+/* --- Flex レイアウト ----------------------------------- */
 .about__inner {
   display: flex;
-  gap: 4rem;
   align-items: center;
-  max-width: 1300px;
-  margin: 0 auto;
-  padding: 0 30px;
+  gap: 4rem;
 }
-@media (max-width: 960px) {
-  .about__inner {
-    flex-direction: column;
-    gap: 3rem;
-  }
+.about__content {
+  flex: 1;
+  max-width: 620px;
 }
-
-/* ---------- 画像群 ------------------------------------ */
-.about__images {
-  position: relative;
-  width: 50%;
-  min-width: 320px;
-}
-@media (max-width: 960px) {
-  .about__images {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
+.about__visual {
+  flex: 1;
+  text-align: center;
 }
 .about__image {
-  display: block;
+  width: 100%;
+  height: auto;
   border-radius: 8px;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity 0.2s;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
 }
 
-/* 各画像の “デスクトップ位置・サイズ” */
-.about__image--01 {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 280px;
-  height: 380px;
-  transform: translateY(-50%);
-}
-.about__image--02 {
-  position: absolute;
-  bottom: 0;
-  right: 5%;
-  width: 440px;
-  height: 280px;
-}
-.about__image--03 {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 240px;
-  height: 240px;
-}
-
-@media (max-width: 1399px) {
-  .about__image--01 {
-    width: 200px;
-    height: 280px;
-  }
-  .about__image--02 {
-    width: 360px;
-    height: 230px;
-  }
-  .about__image--03 {
-    width: 200px;
-    height: 200px;
-  }
-}
-
-/* モバイルでは上から縦並び + 表示済み */
-@media (max-width: 960px) {
-  .about__image {
-    position: static;
-    width: 60%;
-    max-width: 300px;
-    height: auto;
-    margin: 0 6% 12px;
-    opacity: 1;
-  }
-}
-
-/* ---------- スライドインアニメーション ---------------- */
-.is-slide-in {
-  opacity: 1;
-}
-.is-slide-in.js-slide-from-left {
-  animation: slideLeft 0.9s cubic-bezier(0.42, 0, 0.2, 1) forwards;
-}
-.is-slide-in.js-slide-from-right {
-  animation: slideRight 0.9s cubic-bezier(0.42, 0, 0.2, 1) forwards;
-}
-
-@keyframes slideLeft {
-  0% {
-    transform: translateX(-60px) translateY(var(--ty, 0));
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0) translateY(var(--ty, 0));
-    opacity: 1;
-  }
-}
-@keyframes slideRight {
-  0% {
-    transform: translateX(60px) translateY(var(--ty, 0));
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0) translateY(var(--ty, 0));
-    opacity: 1;
-  }
-}
-
-/* ちょっとだけ上下に振るためのカスタムプロパティ */
-.about__image--01 {
-  --ty: -20px;
-}
-.about__image--02 {
-  --ty: 0px;
-}
-.about__image--03 {
-  --ty: 20px;
-}
-
-
-/* ---------- テキストブロック --------------------------- */
-.about__content {
-  width: 50%;
-  max-width: 650px;
-}
-@media (max-width: 960px) {
-  .about__content {
-    width: 100%;
-  }
-}
-
+/* --- Typography --------------------------------------- */
 .about__header {
   position: relative;
   margin-bottom: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
 }
 .about__header::before {
   content: "";
@@ -311,52 +196,42 @@
   margin-bottom: 0.5rem;
 }
 .about__title {
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
   font-weight: 700;
-  font-size: clamp(1.8rem, 4vw, 2.6rem);
-  margin: 0 0 1.5rem;
+  margin: 0;
 }
-
 .about__catch {
-  font: 700 20px/32px "inherit";
+  font: 700 22px/1.5 "inherit";
   color: #005b94;
-  margin-bottom: 1rem;
+  margin: 1.5rem 0;
 }
-@media (max-width: 959px) {
-  .about__catch {
-    font-size: 14px;
-    line-height: 22px;
-    margin-bottom: 10px;
-  }
-}
-
 .about__text {
-  line-height: 24px;
+  line-height: 1.8;
   margin-bottom: 2rem;
 }
-@media (max-width: 959px) {
-  .about__text {
-    line-height: 18px;
-  }
-}
-
 .about__cta {
-  display: flex;
-  justify-content: center;
+  text-align: left;
+}
+/* ========== 装飾: 画像背面の斜めカラー帯 ========== */
+.about__visual-wrapper {
+  position: relative;
+  display: inline-block; /* 画像サイズに追従 */
+}
+.about__visual-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #009cdf; /* ブランドカラー */
+  transform: skewY(-6deg); /* 斜め帯 */
+  transform-origin: bottom left;
+  border-radius: 12px; /* 角丸で柔らかく */
+  z-index: -1; /* 画像の背面へ */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
-/* ---------- 背景巨大テキスト（SVG） ------------------- */
-.about__bg {
-  position: absolute;
-  left: 0;
-  bottom: 80px;
-  width: 125%;
-  z-index: -1;
-  display: none;
-}
-@media (min-width: 960px) {
-  .about__bg {
-    display: block;
-  }
+/* 画像自体も角丸 */
+.about__image {
+  border-radius: 12px;
 }
 
 /* =============== 3. SECTION WRAPPERS ==================== */

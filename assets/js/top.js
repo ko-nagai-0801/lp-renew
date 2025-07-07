@@ -47,34 +47,4 @@
   };
   onScrollHeader(); // 初期チェック
   window.addEventListener("scroll", onScrollHeader);
-
-  /* ===============================================
-     ③ About : slide-in images (IntersectionObserver)
-     ============================================ */
-  const aboutTargets = document.querySelectorAll(
-    ".about .js-slide-from-left, .about .js-slide-from-right"
-  );
-
-  if (aboutTargets.length) {
-    const observer = new IntersectionObserver(
-      (entries, io) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-slide-in");
-            io.unobserve(entry.target); // 一度だけアニメ
-          }
-        });
-      },
-      {
-        rootMargin: "0px 0px -10% 0px", // 少し早めに発火
-        threshold: 0.3,
-      }
-    );
-
-    // 0.15 秒ステップでディレイ
-    aboutTargets.forEach((el, idx) => {
-      el.style.animationDelay = `${idx * 0.15}s`;
-      observer.observe(el);
-    });
-  }
-})();
+});

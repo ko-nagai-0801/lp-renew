@@ -1,9 +1,12 @@
 <?php
+
 /**
  * Hero section  (template-parts/section-hero.php)
  * BEM 命名
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if (! defined('ABSPATH')) {
+  exit;
+}
 ?>
 
 <section class="hero">
@@ -12,17 +15,17 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
   <div class="hero__slider swiper js-hero-slider">
     <div class="hero__wrapper swiper-wrapper">
       <?php
-        $hero_images = [
-          'img/hero01.webp',
-          'img/hero02.webp',
-          'img/hero03.webp',
-        ];
-        foreach ( $hero_images as $path ) : ?>
-          <div class="hero__slide swiper-slide">
-            <div class="hero__bg"
-                 style="background-image:url('<?php echo esc_url( get_theme_file_uri( $path ) ); ?>');">
-            </div>
+      $hero_images = [
+        'img/hero01.webp',
+        'img/hero02.webp',
+        'img/hero03.webp',
+      ];
+      foreach ($hero_images as $path) : ?>
+        <div class="hero__slide swiper-slide">
+          <div class="hero__bg"
+            style="background-image:url('<?php echo esc_url(get_theme_file_uri($path)); ?>');">
           </div>
+        </div>
       <?php endforeach; ?>
     </div>
     <!-- 必要ならページネーション / ナビボタン -->
@@ -30,8 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
   <!-- タイトル -->
   <h1 class="hero__title">
-    <img src="<?php echo esc_url( get_theme_file_uri( 'img/hero-title.svg' ) ); ?>"
-         alt="No&nbsp;Border" class="hero__title-img">
+    <span class="hero__title-text">No&nbsp;Border</span>
   </h1>
 
   <!-- スクロールヒント -->

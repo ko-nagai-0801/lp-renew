@@ -1,0 +1,224 @@
+/* =========================================================
+   2. ABOUT  –  Desktop ▶ 画像は左に重ね／Mobile ▶ 縦並び
+   スライドインアニメーション
+   ====================================================== */
+
+/* ---------- ラッパー ---------------------------------- */
+.about {
+  position: relative;
+  overflow: hidden;
+  padding-block: 6rem;
+}
+.about__inner {
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+  align-items: center;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+@media (max-width: 768px) {
+  .about__inner {
+    flex-direction: column;
+    gap: 3rem;
+  }
+}
+
+/* ---------- 画像(3枚)ブロック ------------------------------------ */
+.about__images {
+  position: relative;
+  width: 50%;
+  max-width: 650px;
+  height: 500px;
+}
+@media (max-width: 768px) {
+}
+.about__image {
+  display: block;
+  border-radius: 8px;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+/* 各画像の “デスクトップ位置・サイズ” */
+.about__image--01 {
+  position: absolute;
+  bottom: 0%;
+  left: 0%;
+  width: 200px;
+  height: auto;
+  transform: translateY(-50%);
+}
+.about__image--02 {
+  position: absolute;
+  top: 0%;
+  right: 10%;
+  width: 400px;
+  height: auto;
+}
+.about__image--03 {
+  position: absolute;
+  bottom: 10%;
+  right: 20%;
+  width: 180px;
+  height: auto;
+}
+
+/* モバイル */
+@media (max-width: 768px) {
+  .about__image {
+    max-width: 350px;
+    height: auto;
+    opacity: 1;
+  }
+  .about__images {
+    width: 100%;
+    height: 400px;
+  }
+  /* 各画像の “モバイル位置・サイズ” */
+  .about__image--01 {
+    bottom: 0%;
+    left: 10%;
+    width: 20vw;
+    height: auto;
+  }
+  .about__image--02 {
+    top: 0%;
+    right: 20%;
+    width: 50vw;
+    height: auto;
+  }
+  .about__image--03 {
+    bottom: 5%;
+    left: 50%;
+    width: 20vw;
+    height: auto;
+  }
+}
+
+/* ---------- スライドインアニメーション ---------------- */
+.is-slide-in {
+  opacity: 1;
+}
+.is-slide-in.js-slide-from-left {
+  animation: slideLeft 0.9s cubic-bezier(0.42, 0, 0.2, 1) forwards;
+}
+.is-slide-in.js-slide-from-right {
+  animation: slideRight 0.9s cubic-bezier(0.42, 0, 0.2, 1) forwards;
+}
+
+@keyframes slideLeft {
+  0% {
+    transform: translateX(-60px) translateY(var(--ty, 0));
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) translateY(var(--ty, 0));
+    opacity: 1;
+  }
+}
+@keyframes slideRight {
+  0% {
+    transform: translateX(60px) translateY(var(--ty, 0));
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) translateY(var(--ty, 0));
+    opacity: 1;
+  }
+}
+
+/* ちょっとだけ上下に振るためのカスタムプロパティ */
+.about__image--01 {
+  --ty: -20px;
+}
+.about__image--02 {
+  --ty: 0px;
+}
+.about__image--03 {
+  --ty: 20px;
+}
+
+/* ---------- テキストブロック --------------------------- */
+.about__content {
+  width: 50%;
+  max-width: 650px;
+  height: 500px;
+}
+@media (max-width: 768px) {
+  .about__content {
+    width: 100%;
+  }
+}
+
+.about__header {
+  position: relative;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.about__header::before {
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: 0.5rem;
+  width: 4px;
+  height: 40px;
+  border-radius: 6px;
+  background: #005b94;
+}
+.about__sub {
+  font-weight: 600;
+  font-size: 16px;
+  color: #005b94;
+}
+.about__title {
+  font-weight: 700;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+.about__catch {
+  font-weight: 600;
+  color: #005b94;
+  font-size: clamp(1.2rem, 3vw, 1.4rem);
+  margin-bottom: 1rem;
+}
+/* @media (max-width: 768px) {
+  .about__catch {
+    font-size: 14px;
+    line-height: 22px;
+    margin-bottom: 10px;
+  }
+} */
+
+.about__text {
+  line-height: 24px;
+  margin-bottom: 2rem;
+}
+@media (max-width: 768px) {
+  .about__text {
+    line-height: 18px;
+  }
+}
+
+.about__cta {
+  display: flex;
+  justify-content: center;
+}
+
+/* ---------- 背景巨大テキスト（SVG） ------------------- */
+.about__bg {
+  position: absolute;
+  left: 0;
+  bottom: 80px;
+  width: 125%;
+  z-index: -1;
+  display: none;
+}
+@media (min-width: 768px) {
+  .about__bg {
+    display: block;
+  }
+}
