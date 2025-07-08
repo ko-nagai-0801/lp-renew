@@ -37,15 +37,26 @@ function lp_enqueue_assets()
         '11'
     );
 
-    // 3) テーマ内共通・ページ固有
-    foreach (['common', 'header', 'footer', 'front-page'] as $handle) {
+    // 3) サイト共通
+    foreach (['common', 'header', 'footer'] as $handle) {
         wp_enqueue_style(
             "lp-$handle",
             "$theme_uri/assets/css/$handle.css",
-            ['bootstrap'],  // Bootstrap などを上書きする想定で依存を付与
+            ['bootstrap'],
             $ver
         );
     }
+
+    // 4) トップページ
+    if (is_front_page()) {
+        wp_enqueue_style(
+            'lp-front-page',
+            "$theme_uri/assets/css/front-page.css",
+            ['bootstrap'],
+            $ver
+        );
+    }
+
 
     // ＊) Google Fonts（順序依存なし）
     wp_enqueue_style(

@@ -11,29 +11,39 @@ if (! defined('ABSPATH')) {
 
 <section class="hero">
 
-  <!-- スライダー本体 -->
+  <!-- スライダー -->
   <div class="hero__slider swiper js-hero-slider">
     <div class="hero__wrapper swiper-wrapper">
       <?php
-      $hero_images = [
-        'img/hero01.webp',
-        'img/hero02.webp',
-        'img/hero03.webp',
-      ];
-      foreach ($hero_images as $path) : ?>
+      $files = ['hero01.webp', 'hero02.webp', 'hero03.webp']; // 画像ファイル名だけ列挙
+
+      foreach ($files as $file) : // コロンでループ開始
+        $url = esc_url(get_theme_file_uri("assets/img/$file"));
+      ?>
         <div class="hero__slide swiper-slide">
-          <div class="hero__bg"
-            style="background-image:url('<?php echo esc_url(get_theme_file_uri($path)); ?>');">
+          <div
+            class="hero__bg"
+            style="background-image:url('<?php echo $url; ?>');">
           </div>
         </div>
-      <?php endforeach; ?>
+      <?php endforeach; ?> <!-- ループ終わり -->
     </div>
-    <!-- 必要ならページネーション / ナビボタン -->
   </div>
 
-  <!-- タイトル -->
-  <h1 class="hero__title">
-    <span class="hero__title-text">No&nbsp;Border</span>
+
+  <?php
+  /* -----------------------------
+  Hero Title – アニメーション
+------------------------------*/
+  $animType = 'is-slide';
+
+  $title   = 'No Border';
+  $letters = preg_split('//u', $title, -1, PREG_SPLIT_NO_EMPTY);
+  ?>
+  <h1 class="hero__title" aria-label="<?php echo esc_html($title); ?>">
+    <span class="hero__title-text <?php echo $animType; ?>">
+      <?php foreach ($letters as $i => $char) : ?><span class="hero__letter" style="--i:<?php echo $i; ?>;" data-char="<?php echo esc_attr($char); ?>"><?php echo $char === ' ' ? '&nbsp;' : esc_html($char); ?></span><?php endforeach; ?>
+    </span>
   </h1>
 
   <!-- スクロールヒント -->

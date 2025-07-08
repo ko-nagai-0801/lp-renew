@@ -1,50 +1,23 @@
 /**
  * assets/js/top.js
  * ---------------------------------------------------------
- *  ① Hero セクション Swiper（フェード）
- *  ② Header  : ハンバーガーの開閉 + スクロール時の背景切替
- *  ③ About   : 画像３枚を Intersection Observer でスライドイン
+ * ① Hero セクション Swiper（フェード＋ズーム）
  * ---------------------------------------------------------
- *  ※ functions.php 側で下記ライブラリを依存として登録済み
- *    - Swiper 11
- *    - GSAP（今回は未使用だが将来拡張用）
  */
-(() => {
-  /* ===============================================
-     ① Hero Swiper
-     ============================================ */
+(() => {                        // ← 先頭に (      ) を追加
+  /* Hero Swiper */
   const heroSliderElm = document.querySelector(".js-hero-slider");
   if (heroSliderElm) {
-    // eslint-disable-next-line no-unused-vars
+    /* eslint-disable no-unused-vars */
     const heroSwiper = new Swiper(heroSliderElm, {
       loop: true,
-      speed: 1000,
-      autoplay: { delay: 5000 },
+      speed: 1200,               // フェード時間
+      autoplay: {
+        delay: 6000,            // 画像の静止時間
+        disableOnInteraction: false,
+      },
       effect: "fade",
+      fadeEffect: { crossFade: true },
     });
   }
-
-  /* ===============================================
-     ② Header : hamburger & scroll color change
-     ============================================ */
-  const header = document.querySelector(".header");
-  const toggleButton = document.querySelector(".header__toggle");
-  const toggleLine = document.querySelector(".header__toggle-line");
-  const nav = document.querySelector(".header__nav");
-
-  if (toggleButton && toggleLine && nav) {
-    toggleButton.addEventListener("click", () => {
-      toggleButton.classList.toggle("is-active");
-      toggleLine.classList.toggle("is-active");
-      nav.classList.toggle("is-active");
-    });
-  }
-
-  // 50px 以上スクロールしたら背景色付与
-  const onScrollHeader = () => {
-    if (!header) return;
-    header.classList.toggle("header--scrolled", window.scrollY > 50);
-  };
-  onScrollHeader(); // 初期チェック
-  window.addEventListener("scroll", onScrollHeader);
-});
+})();                           // ← 末尾で呼び出す
