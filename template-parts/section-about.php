@@ -10,8 +10,16 @@ if (! defined('ABSPATH')) {
 <section id="about" class="about" aria-labelledby="about__heading">
     <div class="about__inner container">
 
-        <!-- ===== Left : Text block ===== -->
-        <div class="about__content">
+        
+        <!-- ===== Left : About images ===== -->
+        <div class="about__visual js-shrink-in-section">
+            <img src="<?php echo esc_url(get_theme_file_uri('img/about-img-01.webp')); ?>" alt="" class="about__images about__image-01" loading="lazy">
+            <img src="<?php echo esc_url(get_theme_file_uri('img/about-img-02.webp')); ?>" alt="" class="about__images about__image-02" loading="lazy">
+            <img src="<?php echo esc_url(get_theme_file_uri('img/about-img-03.webp')); ?>" alt="" class="about__images about__image-03" loading="lazy">
+        </div>
+
+        <!-- ===== Right : Text block ===== -->
+        <div class="about__content container">
             <header class="about__header">
                 <p class="about__sub">About&nbsp;us</p>
                 <h2 id="about__heading" class="about__title">ＬｉＮＥ&nbsp;ＰＡＲＫ について</h2>
@@ -35,11 +43,6 @@ if (! defined('ABSPATH')) {
         </div><!-- /.about__content -->
 
 
-        <!-- ===== Right : Single image ===== -->
-        <div class="about__visual js-shrink-in-section">
-            <img src="<?php echo esc_url(get_theme_file_uri('img/about-img-02.webp')); ?>"
-                alt="" class="about__image" loading="lazy">
-        </div>
 
 
     </div><!-- /.about__inner -->

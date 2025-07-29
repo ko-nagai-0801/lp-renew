@@ -62,34 +62,36 @@
   white-space: nowrap;
 }
 /* ========= 共通ベース ========= */
-.hero__letter{
-  display:inline-block;
-  font-size:clamp(3.2rem,8vw,7.5rem);
-  font-weight:400;
-  line-height:1;
+.hero__letter {
+  display: inline-block;
+  font-size: clamp(3.2rem, 8vw, 7.5rem);
+  font-weight: 400;
+  line-height: 1;
 }
 
 /* ==============================================================
    ① Border-Break Slide-in
    ============================================================== */
-.hero__title-text.is-slide .hero__letter{
-  opacity:0;
-  animation:slideIn .8s forwards ease-out;
-  animation-delay:calc(var(--i)*0.10s);
+.hero__title-text.is-slide .hero__letter {
+  opacity: 0;
+  animation: slideIn 0.8s forwards ease-out;
+  animation-delay: calc(var(--i) * 0.1s);
 }
 
 /* 交互に左右から */
-.hero__title-text.is-slide .hero__letter:nth-child(odd){
-  transform:translateX(-120%);
+.hero__title-text.is-slide .hero__letter:nth-child(odd) {
+  transform: translateX(-120%);
 }
-.hero__title-text.is-slide .hero__letter:nth-child(even){
-  transform:translateX(120%);
-}
-
-@keyframes slideIn{
-  to{ opacity:1; transform:translateX(0); }
+.hero__title-text.is-slide .hero__letter:nth-child(even) {
+  transform: translateX(120%);
 }
 
+@keyframes slideIn {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
 
 /* ===== 可読性向上オプション（お好みで） ===== */
 /* 文字にシャドウを足す場合
@@ -97,7 +99,6 @@
   text-shadow:0 4px 12px rgba(0,0,0,.25);
 }
 */
-
 
 /* Scroll cue（ボタン全体） */
 .hero__scroll-btn {
@@ -195,34 +196,112 @@
 }
 
 /* =========================================================
-   About  –  text left / image right
+   About  –  image left / text right
    ====================================================== */
 .about {
   padding-block: 6rem;
 }
 
-/* --- Flex レイアウト ----------------------------------- */
+/* ---About Whole レイアウト ----------------------------------- */
 .about__inner {
   display: flex;
-  align-items: center;
+  flex-direction: row;
+  align-items: flex-start;
   gap: 4rem;
 }
-.about__content {
-  flex: 1;
-  max-width: 620px;
+@media screen and (max-width: 1199px) {
+  .about__inner {
+    gap: 1rem;
+  }
 }
+@media screen and (max-width: 960px) {
+  .about__inner {
+    flex-direction: column;
+    align-items: center;
+    gap: 6rem;
+  }
+}
+
+/* Left About Images */
 .about__visual {
   flex: 1;
-  text-align: center;
+  display: grid;
 }
-.about__image {
+
+.about__visual img {
+  grid-area: 1/1; /* 全て同じセルに配置＝重ねる */
+}
+
+.about__images {
   width: 100%;
   height: auto;
-  border-radius: 8px;
+  border-radius: 12px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
 }
 
+.about__image-01 {
+  max-width: 200px;
+  transform: translate(0, 150px);
+  z-index: 3;
+}
+.about__image-02 {
+  max-width: 375px;
+  transform: translate(160px, 0px);
+  z-index: 2;
+}
+.about__image-03 {
+  max-width: 200px;
+  transform: translate(260px, 260px);
+  z-index: 1;
+}
+@media screen and (max-width: 1199px) {
+  .about__image-01 {
+    width: 150px;
+    transform: translate(0, 150px);
+  }
+  .about__image-02 {
+    width: 350px;
+    transform: translate(90px, 0);
+  }
+  .about__image-03 {
+    width: 150px;
+    transform: translate(225px, 245px);
+  }
+}
+@media screen and (max-width: 960px) {
+  .about__image-01 {
+    width: 20vw;
+    transform: translate(-75%, 25%);
+  }
+  .about__image-02 {
+    width: 35vw;
+    transform: translate(10%, -25%);
+  }
+  .about__image-03 {
+    width: 16vw;
+    transform: translate(115%, 125%);
+  }
+}
+@media screen and (max-width: 768px) {
+  .about__image-01 {
+    width: 25vw;
+    transform: translate(-75%, 25%);
+  }
+  .about__image-02 {
+    width: 45vw;
+    transform: translate(0%, -25%);
+  }
+  .about__image-03 {
+    width: 20vw;
+    transform: translate(115%, 125%);
+  }
+}
+
 /* --- Typography --------------------------------------- */
+.about__content {
+  flex: 1;
+  max-width: 600px;
+}
 .about__header {
   position: relative;
   margin-bottom: 1rem;
@@ -243,12 +322,15 @@
   margin-bottom: 0.5rem;
 }
 .about__title {
-  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
   font-weight: 700;
   margin: 0;
+  /* 折り返し無効 */
+  white-space: nowrap;
 }
 .about__catch {
-  font: 700 22px/1.5 "inherit";
+  font-size: clamp(1rem, 1.5vw, 2rem);
+  font-weight: 700;
   color: #005b94;
   margin: 1.5rem 0;
 }
@@ -258,27 +340,6 @@
 }
 .about__cta {
   text-align: center;
-}
-/* ========== 装飾: 画像背面の斜めカラー帯 ========== */
-.about__visual-wrapper {
-  position: relative;
-  display: inline-block; /* 画像サイズに追従 */
-}
-.about__visual-wrapper::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: #009cdf; /* ブランドカラー */
-  transform: skewY(-6deg); /* 斜め帯 */
-  transform-origin: bottom left;
-  border-radius: 12px; /* 角丸で柔らかく */
-  z-index: -1; /* 画像の背面へ */
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-}
-
-/* 画像自体も角丸 */
-.about__image {
-  border-radius: 12px;
 }
 
 /* =============== 3. SECTION WRAPPERS ==================== */
