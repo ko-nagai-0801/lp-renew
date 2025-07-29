@@ -4,7 +4,7 @@
  * ① Hero セクション Swiper（フェード＋ズーム）
  * ---------------------------------------------------------
  */
-(() => {                        // ← 先頭に (      ) を追加
+(() => {
   /* Hero Swiper */
   const heroSliderElm = document.querySelector(".js-hero-slider");
   if (heroSliderElm) {
@@ -20,4 +20,6 @@
       fadeEffect: { crossFade: true },
     });
   }
-})();                           // ← 末尾で呼び出す
+})(); // ← 末尾で呼び出して実行
+
+

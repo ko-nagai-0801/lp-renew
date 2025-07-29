@@ -107,8 +107,8 @@ function lp_enqueue_assets()
 
     // TOP 用ロジック
     wp_enqueue_script(
-        'lp-top',
-        "$theme_uri/assets/js/top.js",
+        'front-page',
+        "$theme_uri/assets/js/front-page.js",
         ['swiper', 'gsap', 'gsap-scrolltrigger'], // 依存
         $ver,
         true

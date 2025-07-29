@@ -37,7 +37,7 @@ if (! defined('ABSPATH')) {
 
         <!-- ===== Right : Single image ===== -->
         <div class="about__visual js-shrink-in-section">
-            <img src="<?php echo esc_url(get_theme_file_uri('img/about-img02.webp')); ?>"
+            <img src="<?php echo esc_url(get_theme_file_uri('img/about-img-02.webp')); ?>"
                 alt="" class="about__image" loading="lazy">
         </div>
 
