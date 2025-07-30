@@ -136,12 +136,17 @@ select {
    ========================================================== */
 :root {
   --clr-base: #fff;
-  --clr-primary: #009cdf;
-  --clr-primary-dark: #007bb5;
   --clr-text: #333;
   --clr-gray-050: #f9fafb;
   --clr-gray-100: #f4f6f8;
   --clr-gray-200: #e5e7eb;
+  --f-black: #333;
+  --f-white: #fff;
+  --f-navy: #005b94;
+  --c-white: #fff;
+  --c-navy: #005b94;
+  --c-blue: #009cdf;
+  --c-blue-dark: #007bb5;
 
   --radius-card: 16px;
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
@@ -169,14 +174,14 @@ select {
   width: 4px;
   height: 40px;
   border-radius: 6px;
-  background: #005b94;
+  background: var(--c-navy);
 }
 .section__sub {
   font-weight: 700;
   font-size: 16px;
   line-height: 1;
   font-family: inherit;
-  color: #005b94;
+  color: var(--f-navy);
   margin-bottom: 0.5rem;
 }
 .section__title {
@@ -189,7 +194,7 @@ select {
 .section__catch {
   font-size: clamp(1rem, 1.5vw, 2rem);
   font-weight: 700;
-  color: #005b94;
+  color: var(--f-navy);
   margin: 1.5rem 0;
 }
 
@@ -209,22 +214,6 @@ select {
 /* =============================================================
    その他ユーティリティ（例）
    ========================================================== */
-.text-center {
-  text-align: center !important;
-}
-.mt-0 {
-  margin-top: 0 !important;
-}
-.mt-1 {
-  margin-top: 0.25rem !important;
-}
-.mt-2 {
-  margin-top: 0.5rem !important;
-}
-.mt-3 {
-  margin-top: 1rem !important;
-}
-
 .button {
   display: inline-block;
   min-width: 200px;
@@ -232,16 +221,23 @@ select {
   font-weight: 700;
   text-align: center;
   color: #fff;
-  background: var(--clr-primary);
+  background: var(--c-blue);
   border-radius: 6px;
   transition: 0.3s;
 }
 .button:hover {
-  background: var(--clr-primary-dark);
+  background: var(--c-blue-dark);
 }
 .button--white {
-  background: #fff;
-  color: var(--clr-primary);
+    display: inline-block;
+  min-width: 200px;
+  padding: 1rem 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--f-navy);
+  background: var(--c-white);
+  border-radius: 6px;
+  transition: 0.3s;
 }
 .button--white:hover {
   background: #f4f6f8;
@@ -250,7 +246,7 @@ select {
 /* ---------------- Contact CTA ---------------- */
 .contact-cta {
   padding: 4rem 1rem;
-  background: var(--clr-primary);
+  background: var(--c-blue);
   color: #fff;
   text-align: center;
 }
