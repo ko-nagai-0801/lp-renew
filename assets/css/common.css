@@ -151,14 +151,50 @@ select {
 }
 
 /* =============================================================
-   汎用セクション余白
+   セクション汎用
    ========================================================== */
 .section {
-  margin-block: 5rem;
+  padding-block: 6rem;
 }
+
 .section__header {
+  position: relative;
+  margin-bottom: 1rem;
+}
+.section__header::before {
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: 0.5rem;
+  width: 4px;
+  height: 40px;
+  border-radius: 6px;
+  background: #005b94;
+}
+.section__sub {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1;
+  font-family: inherit;
+  color: #005b94;
+  margin-bottom: 0.5rem;
+}
+.section__title {
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 700;
+  margin: 0;
+  /* 折り返し無効 */
+  white-space: nowrap;
+}
+.section__catch {
+  font-size: clamp(1rem, 1.5vw, 2rem);
+  font-weight: 700;
+  color: #005b94;
+  margin: 1.5rem 0;
+}
+
+.u-cta {
   text-align: center;
-  margin-bottom: 2rem;
 }
 
 /* =============================================================

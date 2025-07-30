@@ -199,10 +199,34 @@
    About  –  image left / text right
    ====================================================== */
 .about {
-  padding-block: 6rem;
+  background-image: url(../img/about-big-text.svg);
+  background-repeat: no-repeat;
+  background-size: 50vw;
+  background-position-x: 10%;
+  background-position-y: 100%;
+}
+@media screen and (max-width: 1199px) {
+  .about {
+    background-size: 50vw;
+    background-position-x: 10%;
+    background-position-y: 90%;
+  }
+}
+@media screen and (max-width: 960px) {
+  .about {
+    background-size: 50vw;
+    background-position-x: 90%;
+    background-position-y: 100%;
+  }
+}
+@media screen and (max-width: 576px) {
+  .about {
+    background-size: 75vw;
+    background-position-x: 90%;
+    background-position-y: 100%;
+  }
 }
 
-/* ---About Whole レイアウト ----------------------------------- */
 .about__inner {
   display: flex;
   flex-direction: row;
@@ -300,56 +324,12 @@
 /* --- Typography --------------------------------------- */
 .about__content {
   flex: 1;
-  max-width: 600px;
-}
-.about__header {
-  position: relative;
-  margin-bottom: 1rem;
-}
-.about__header::before {
-  content: "";
-  position: absolute;
-  left: -10px;
-  top: 0.5rem;
-  width: 4px;
-  height: 40px;
-  border-radius: 6px;
-  background: #005b94;
-}
-.about__sub {
-  font: 700 16px/1 "inherit";
-  color: #005b94;
-  margin-bottom: 0.5rem;
-}
-.about__title {
-  font-size: clamp(1.5rem, 3vw, 2.5rem);
-  font-weight: 700;
-  margin: 0;
-  /* 折り返し無効 */
-  white-space: nowrap;
-}
-.about__catch {
-  font-size: clamp(1rem, 1.5vw, 2rem);
-  font-weight: 700;
-  color: #005b94;
-  margin: 1.5rem 0;
 }
 .about__text {
   line-height: 1.8;
   margin-bottom: 2rem;
 }
-.about__cta {
-  text-align: center;
-}
-
 /* =============== 3. SECTION WRAPPERS ==================== */
-.section {
-  margin-block: 5rem;
-}
-.section__header {
-  text-align: center;
-  margin-bottom: 2rem;
-}
 
 /* =============== 4. BUSINESS ============================ */
 .business__cards {

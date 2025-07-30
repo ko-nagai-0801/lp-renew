@@ -9,11 +9,11 @@ if (! defined('ABSPATH')) {
 }
 ?>
 
-<section id="business" class="business" aria-labelledby="business__heading">
+<section id="business" class="business container" aria-labelledby="business__heading">
 
-  <header class="business__header">
-    <p class="business__sub">Business</p>
-    <h2 id="business__heading" class="business__title">事業内容</h2>
+  <header class="business__header section__header">
+    <p class="business__sub section__sub">Business</p>
+    <h2 id="business__heading" class="business__title section__title">事業内容</h2>
     <p class="business__lead">
       Web 制作から軽作業まで——多様な業務をワンストップで請け負います。
     </p>

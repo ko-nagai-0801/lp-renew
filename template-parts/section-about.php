@@ -7,8 +7,8 @@ if (! defined('ABSPATH')) {
     exit;
 }
 ?>
-<section id="about" class="about" aria-labelledby="about__heading">
-    <div class="about__inner container">
+<section id="about" class="about section container" aria-labelledby="about__heading">
+    <div class="about__inner ">
 
         
         <!-- ===== Left : About images ===== -->
@@ -19,22 +19,22 @@ if (! defined('ABSPATH')) {
         </div>
 
         <!-- ===== Right : Text block ===== -->
-        <div class="about__content container">
-            <header class="about__header">
-                <p class="about__sub">About&nbsp;us</p>
-                <h2 id="about__heading" class="about__title">ＬｉＮＥ&nbsp;ＰＡＲＫ について</h2>
+        <div class="about__content">
+            <header class="about__header section__header">
+                <p class="about__sub section__sub">About&nbsp;us</p>
+                <h2 id="about__heading" class="about__title section__title">ＬｉＮＥ&nbsp;ＰＡＲＫ について</h2>
             </header>
 
-            <h3 class="about__catch">誰もが当たり前のことを、当たり前にできる世界へ</h3>
+            <h3 class="about__catch section__catch">誰もが当たり前のことを、当たり前にできる世界へ</h3>
 
-            <div class="about__text">
+            <div class="about__text section__text">
                 <p>できること、できないことには必ず環境要因があると私たちは考えます。</p>
                 <p>「自分が正しい」ではなく、多様な人々が共存していることを理解し、
                     ひとり一人の気持ちを共有しながら共に進んでいく――。</p>
                 <p>私たちはそんな世界の実現を理想とし、その歯車の一つとなることを目指しています。</p>
             </div>
 
-            <footer class="about__cta">
+            <footer class="about__cta u-cta">
                 <a href="<?php echo esc_url(home_url('/about/')); ?>"
                     class="button button--primary">
                     View&nbsp;More <i class="fa-solid fa-caret-right" aria-hidden="true"></i>
