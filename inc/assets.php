@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * inc/assets.php
  * CSS / JS の読み込み
  */
 if (! defined('ABSPATH')) {
@@ -29,6 +30,12 @@ function lp_enqueue_assets()
         ['lp-reset'],   // ← 依存に lp-reset
         '5.2.0'
     );
+        wp_enqueue_style(
+        'bootstrap-icons',
+        'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css',
+        ['bootstrap'],
+        '1.13.1'
+    );  
 
     wp_enqueue_style(
         'swiper',

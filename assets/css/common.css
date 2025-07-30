@@ -131,9 +131,9 @@ select {
   background: #f4f6f8;
 }
 
-/* =============================================================
+/* ================================
    カスタムプロパティ（色・影・半径など）
-   ========================================================== */
+   ================================ */
 :root {
   --clr-base: #fff;
   --clr-text: #333;
@@ -155,9 +155,9 @@ select {
   --grad-blue: linear-gradient(135deg, #0dcaf0 0%, #009cdf 100%);
 }
 
-/* =============================================================
+/* ================================
    セクション汎用
-   ========================================================== */
+   ================================ */
 .section {
   padding-block: 6rem;
 }
@@ -170,7 +170,7 @@ select {
   content: "";
   position: absolute;
   left: -10px;
-  top: 0.5rem;
+  top: 0;
   width: 4px;
   height: 40px;
   border-radius: 6px;
@@ -182,7 +182,7 @@ select {
   line-height: 1;
   font-family: inherit;
   color: var(--f-navy);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0;
 }
 .section__title {
   font-size: clamp(1.5rem, 3vw, 2.5rem);
@@ -198,10 +198,6 @@ select {
   margin: 1.5rem 0;
 }
 
-.u-cta {
-  text-align: center;
-}
-
 /* =============================================================
    Scroll-top utility if hidden
    ========================================================== */
@@ -214,33 +210,46 @@ select {
 /* =============================================================
    その他ユーティリティ（例）
    ========================================================== */
+
+.c-cta {
+  text-align: center;
+}
+/* ===== Base ===== */
 .button {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   min-width: 200px;
   padding: 1rem 1.5rem;
   font-weight: 700;
-  text-align: center;
-  color: #fff;
-  background: var(--c-blue);
   border-radius: 6px;
-  transition: 0.3s;
+  color: var(--f-white);
+  background: var(--c-blue);
+  transition: background 0.3s; /* ← どのプロパティか明示 */
 }
 .button:hover {
   background: var(--c-blue-dark);
 }
-.button--white {
-    display: inline-block;
-  min-width: 200px;
-  padding: 1rem 1.5rem;
-  font-weight: 700;
-  text-align: center;
+
+/* ===== White Variant ===== */
+/* ❶ セレクタを .button.button--white にして優先度↑ */
+.button.button--white {
   color: var(--f-navy);
   background: var(--c-white);
-  border-radius: 6px;
-  transition: 0.3s;
 }
-.button--white:hover {
-  background: #f4f6f8;
+.button.button--white:hover {
+  background: var(--c-blue);
+  color: #fff;
+}
+
+/* ===== Arrow animation ===== */
+.button .bi {
+  display: inline-block;
+  transition: transform 0.3s ease;
+  font-size: 1.1em;
+}
+.button:hover .bi {
+  transform: translateX(0.25rem);
 }
 
 /* ---------------- Contact CTA ---------------- */

@@ -10,7 +10,7 @@ if (! defined('ABSPATH')) {
 <section id="about" class="about section container" aria-labelledby="about__heading">
     <div class="about__inner ">
 
-        
+
         <!-- ===== Left : About images ===== -->
         <div class="about__visual js-shrink-in-section">
             <img src="<?php echo esc_url(get_theme_file_uri('img/about-img-01.webp')); ?>" alt="" class="about__images about__image-01" loading="lazy">
@@ -20,11 +20,19 @@ if (! defined('ABSPATH')) {
 
         <!-- ===== Right : Text block ===== -->
         <div class="about__content">
-            <header class="about__header section__header">
-                <p class="about__sub section__sub">About&nbsp;us</p>
-                <h2 id="about__heading" class="about__title section__title">ＬｉＮＥ&nbsp;ＰＡＲＫ について</h2>
-            </header>
-
+            <?php
+            get_template_part(
+                'components/section-header',
+                null,
+                [
+                    'id' =>'',// 見出しID（任意）
+                    'sub' => 'About us', // 小見出し
+                    'title' => 'ＬｉＮＥ ＰＡＲＫ について', // メイン見出し
+                    'tag' => 'h2', // h1〜h6（省略可）
+                    'extra_class' => 'about__header' // 追加クラス（任意）
+                ]
+            );
+            ?>
             <h3 class="about__catch section__catch">誰もが当たり前のことを、当たり前にできる世界へ</h3>
 
             <div class="about__text section__text">
@@ -33,13 +41,18 @@ if (! defined('ABSPATH')) {
                     ひとり一人の気持ちを共有しながら共に進んでいく――。</p>
                 <p>私たちはそんな世界の実現を理想とし、その歯車の一つとなることを目指しています。</p>
             </div>
-
-            <footer class="about__cta u-cta">
-                <a href="<?php echo esc_url(home_url('/about/')); ?>"
-                    class="button button--primary">
-                    View&nbsp;More <i class="fa-solid fa-caret-right" aria-hidden="true"></i>
-                </a>
-            </footer>
+            <?php
+            get_template_part(
+                'components/cta',
+                null,
+                [
+                    'url' => home_url('/about/'),
+                    'label' => 'View More',
+                    'variant' => 'primary', // 'primary' or 'white'
+                    'extra_class' => 'about__cta' // 必要に応じて追加クラス
+                ]
+            );
+            ?>
         </div><!-- /.about__content -->
 
 
