@@ -14,7 +14,7 @@ if (! defined('ABSPATH')) {
     <?php
     get_template_part( 'template-parts/section', 'hero' );
     get_template_part('template-parts/section', 'about');
-    get_template_part('template-parts/section', 'business');
+    get_template_part('template-parts/section', 'services');
     get_template_part('template-parts/section', 'recruit');
     get_template_part('template-parts/section', 'office');
     get_template_part('template-parts/section', 'news');

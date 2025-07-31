@@ -9,8 +9,7 @@ if (! defined('ABSPATH')) {
 }
 ?>
 
-<section id="recruit" class="recruit section container">
-  <div class="recruit__bg"></div>
+<section id="recruit" class="recruit section container-fluid">
 
   <div class="recruit__inner">
     <div class="recruit__content">

@@ -6,7 +6,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 ?>
 
-<section id="news" class="news" tabindex="-1">
+<section id="news" class="news section container" tabindex="-1">
   <div class="news__inner">
 
     <header class="news__header">

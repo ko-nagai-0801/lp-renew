@@ -22,4 +22,30 @@
   }
 })(); // ← 末尾で呼び出して実行
 
+/* ----------------------------------------------
+ * Recruit パララックス（モバイルも対応）
+ * ---------------------------------------------- */
+(() => {
+  const recruit = document.querySelector("#recruit");
+
+  if (!recruit) return;
+
+  /* モバイル（<=1024px）だけ ScrollTrigger を適用
+     ── desktop は background-attachment:fixed が働くため */
+  const mq = window.matchMedia("(max-width: 1024px)");
+  if (mq.matches) {
+    gsap.to(recruit, {
+      backgroundPosition: "50% 80%",       // 好きな終点位置に調整
+      ease: "none",
+      scrollTrigger: {
+        trigger: recruit,
+        start: "top bottom",               // セクションが下から現れるとパララックス開始
+        end: "bottom top",                 // 頂点を過ぎるまでスクラブ
+        scrub: true                        // スクロール量に同期
+      }
+    });
+  }
+})();
+
+
 

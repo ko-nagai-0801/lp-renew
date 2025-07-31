@@ -1,13 +1,15 @@
-/* =========================================================
-   top.css – BEM only
-   ====================================================== */
+/* ============
+  top.css – BEM only
+=========== */
 
-/* =============== 1. HERO (first-view) ================== */
+/* ===============
+ 1. HERO (first-view)
+  ================== */
 .hero {
   position: relative;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
-  overflow: visible;
+  overflow: hidden;
 }
 
 /* ===== 画像フェード + ズーム ===== */
@@ -201,9 +203,9 @@
 .about {
   background-image: url(../img/about-big-text.svg);
   background-repeat: no-repeat;
-  background-size: 50vw;
+  background-size: 35vw;
   background-position-x: 10%;
-  background-position-y: 100%;
+  background-position-y: 101%;
 }
 @media screen and (max-width: 1199px) {
   .about {
@@ -329,10 +331,9 @@
   line-height: 1.8;
   margin-bottom: 2rem;
 }
-/* =============== 3. SECTION WRAPPERS ==================== */
 
-/* =============== 4. BUSINESS ============================ */
-.business__cards {
+/* =============== 3. services ============================ */
+.services__cards {
   display: grid;
   gap: 1.5rem;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -340,19 +341,19 @@
   padding: 0;
 }
 @media (min-width: 1200px) {
-  .business__cards {
+  .services__cards {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 @media (min-width: 992px) and (max-width: 1199.98px) {
-  .business__cards {
+  .services__cards {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-.business__card {
+.services__card {
   display: flex;
 }
-.business__link {
+.services__link {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -367,14 +368,14 @@
   transition: transform 0.25s, box-shadow 0.25s;
   isolation: isolate;
 }
-.business__link:hover {
+.services__link:hover {
   transform: translateY(-6px);
   box-shadow: var(--shadow-lg);
 }
-.business__card--more .business__link {
+.services__card--more .services__link {
   background: var(--clr-gray-100);
 }
-.business__card-title {
+.services__card-title {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -382,7 +383,7 @@
   margin: 0;
   line-height: 1.25;
 }
-.business__card-title img {
+.services__card-title img {
   width: 44px;
   height: 44px;
   padding: 0.5rem;
@@ -390,59 +391,62 @@
   background: var(--grad-blue);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
-.business__card-text {
+.services__card-text {
   flex: 1;
   margin: 0;
   font-size: 0.95rem;
   line-height: 1.6;
 }
-.business__card-cta {
+.services__card-cta {
   position: relative;
   font: 600 0.9rem/1 "inherit";
   color: var(--clr-primary);
   padding-right: 1.2em;
 }
-.business__card-cta::after {
+.services__card-cta::after {
   content: "→";
   position: absolute;
   right: 0;
   top: 0;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.business__link:hover .business__card-cta::after {
+.services__link:hover .services__card-cta::after {
   transform: translateX(4px);
 }
-.business__cta {
+.services__cta {
   text-align: center;
   margin-top: 2.5rem;
 }
 
 /* =============== 5. RECRUIT ============================= */
-.recruit__bg {
-  background-image: url(../img/recruit-bg.webp);
+.recruit {
+  position: relative;
+  padding-block: 6rem; /* 既存 .section と同等 */
+  background-image: url("../img/recruit-bg.webp");
   background-repeat: no-repeat;
   background-size: cover;
-  width: 100%;
-  height: 500px;
-  margin: 0 auto;
-  border-radius: 12px;
+  background-position: center 0; /* 初期位置 */
+  background-attachment: fixed; /* デスクトップで手軽にパララックス */
+  overflow: hidden; /* 子要素の translate に備え */
 }
-@media (max-width: 640px) {
-  .recruit__bg {
-    width: 100%;
-    height: 420px;
+/* モバイルは background-attachment:fixed が効かないため JS で制御 */
+@media (max-width: 1024px) {
+  .recruit {
+    background-attachment: scroll;
   }
 }
+
 .recruit__content {
   max-width: 550px;
+  margin: 0 auto;
   padding: 30px;
   border-radius: 12px;
   background: var(--c-navy);
-  transform: translate(60%, -10%);
 }
 @media (max-width: 960px) {
   .recruit__content {
     width: 100%;
+    margin-inline:auto;
     transform: translate(0%, -10%);
   }
 }

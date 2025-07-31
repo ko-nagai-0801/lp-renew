@@ -7,7 +7,7 @@ if (! defined('ABSPATH')) {
     exit;
 }
 ?>
-<section id="about" class="about section container" aria-labelledby="about__heading">
+<section id="about" class="about section section__card container" aria-labelledby="about__heading">
     <div class="about__inner ">
 
 

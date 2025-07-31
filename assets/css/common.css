@@ -12,6 +12,31 @@
   ──────────────────────────────────────────
 */
 
+/* ================================
+   カスタムプロパティ（色・影・半径など）
+   ================================ */
+:root {
+  --clr-base: #fff;
+  --clr-text: #333;
+  --clr-gray-050: #f9fafb;
+  --clr-gray-100: #f4f6f8;
+  --clr-gray-200: #e5e7eb;
+  --f-black: #1c1c1c;
+  --f-white: #fff;
+  --f-navy: #005b94;
+  --c-white: #fff;
+  --c-navy: #005b94;
+  --c-blue: #009cdf;
+  --c-blue-dark: #007bb5;
+
+  --radius-card: 16px;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.12);
+
+  --grad-blue: linear-gradient(135deg, #0dcaf0 0%, #009cdf 100%);
+}
+
+
 /* ----------- Base ------------------------------------------------ */
 html {
   scroll-padding-top: 96px;
@@ -44,6 +69,14 @@ select {
   vertical-align: middle;
 }
 
+main {
+  background-image: url(../img/bg-06.webp);
+  background-repeat: repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+
 /* “ＬｉＮＥ／ＰＡＲＫ” の文字詰め補正 -------------------------- */
 #LiNE,
 #PARK {
@@ -73,7 +106,7 @@ select {
   .container {
     max-width: 1300px;
     margin: 0 auto;
-    padding: 0 30px;
+    padding: 0 45px;
   }
 }
 
@@ -131,35 +164,19 @@ select {
   background: #f4f6f8;
 }
 
-/* ================================
-   カスタムプロパティ（色・影・半径など）
-   ================================ */
-:root {
-  --clr-base: #fff;
-  --clr-text: #333;
-  --clr-gray-050: #f9fafb;
-  --clr-gray-100: #f4f6f8;
-  --clr-gray-200: #e5e7eb;
-  --f-black: #333;
-  --f-white: #fff;
-  --f-navy: #005b94;
-  --c-white: #fff;
-  --c-navy: #005b94;
-  --c-blue: #009cdf;
-  --c-blue-dark: #007bb5;
-
-  --radius-card: 16px;
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.12);
-
-  --grad-blue: linear-gradient(135deg, #0dcaf0 0%, #009cdf 100%);
-}
 
 /* ================================
    セクション汎用
    ================================ */
 .section {
+  margin-block: 3rem;
   padding-block: 6rem;
+}
+
+
+.section__card {
+  background-color: var(--c-white);
+  border-radius: 25px;
 }
 
 .section__header {
@@ -185,14 +202,14 @@ select {
   margin-bottom: 0;
 }
 .section__title {
-  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-size: clamp(1.5rem, 1.8vw, 1.8rem);
   font-weight: 700;
   margin: 0;
   /* 折り返し無効 */
   white-space: nowrap;
 }
 .section__catch {
-  font-size: clamp(1rem, 1.5vw, 2rem);
+  font-size: clamp(1rem, 1.5vw, 1.6rem);
   font-weight: 700;
   color: var(--f-navy);
   margin: 1.5rem 0;
