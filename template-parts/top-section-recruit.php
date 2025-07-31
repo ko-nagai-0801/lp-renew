@@ -33,7 +33,7 @@ if (! defined('ABSPATH')) {
                 'components/cta',
                 null,
                 [
-                    'url' => home_url('/contact/'),
+                    'url' => home_url('/recruit/'),
                     'label' => 'View More',
                     'variant' => 'white', // 'primary' or 'white'
                     'extra_class' => 'recruit__cta' // 必要に応じて追加クラス

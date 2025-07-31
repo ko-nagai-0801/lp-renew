@@ -455,14 +455,14 @@
   margin-bottom: 1rem;
 }
 .recruit__header::before {
-  background: var(--f-white);
+  background: var(--f-yellow);
 }
 .recruit__sub {
-  color: var(--f-white);
+  color: var(--f-yellow);
 }
 .recruit__title {
   color: var(--f-white);
-  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-size: clamp(1.5rem, 1.8vw, 1.8rem);
   font-weight: 700;
   margin: 0;
   /* 折り返し無効 */
@@ -525,27 +525,17 @@
 }
 
 /* =============== 7. NEWS ================================ */
-.news {
-  padding-bottom: 140px;
-}
+
 .news__inner {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
 }
-@media (max-width: 640px) {
-  .news__inner {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
+
 .news__body {
-  width: 74%;
-}
-@media (max-width: 640px) {
-  .news__body {
-    width: 100%;
-  }
+  width: 100%;
+  margin: 0 auto;
 }
 .news__item {
   border-bottom: 1px solid #b4b4b4;
@@ -553,21 +543,11 @@
 .news__link {
   display: flex;
   align-items: center;
-  padding: 24px 0;
+  padding: 24px 0 0;
   position: relative;
 }
-@media (max-width: 640px) {
-  .news__link {
-    padding: 18px 0;
-  }
-}
-@media (max-width: 640px) {
-  .news__link img {
-    display: none;
-  }
-}
 .news__link::after {
-  content: url(/img/common/right-arrow-blue.svg);
+  content: url(../img/common/right-arrow-blue.svg);
   width: 18px;
   height: 20px;
   position: absolute;
@@ -589,6 +569,14 @@
     right: 28px;
   }
 }
+
+  /* スマホではアイコン非表示 */
+/* @media (max-width: 576px) {
+  .news__link img {
+    display: none;
+  }
+} */
+
 .news__content {
   margin-left: 42px;
 }
@@ -596,6 +584,10 @@
   .news__content {
     margin-left: 6px;
   }
+}
+
+.news__text {
+  margin-bottom: 0;
 }
 .news__heading {
   display: flex;
@@ -637,23 +629,4 @@
 }
 .news__link:hover .news__text::after {
   transform: scale(1, 1);
-}
-
-/* =============== 8. BUTTON (汎用) ======================= */
-.button {
-  display: inline-block;
-  width: 222px;
-  padding: 26px 0;
-  font-weight: 700;
-  text-align: center;
-  color: #fff;
-  background: #005b94;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.3s;
-  position: relative;
-  z-index: 1;
-}
-.button:hover {
-  background: #0084ad;
 }

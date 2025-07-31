@@ -36,8 +36,8 @@ $button_classes = 'c-cta__button button button--' . esc_attr($args['variant']);
 ?>
 
 <footer class="<?php echo esc_attr($footer_classes); ?>">
-    <a href="<?php echo esc_url($args['url']); ?>" class="<?php echo esc_attr($button_classes); ?>">
-        <?php echo esc_html($args['label']); ?>
-        <i class="bi bi-caret-right-fill" aria-hidden="true"></i>
-    </a>
+  <a href="<?php echo esc_url($args['url']); ?>"
+     class="<?php echo esc_attr($button_classes); ?> button--icon">
+    <?php echo esc_html($args['label']); ?>
+  </a>
 </footer>

@@ -1,9 +1,12 @@
 <?php
+
 /**
  * Contact-CTA section  – BEM
  * /wp-content/themes/LP_WP_Theme/template-parts/section-contact-cta.php
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if (! defined('ABSPATH')) {
+  exit;
+}
 ?>
 
 <section id="contact" class="contact-cta">
@@ -18,12 +21,18 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
       仕事のご依頼やご見学についてなど<br>お気軽にご相談ください
     </p>
 
-    <div class="contact-cta__link">
-      <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>"
-         class="button button--primary">
-        Contact&nbsp;us
-      </a>
-    </div>
+    <?php
+    get_template_part(
+      'components/cta',
+      null,
+      [
+        'url' => home_url('/contact/'),
+        'label' => 'Contact&nbsp;us',
+        'variant' => 'primary', // 'primary' or 'white'
+        'extra_class' => 'contact__cta' // 必要に応じて追加クラス
+      ]
+    );
+    ?>
 
   </div><!-- /.contact-cta__inner -->
 </section>

@@ -24,10 +24,12 @@
   --f-black: #1c1c1c;
   --f-white: #fff;
   --f-navy: #005b94;
+  --f-yellow: #ffc107;
   --c-white: #fff;
   --c-navy: #005b94;
   --c-blue: #009cdf;
   --c-blue-dark: #007bb5;
+  --c-yellow: #ffc107;
 
   --radius-card: 16px;
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
@@ -35,7 +37,6 @@
 
   --grad-blue: linear-gradient(135deg, #0dcaf0 0%, #009cdf 100%);
 }
-
 
 /* ----------- Base ------------------------------------------------ */
 html {
@@ -83,10 +84,12 @@ select {
    BRICK WALL – staggered pattern
    ========================================= */
 main {
-  background-image: linear-gradient(90deg, rgba(209, 253, 254, 1), rgba(253, 219, 146, 0.752));
+  background-image: linear-gradient(
+    90deg,
+    rgba(209, 253, 254, 1),
+    rgba(253, 219, 146, 0.752)
+  );
 }
-
-
 
 /* “ＬｉＮＥ／ＰＡＲＫ” の文字詰め補正 -------------------------- */
 #LiNE,
@@ -150,32 +153,6 @@ main {
   }
 }
 
-/* =============================================================
-   Buttons (汎用)
-   ========================================================== */
-.button {
-  display: inline-block;
-  min-width: 200px;
-  padding: 1rem 1.5rem;
-  font-weight: 700;
-  text-align: center;
-  color: #fff;
-  background: #005b94;
-  border-radius: 6px;
-  transition: 0.3s;
-}
-.button:hover {
-  background: #0084ad;
-}
-.button--white {
-  background: #fff;
-  color: #005b94;
-}
-.button--white:hover {
-  background: #f4f6f8;
-}
-
-
 /* ================================
    セクション汎用
    ================================ */
@@ -183,7 +160,6 @@ main {
   margin-block: 3rem;
   padding-block: 6rem;
 }
-
 
 .section__card {
   background-color: var(--c-white);
@@ -198,10 +174,10 @@ main {
 .section__header::before {
   content: "";
   position: absolute;
-  left: -10px;
+  left: -7px;
   top: 0;
   width: 4px;
-  height: 40px;
+  height: 45px;
   border-radius: 6px;
   background: var(--c-navy);
 }
@@ -246,18 +222,20 @@ main {
 /* ===== Base ===== */
 .button {
   display: inline-flex;
+  justify-content: center;
   align-items: center;
-  gap: 0.5rem;
   min-width: 200px;
   padding: 1rem 1.5rem;
   font-weight: 700;
   border-radius: 6px;
+  box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.35);
   color: var(--f-white);
-  background: var(--c-blue);
+  background: var(--c-navy);
   transition: background 0.3s; /* ← どのプロパティか明示 */
 }
 .button:hover {
   background: var(--c-blue-dark);
+  box-shadow: 0px 0px 0px 0px;
 }
 
 /* ===== White Variant ===== */
@@ -271,14 +249,24 @@ main {
   color: #fff;
 }
 
-/* ===== Arrow animation ===== */
-.button .bi {
-  display: inline-block;
-  transition: transform 0.3s ease;
-  font-size: 1.1em;
+.button--icon {
+  position: relative;
 }
-.button:hover .bi {
-  transform: translateX(0.25rem);
+
+/* ▼ 本体  */
+.button--icon::after {
+  content: "\F231"; /* caret-right-fill のコードポイント :contentReference[oaicite:0]{index=0} */
+  font-family: "bootstrap-icons";
+  font-size: 1em; /* テキストと同サイズ */
+  line-height: 1; /* 行高ずれ防止 */
+  display: inline-block;
+  margin-left: 0.4em; /* テキストとアイコンの隙間 */
+  transition: transform 0.3s;
+}
+
+/* ▼ ホバーで 4px スライド */
+.button--icon:hover::after {
+  transform: translateX(4px);
 }
 
 /* ---------------- Contact CTA ---------------- */

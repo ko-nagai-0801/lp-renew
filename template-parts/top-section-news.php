@@ -6,12 +6,22 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 ?>
 
-<section id="news" class="news section container" tabindex="-1">
+<section id="news" class="news section section__card container" tabindex="-1">
   <div class="news__inner">
 
-    <header class="news__header">
-      <h2 class="news__title"><span class="news__sub">News</span>お知らせ</h2>
-    </header>
+  <?php
+  get_template_part(
+    'components/section-header',
+    null,
+    [
+      'id' => '', // 見出しID（任意）
+      'sub' => 'NEWS', // 小見出し
+      'title' => 'お知らせ', // メイン見出し
+      'tag' => 'h2', // h1〜h6（省略可）
+      'extra_class' => 'news__header' // 追加クラス（任意）
+    ]
+  );
+  ?>
 
     <div class="news__body">
       <ul class="news__list">
