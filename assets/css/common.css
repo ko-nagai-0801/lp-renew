@@ -69,12 +69,23 @@ select {
   vertical-align: middle;
 }
 
-main {
+/* main {
   background-image: url(../img/bg-06.webp);
   background-repeat: repeat;
   background-position: center;
   background-size: contain;
+} */
+
+/* =========================================
+   BRICK WALL – staggered pattern
+   ========================================= */
+/* =========================================
+   BRICK WALL – staggered pattern
+   ========================================= */
+main {
+  background-image: linear-gradient(90deg, rgba(209, 253, 254, 1), rgba(253, 219, 146, 0.752));
 }
+
 
 
 /* “ＬｉＮＥ／ＰＡＲＫ” の文字詰め補正 -------------------------- */
@@ -177,6 +188,7 @@ main {
 .section__card {
   background-color: var(--c-white);
   border-radius: 25px;
+  box-shadow: 6px 6px 6px 0px rgba(0, 0, 0, 0.45);
 }
 
 .section__header {

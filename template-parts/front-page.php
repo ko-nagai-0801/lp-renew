@@ -12,12 +12,12 @@ if (! defined('ABSPATH')) {
 ?>
 <main class="isTop">
     <?php
-    get_template_part( 'template-parts/section', 'hero' );
-    get_template_part('template-parts/section', 'about');
-    get_template_part('template-parts/section', 'services');
-    get_template_part('template-parts/section', 'recruit');
-    get_template_part('template-parts/section', 'office');
-    get_template_part('template-parts/section', 'news');
+    get_template_part( 'template-parts/top-section', 'hero' );
+    get_template_part('template-parts/top-section', 'about');
+    get_template_part('template-parts/top-section', 'services');
+    get_template_part('template-parts/top-section', 'top-recruit');
+    get_template_part('template-parts/top-section', 'office');
+    get_template_part('template-parts/top-section', 'news');
     get_template_part('template-parts/section', 'contact-cta');
     ?>
 </main>
