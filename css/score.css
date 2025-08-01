@@ -1,9 +1,0 @@
-.img-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.img-container-item img {
-  height: auto;
-}
-/* style="margin-top:14vw; max-width: 1024px; height: auto;" */

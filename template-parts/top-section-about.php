@@ -13,9 +13,9 @@ if (! defined('ABSPATH')) {
 
         <!-- ===== Left : About images ===== -->
         <div class="about__visual js-shrink-in-section">
-            <img src="<?php echo esc_url(get_theme_file_uri('img/about-img-01.webp')); ?>" alt="" class="about__images about__image-01" loading="lazy">
-            <img src="<?php echo esc_url(get_theme_file_uri('img/about-img-02.webp')); ?>" alt="" class="about__images about__image-02" loading="lazy">
-            <img src="<?php echo esc_url(get_theme_file_uri('img/about-img-03.webp')); ?>" alt="" class="about__images about__image-03" loading="lazy">
+            <img src="<?php echo esc_url(get_theme_file_uri('assets/img/about-img-01.webp')); ?>" alt="" class="about__images about__image-01" loading="lazy">
+            <img src="<?php echo esc_url(get_theme_file_uri('assets/img/about-img-02.webp')); ?>" alt="" class="about__images about__image-02" loading="lazy">
+            <img src="<?php echo esc_url(get_theme_file_uri('assets/img/about-img-03.webp')); ?>" alt="" class="about__images about__image-03" loading="lazy">
         </div>
 
         <!-- ===== Right : Text block ===== -->

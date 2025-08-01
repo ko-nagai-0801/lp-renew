@@ -42,7 +42,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
           foreach ( $news_items as $n ) : ?>
             <li class="news__item">
               <a href="<?php echo esc_url( home_url( $n['href'] ) ); ?>" class="news__link">
-                <img src="<?php echo esc_url( get_theme_file_uri( 'img/neonlogo02.png' ) ); ?>" alt="">
+                <img src="<?php echo esc_url( get_theme_file_uri( 'assets/img/neonlogo02.png' ) ); ?>" alt="">
                 <div class="news__content">
                   <time datetime="<?php echo esc_attr( $n['date'] ); ?>"
                         class="news__date"><?php echo esc_html( $n['date'] ); ?></time>
