@@ -9,7 +9,7 @@ if (! defined('ABSPATH')) {
 }
 ?>
 
-<section id="contact" class="contact-cta">
+<section id="contact" class="contact-cta parallax" data-parallax-speed="0.35">
   <div class="contact-cta__inner">
 
     <h2 class="contact-cta__title">

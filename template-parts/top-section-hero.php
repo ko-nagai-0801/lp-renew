@@ -15,7 +15,7 @@ if (! defined('ABSPATH')) {
   <div class="hero__slider swiper js-hero-slider">
     <div class="hero__wrapper swiper-wrapper">
       <?php
-      $files = ['hero01.webp', 'hero02.webp', 'hero03.webp']; // 画像ファイル名だけ列挙
+      $files = ['hero-01.webp', 'hero-02.webp', 'hero-03.webp']; // 画像ファイル名だけ列挙
 
       foreach ($files as $file) : // コロンでループ開始
         $url = esc_url(get_theme_file_uri("assets/img/$file"));

@@ -31,7 +31,7 @@
 }
 
 /* 高さ（SP） */
-@media (max-width: 980px) {
+@media (max-width: 992px) {
   .header {
     height: 68px;
     padding: 0;
@@ -45,7 +45,7 @@
   align-items: center;
   padding: 0 10px;
 }
-@media (max-width: 980px) {
+@media (max-width: 992px) {
   .header__inner {
     flex-direction: column;
     align-items: flex-start;
@@ -63,7 +63,7 @@
   width: 80%;
   transition: opacity 0.6s, visibility 0.6s;
 }
-@media (max-width: 980px) {
+@media (max-width: 992px) {
   .header__nav {
     position: absolute;
     inset: 0;
@@ -86,7 +86,7 @@
   align-items: center;
   margin: 0;
 }
-@media (max-width: 980px) {
+@media (max-width: 992px) {
   .header__menu {
     flex-direction: column;
     justify-content: center;
@@ -99,7 +99,7 @@
 .header__item {
   font-size: clamp(0.8rem, 1vw, 1.2vw);
 }
-@media (max-width: 980px) {
+@media (max-width: 992px) {
   .header__item {
     width: 100%;
     text-align: center;
@@ -123,7 +123,7 @@
 .header__link:hover {
   color: #0084ad;
 }
-@media (max-width: 980px) {
+@media (max-width: 992px) {
   .header__link {
     color: #fff;
     font-size: 14px;
@@ -140,7 +140,7 @@
 .header__link:hover .header__sub {
   color: #0084ad;
 }
-@media (max-width: 980px) {
+@media (max-width: 992px) {
   .header__sub {
     display: none;
   }
@@ -159,7 +159,7 @@
 .header__cta:hover {
   background: #0084ad;
 }
-@media (max-width: 980px) {
+@media (max-width: 992px) {
   .header__cta {
     width: 75%;
     max-width: 300px;
@@ -183,67 +183,64 @@
 .header__toggle {
   display: none;
 }
-@media (max-width: 980px) {
+@media (max-width: 992px) {
   .header__toggle {
     display: flex;
-    width: 68px;
-    height: 68px;
     justify-content: center;
     align-items: center;
-    padding: 17px;
-    border: none;
+    width: 68px;
+    height: 68px;
+    padding: 0;
     position: fixed;
     top: 0;
     right: 0;
+    border: none;
     background: #005b94;
     cursor: pointer;
     z-index: 10000;
-  }
-  .header__toggle.is-active {
-    background: transparent;
+    transition: background 0.3s;
   }
 }
 
-/* アイコン線 */
-.header__toggle-line {
-  position: relative;
-  width: 100%;
+/* ② “三本線” を作る ------------------ */
+.header__toggle-line,
+.header__toggle-line::before,
+.header__toggle-line::after {
+  display: block;
+  width: 34px; /* 実線の長さ（お好みで）*/
   height: 2px;
   border-radius: 4px;
   background: #fff;
-  transition: 0.4s;
+  transition: transform 0.3s, opacity 0.3s;
 }
+
+.header__toggle-line {
+  position: relative;
+}
+
+/* 上下の線を 8px ずらす */
 .header__toggle-line::before,
 .header__toggle-line::after {
   content: "";
   position: absolute;
-  width: 50%;
-  height: 2px;
-  background: inherit;
-  border-radius: 4px;
-  transition: inherit;
+  left: 0;
 }
 .header__toggle-line::before {
-  top: 35%;
-  left: 25%;
-}
+  top: -8px;
+} /* 上の線 */
 .header__toggle-line::after {
-  bottom: 35%;
-  left: 25%;
+  top: 8px;
+} /* 下の線 */
+
+/* ③ × アイコンに変形 ----------------- */
+.header__toggle.is-active .header__toggle-line {
+  background: transparent; /* 真ん中の線を消す */
 }
 
-/* クリック後（×アイコン） */
-.header__toggle-line.is-active {
-  background: transparent;
+.header__toggle.is-active .header__toggle-line::before {
+  transform: translateY(8px) rotate(45deg);
 }
-.header__toggle-line.is-active::before,
-.header__toggle-line.is-active::after {
-  top: 50%;
-  background: #fff;
-}
-.header__toggle-line.is-active::before {
-  transform: rotate(-45deg);
-}
-.header__toggle-line.is-active::after {
-  transform: rotate(45deg);
+
+.header__toggle.is-active .header__toggle-line::after {
+  transform: translateY(-8px) rotate(-45deg);
 }

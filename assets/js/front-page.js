@@ -22,6 +22,13 @@
   }
 })(); // ← 末尾で呼び出して実行
 
+const toggle = document.querySelector('.header__toggle');
+toggle.addEventListener('click', () => {
+  toggle.classList.toggle('is-active');      // ← ボタンの線をアニメ
+  document.querySelector('.header__nav')
+          .classList.toggle('is-open');      // ← メニューの開閉制御など
+});
+
 /* ----------------------------------------------
  * Recruit パララックス（モバイルも対応）
  * ---------------------------------------------- */

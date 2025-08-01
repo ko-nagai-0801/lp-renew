@@ -412,93 +412,59 @@
   text-align: center;
   margin-top: 2.5rem;
 }
+/* ==========================================================
+   Recruit  セクション  ―  パララックス
+   ========================================================== */
+.recruit{
+  /* 背景画像とマスクを変数で指定 */
+  --parallax-image  : url("../img/recruit-bg.webp");
+  --parallax-overlay: linear-gradient(rgba(0,0,0,.40), rgba(0,0,0,.40));
 
-/* =============== 5. RECRUIT ============================= */
-.recruit {
   position: relative;
-  padding-block: 6rem; /* 既存 .section と同等 */
-  background-image: url("../img/recruit-bg.webp");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center 0; /* 初期位置 */
-  background-attachment: fixed; /* デスクトップで手軽にパララックス */
-  overflow: hidden; /* 子要素の translate に備え */
-}
-/* モバイルは background-attachment:fixed が効かないため JS で制御 */
-@media (max-width: 1024px) {
-  .recruit {
-    background-attachment: scroll;
-  }
+  padding-block: 6rem;
+  overflow: hidden;
+  z-index: 10;
 }
 
-.recruit__content {
+/* ---------- Recruit 内部レイアウト ---------- */
+.recruit__content{
   max-width: 550px;
   margin: 0 auto;
   padding: 30px;
   border-radius: 12px;
   background: var(--c-navy);
 }
-@media (max-width: 960px) {
-  .recruit__content {
+@media (max-width: 960px){
+  .recruit__content{
     width: 100%;
     margin-inline: auto;
-    transform: translate(0%, -10%);
-  }
-}
-.recruit__header {
-  position: relative;
-  margin-bottom: 1rem;
-}
-.recruit__header::before {
-  background: var(--f-yellow);
-}
-.recruit__sub {
-  color: var(--f-yellow);
-}
-.recruit__title {
-  color: var(--f-white);
-  font-size: clamp(1.5rem, 1.8vw, 1.8rem);
-  font-weight: 700;
-  margin: 0;
-  /* 折り返し無効 */
-  white-space: nowrap;
-}
-.recruit__catch {
-  color: var(--f-white);
-}
-.recruit__message {
-  font: 700 1.5rem/1.3 "inherit";
-  color: #fff;
-  margin-bottom: 16px;
-}
-@media (max-width: 640px) {
-  .recruit__message {
-    font-size: 1rem;
-    line-height: 22px;
-    margin-bottom: 10px;
-  }
-}
-.recruit__text {
-  color: var(--f-white);
-}
-
-@media (max-width: 640px) {
-  .recruit__link {
-    text-align: center;
-  }
-}
-.recruit__visual {
-  width: 60%;
-  position: absolute;
-  bottom: -7%;
-  z-index: -1;
-}
-@media (max-width: 640px) {
-  .recruit__visual {
-    display: none;
+    transform: translate(0, -10%);
   }
 }
 
+.recruit__header{position:relative;margin-bottom:1rem}
+.recruit__header::before{background:var(--f-yellow)}
+
+.recruit__sub   {color:var(--f-yellow)}
+.recruit__title {color:var(--f-white);font-size:clamp(1.5rem,1.8vw,1.8rem);font-weight:700;margin:0;white-space:nowrap}
+
+.recruit__catch {color:var(--f-white)}
+.recruit__text  {color:var(--f-white)}
+
+@media (max-width:640px){
+  .recruit__link{text-align:center}
+  .recruit__message{font-size:1rem;line-height:22px;margin-bottom:10px}
+}
+
+.recruit__visual{
+  width:60%;
+  position:absolute;
+  bottom:-7%;
+  z-index:-1;
+}
+@media (max-width:640px){
+  .recruit__visual{display:none}
+}
 /* =============== 6. OFFICE FLOW IMAGE ================== */
 .office__img {
   width: 100%;
