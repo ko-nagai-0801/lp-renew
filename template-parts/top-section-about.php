@@ -25,7 +25,7 @@ if (! defined('ABSPATH')) {
                 'components/section-header',
                 null,
                 [
-                    'id' =>'',// 見出しID（任意）
+                    'id' => '', // 見出しID（任意）
                     'sub' => 'About us', // 小見出し
                     'title' => 'ＬｉＮＥ ＰＡＲＫ について', // メイン見出し
                     'tag' => 'h2', // h1〜h6（省略可）
