@@ -415,10 +415,10 @@
 /* ==========================================================
    Recruit  セクション  ―  パララックス
    ========================================================== */
-.recruit{
+.recruit {
   /* 背景画像とマスクを変数で指定 */
-  --parallax-image  : url("../img/recruit-bg.webp");
-  --parallax-overlay: linear-gradient(rgba(0,0,0,.40), rgba(0,0,0,.40));
+  --parallax-image: url("../img/recruit-bg.webp");
+  --parallax-overlay: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
 
   position: relative;
   padding-block: 6rem;
@@ -427,42 +427,67 @@
 }
 
 /* ---------- Recruit 内部レイアウト ---------- */
-.recruit__content{
+.recruit__content {
   max-width: 550px;
   margin: 0 auto;
   padding: 30px;
   border-radius: 12px;
   background: var(--c-navy);
 }
-@media (max-width: 960px){
-  .recruit__content{
+@media (max-width: 960px) {
+  .recruit__content {
     width: 100%;
     margin-inline: auto;
   }
 }
 
-.recruit__header{position:relative;margin-bottom:1rem}
-.recruit__header::before{background:var(--f-yellow)}
-
-.recruit__sub   {color:var(--f-yellow)}
-.recruit__title {color:var(--f-white);font-size:clamp(1.5rem,1.8vw,1.8rem);font-weight:700;margin:0;white-space:nowrap}
-
-.recruit__catch {color:var(--f-white)}
-.recruit__text  {color:var(--f-white)}
-
-@media (max-width:640px){
-  .recruit__link{text-align:center}
-  .recruit__message{font-size:1rem;line-height:22px;margin-bottom:10px}
+.recruit__header {
+  position: relative;
+  margin-bottom: 1rem;
+}
+.recruit__header::before {
+  background: var(--f-yellow);
 }
 
-.recruit__visual{
-  width:60%;
-  position:absolute;
-  bottom:-7%;
-  z-index:-1;
+.recruit__sub {
+  color: var(--f-yellow);
 }
-@media (max-width:640px){
-  .recruit__visual{display:none}
+.recruit__title {
+  color: var(--f-white);
+  font-size: clamp(1.5rem, 1.8vw, 1.8rem);
+  font-weight: 700;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.recruit__catch {
+  color: var(--f-white);
+}
+.recruit__text {
+  color: var(--f-white);
+}
+
+@media (max-width: 640px) {
+  .recruit__link {
+    text-align: center;
+  }
+  .recruit__message {
+    font-size: 1rem;
+    line-height: 22px;
+    margin-bottom: 10px;
+  }
+}
+
+.recruit__visual {
+  width: 60%;
+  position: absolute;
+  bottom: -7%;
+  z-index: -1;
+}
+@media (max-width: 640px) {
+  .recruit__visual {
+    display: none;
+  }
 }
 /* =============== 6. OFFICE FLOW IMAGE ================== */
 .office__img {

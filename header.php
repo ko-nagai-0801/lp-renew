@@ -35,7 +35,7 @@
             <!-- Logo ------------------------------------------------------------ -->
             <div class="header__logo">
                 <a href="<?php echo esc_url(home_url('/')); ?>" class="header__logo-link">
-                    <img src="<?php echo esc_url(get_theme_file_uri('assets/img/neonlogo01.png')); ?>"
+                    <img src="<?php echo esc_url(get_theme_file_uri('assets/img/neonlogo-01.webp')); ?>"
                         alt="株式会社ＬｉＮＥ ＰＡＲＫ" class="header__logo-image">
                 </a>
             </div>
