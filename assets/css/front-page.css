@@ -438,7 +438,6 @@
   .recruit__content{
     width: 100%;
     margin-inline: auto;
-    transform: translate(0, -10%);
   }
 }
 
