@@ -2,6 +2,16 @@
   top.css – BEM only
 =========== */
 
+:root {
+  /* ABOUT-US グラデーション用（左→右）―― vivid blue → vivid red */
+  --about-grad-1: #b6dff5; /* きわめて明るいブルー-ハイライト */
+  --about-grad-2: #86d0ff; /* スカイブルー */
+  --about-grad-3: #1effff; /* ビビッドなブルー */
+  --about-grad-4: #4dd0ff; /* パープル寄りの中間色 */
+  --about-grad-5: #5c98ff; /* 鮮やかなピンクレッド */
+  --about-grad-6: #492dff; /* ビビッドレッド（最濃シャドー） */
+}
+
 /* ===============
  1. HERO (first-view)
   ================== */
@@ -200,32 +210,73 @@
 /* =========================================================
    About  –  image left / text right
    ====================================================== */
-.about {
-  background-image: url(../img/about-big-text.svg);
-  background-repeat: no-repeat;
-  background-size: 35vw;
-  background-position-x: 10%;
-  background-position-y: 101%;
+/* -----------------------------  セクション基準点  */
+#about {
+  position: relative;
+  overflow: hidden;
 }
+
+.about__big-text {
+  position: absolute;
+  left: 5%;
+  bottom: -5%;
+  z-index: 0;
+
+  /* フォントまわり */
+  font-family: var(--font-en, "Poppins", sans-serif);
+  font-weight: 900;
+  font-size: clamp(5rem, 7vw, 6rem);
+  line-height: 1;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+
+  /* ▼グラデーションは親だけに適用 */
+  background-image: linear-gradient(
+    90deg,
+    var(--about-grad-1) 0%,
+    var(--about-grad-2) 16%,
+    var(--about-grad-3) 33%,
+    var(--about-grad-4) 50%,
+    var(--about-grad-5) 66%,
+    var(--about-grad-6) 83%
+  );
+  -webkit-background-clip: text;
+  background-clip: text; /* Firefox 対応 */
+  color: transparent; /* ← 重要：fill を透明に */
+
+  opacity: 0; /* 初期は非表示 */
+  pointer-events: none;
+  user-select: none;
+}
+
+.about__big-text span {
+  display: inline-block;
+  background: inherit; /* ← 親のグラデを継承 */
+  -webkit-background-clip: text; /* 各文字にも適用 */
+  -webkit-text-fill-color: transparent;
+}
+
 @media screen and (max-width: 1200px) {
-  .about {
-    background-size: 50vw;
-    background-position-x: 10%;
-    background-position-y: 90%;
+  .about__big-text {
+    left: 5%;
+    bottom: -5%;
+    font-size: clamp(5rem, 12vw, 8rem);
   }
 }
 @media screen and (max-width: 992px) {
-  .about {
-    background-size: 50vw;
-    background-position-x: 90%;
-    background-position-y: 100%;
+  .about__big-text {
+    left: auto;
+    right: 2%;
+    bottom: -4%;
+    font-size: clamp(3rem, 12vw, 7rem);
   }
 }
 @media screen and (max-width: 576px) {
-  .about {
-    background-size: 75vw;
-    background-position-x: 90%;
-    background-position-y: 100%;
+  .about__big-text {
+    left: auto;
+    right: 0%;
+    bottom: -2%;
+    font-size: clamp(3rem, 10vw, 5rem);
   }
 }
 
@@ -239,7 +290,7 @@
   .about__inner {
     flex-direction: column;
     align-items: center;
-    gap: 6rem;
+    gap: 8rem;
   }
 }
 
@@ -262,18 +313,21 @@
 
 .about__image-01 {
   max-width: 200px;
-  transform: translate(0, 150px);
   z-index: 3;
+  transform: translate(0, 150px);
+
 }
 .about__image-02 {
   max-width: 375px;
-  transform: translate(160px, 0px);
   z-index: 2;
+  transform: translate(160px, 0px);
+
 }
 .about__image-03 {
   max-width: 200px;
-  transform: translate(260px, 260px);
   z-index: 1;
+  transform: translate(260px, 260px);
+
 }
 @media screen and (max-width: 1200px) {
   .about__image-01 {
@@ -304,6 +358,20 @@
   }
 }
 @media screen and (max-width: 768px) {
+  .about__image-01 {
+    width: 25vw;
+    transform: translate(-50%, 20%);
+  }
+  .about__image-02 {
+    width: 50vw;
+    transform: translate(15%, -30%);
+  }
+  .about__image-03 {
+    width: 20vw;
+    transform: translate(125%, 120%);
+  }
+}
+@media screen and (max-width: 576px) {
   .about__image-01 {
     width: 25vw;
     transform: translate(-75%, 25%);

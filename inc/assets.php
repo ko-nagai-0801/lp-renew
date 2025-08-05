@@ -96,19 +96,20 @@ function lp_enqueue_assets()
         true
     );
 
+    // GSAP 本体
     wp_enqueue_script(
         'gsap',
-        'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js',
-        [],
-        '3.9.1',
-        true
+        'https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js',
+        [],            // 依存なし
+        '3.12.2',
+        true           // フッター読み込み
     );
-
+    // ScrollTrigger（gsap に依存）
     wp_enqueue_script(
         'gsap-scrolltrigger',
-        'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js',
+        'https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/ScrollTrigger.min.js',
         ['gsap'],
-        '3.9.1',
+        '3.12.2',
         true
     );
 
