@@ -208,13 +208,87 @@
 }
 
 /* =========================================================
-   About  –  image left / text right
+   About
    ====================================================== */
 /* -----------------------------  セクション基準点  */
 #about {
   position: relative;
   overflow: hidden;
+  margin: 0;
+  padding-block: 6rem;
+  padding-inline: 3rem;
+  /* height: calc(100vh - 80px); */
 }
+@media (max-width: 992px) {
+  #about {
+    position: relative;
+    overflow: hidden;
+    margin: 0;
+    padding-block: 6rem;
+    padding-inline: 3rem;
+    /* height: calc(100vh - 68px); */
+  }
+}
+
+.about__inner {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2rem;
+}
+@media screen and (max-width: 992px) {
+  .about__inner {
+    flex-direction: column;
+    align-items: center;
+    gap: 4rem;
+  }
+}
+
+/* --- About Text --------------------------------------- */
+.about__content {
+  flex: 1 1 60%;
+}
+.about__text {
+  line-height: 1.8;
+  margin-bottom: 2rem;
+}
+
+
+/* About Images */
+/* ===== 画像コンテナ ===== */
+.about__visual {
+  position: relative;
+  flex: 1 1 48%;
+  overflow: hidden; /* ライトなマスク用 */
+  border-radius: 14px; /* 角丸を少し大きめに */
+  box-shadow: 0 14px 28px rgba(0 0 0 / 0.35);
+}
+
+.about__image,
+.about__image img {
+  width: 100%;
+  height: auto;
+  margin: 0;
+}
+
+/* ===== ふわっと浮くホバー演出（PCのみ） ===== */
+@media (hover: hover) {
+  .about__visual:hover img {
+    transform: scale(1.04) rotate(1deg);
+    transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+}
+
+/* ===== SP：高さを自動にし、角丸を維持 ===== */
+@media (max-width: 992px) {
+  .about__visual {
+    flex: none; /* テキストの下に配置 */
+    width: 100%;
+    max-width: 560px;
+    margin-inline: auto;
+  }
+}
+
 
 .about__big-text {
   position: absolute;
@@ -280,120 +354,7 @@
   }
 }
 
-.about__inner {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: 4rem;
-}
-@media screen and (max-width: 992px) {
-  .about__inner {
-    flex-direction: column;
-    align-items: center;
-    gap: 8rem;
-  }
-}
 
-/* Left About Images */
-.about__visual {
-  flex: 1;
-  display: grid;
-}
-
-.about__visual img {
-  grid-area: 1/1; /* 全て同じセルに配置＝重ねる */
-}
-
-.about__images {
-  width: 100%;
-  height: auto;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-}
-
-.about__image-01 {
-  max-width: 200px;
-  z-index: 3;
-  transform: translate(0, 150px);
-
-}
-.about__image-02 {
-  max-width: 375px;
-  z-index: 2;
-  transform: translate(160px, 0px);
-
-}
-.about__image-03 {
-  max-width: 200px;
-  z-index: 1;
-  transform: translate(260px, 260px);
-
-}
-@media screen and (max-width: 1200px) {
-  .about__image-01 {
-    width: 150px;
-    transform: translate(0, 150px);
-  }
-  .about__image-02 {
-    width: 350px;
-    transform: translate(90px, 0);
-  }
-  .about__image-03 {
-    width: 150px;
-    transform: translate(225px, 245px);
-  }
-}
-@media screen and (max-width: 992px) {
-  .about__image-01 {
-    width: 20vw;
-    transform: translate(-75%, 25%);
-  }
-  .about__image-02 {
-    width: 35vw;
-    transform: translate(10%, -25%);
-  }
-  .about__image-03 {
-    width: 16vw;
-    transform: translate(115%, 125%);
-  }
-}
-@media screen and (max-width: 768px) {
-  .about__image-01 {
-    width: 25vw;
-    transform: translate(-50%, 20%);
-  }
-  .about__image-02 {
-    width: 50vw;
-    transform: translate(15%, -30%);
-  }
-  .about__image-03 {
-    width: 20vw;
-    transform: translate(125%, 120%);
-  }
-}
-@media screen and (max-width: 576px) {
-  .about__image-01 {
-    width: 25vw;
-    transform: translate(-75%, 25%);
-  }
-  .about__image-02 {
-    width: 45vw;
-    transform: translate(0%, -25%);
-  }
-  .about__image-03 {
-    width: 20vw;
-    transform: translate(115%, 125%);
-  }
-}
-
-/* --- Typography --------------------------------------- */
-.about__content {
-  flex: 1;
-}
-.about__text {
-  line-height: 1.8;
-  margin-bottom: 2rem;
-}
 
 /* =============== 3. services ============================ */
 .services__cards {

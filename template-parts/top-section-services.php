@@ -86,10 +86,17 @@ if (! defined('ABSPATH')) {
     </li>
   </ul>
 
-  <div class="services__cta">
-    <a href="<?php echo esc_url(home_url('/services/')); ?>" class="button button--primary">
-      すべてのサービスを見る <i class="fa-solid fa-angle-right" aria-hidden="true"></i>
-    </a>
-  </div>
+  <?php
+  get_template_part(
+    'components/cta',
+    null,
+    [
+      'url' => home_url('/services/'),
+      'label' => 'Services',
+      'variant' => 'primary', // 'primary' or 'white'
+      'extra_class' => 'services__cta' // 必要に応じて追加クラス
+    ]
+  );
+  ?>
 
 </section>

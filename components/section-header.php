@@ -42,6 +42,12 @@ $header_classes = trim('section__header ' . $args['extra_class']);
     <?php endif; ?>
 
     <<?php echo $tag; ?><?php echo $args['id'] ? ' id="' . esc_attr($args['id']) . '"' : ''; ?> class="section__title">
-        <?php echo esc_html($args['title']); ?>
+        <?php
+        /* 各文字を <span class="char"> に分割して出力 */
+        $chars = preg_split('//u', $args['title'], -1, PREG_SPLIT_NO_EMPTY);
+        foreach ($chars as $i => $c) {
+            printf('<span class="char" style="--i:%d;">%s</span>', $i, esc_html($c));
+        }
+        ?>
     </<?php echo $tag; ?>>
 </header>

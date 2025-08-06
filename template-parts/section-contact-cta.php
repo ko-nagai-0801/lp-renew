@@ -27,7 +27,7 @@ if (! defined('ABSPATH')) {
       null,
       [
         'url' => home_url('/contact/'),
-        'label' => 'Contact&nbsp;us',
+        'label' => 'Contact&nbsp;Us',
         'variant' => 'primary', // 'primary' or 'white'
         'extra_class' => 'contact__cta' // 必要に応じて追加クラス
       ]

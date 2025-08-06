@@ -34,7 +34,7 @@ if (! defined('ABSPATH')) {
                 null,
                 [
                     'url' => home_url('/recruit/'),
-                    'label' => 'View More',
+                    'label' => 'Recruit',
                     'variant' => 'white', // 'primary' or 'white'
                     'extra_class' => 'recruit__cta' // 必要に応じて追加クラス
                 ]
