@@ -4,12 +4,12 @@
 
 :root {
   /* ABOUT-US グラデーション用（左→右）―― vivid blue → vivid red */
-  --about-grad-1: #b6dff5; /* きわめて明るいブルー-ハイライト */
+  --about-grad-1: #92d0f0; /* きわめて明るいブルー-ハイライト */
   --about-grad-2: #86d0ff; /* スカイブルー */
   --about-grad-3: #1effff; /* ビビッドなブルー */
   --about-grad-4: #4dd0ff; /* パープル寄りの中間色 */
   --about-grad-5: #5c98ff; /* 鮮やかなピンクレッド */
-  --about-grad-6: #492dff; /* ビビッドレッド（最濃シャドー） */
+  --about-grad-6: #fb8484; /* ビビッドレッド（最濃シャドー） */
 }
 
 /* ===============
@@ -308,10 +308,10 @@
   background-image: linear-gradient(
     90deg,
     var(--about-grad-1) 0%,
-    var(--about-grad-2) 16%,
+    /* var(--about-grad-2) 16%,
     var(--about-grad-3) 33%,
     var(--about-grad-4) 50%,
-    var(--about-grad-5) 66%,
+    var(--about-grad-5) 66%, */
     var(--about-grad-6) 83%
   );
   -webkit-background-clip: text;
@@ -480,6 +480,7 @@
 
 .recruit__sub {
   color: var(--f-yellow);
+  border-bottom: 2px solid var(--f-yellow);
 }
 .recruit__title {
   color: var(--f-white);

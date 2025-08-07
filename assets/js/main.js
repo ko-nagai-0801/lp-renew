@@ -125,3 +125,27 @@ sections.forEach(sec => io.observe(sec));
   /* 初期実行 */
   updateParallax();
 })();
+
+/* -------------------------------------------------------
+ * Global CTA Buttons – scroll-in animation
+ * ----------------------------------------------------- */
+(() => {
+  const ctaButtons = document.querySelectorAll(".c-cta__button");
+  if (!ctaButtons.length) return;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  ctaButtons.forEach((btn) => {
+    gsap.from(btn, {
+      y: 30,
+      autoAlpha: 0,
+      duration: 0.9,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: btn,        // ボタン自身をトリガー
+        start: "top 85%",    // 85% 付近で発火
+        toggleActions: "play none none none",
+      },
+    });
+  });
+})();

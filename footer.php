@@ -71,11 +71,10 @@
                 <li class="footer__nav-item"><a href="/#business">事業内容</a>
                     <ul class="footer__service-nav-list">
                         <li class="footer__service-nav-item"><a href="/products-web/">Web制作</a></li>
+                        <li class="footer__service-nav-item"><a href="/products-design/">デザイン制作</a></li>
                         <li class="footer__service-nav-item"><a href="/products-movie/">動画編集</a></li>
-                        <li class="footer__service-nav-item"><a href="/products-design/">デザイン制作</a></li>
-                        <li class="footer__service-nav-item"><a href="/products-design/">デザイン制作</a></li>
-                        <li class="footer__service-nav-item"><a href="/products-design/">デザイン制作</a></li>
-                        <li class="footer__service-nav-item"><a href="/products-design/">デザイン制作</a></li>
+                        <li class="footer__service-nav-item"><a href="　">軽作業</a></li>
+                        <li class="footer__service-nav-item"><a href="　">その他の業務</a></li>
                     </ul>
                 </li>
                 <li class="footer__nav-item"><a href="/access/">アクセス</a></li>

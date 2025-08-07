@@ -56,7 +56,7 @@ a {
   transition: 0.3s;
 }
 a:hover {
-  color: #fff;
+  color: inherit;
 }
 li {
   list-style: none;
@@ -288,6 +288,7 @@ select {
   transition: background 0.3s; /* ← どのプロパティか明示 */
 }
 .button:hover {
+  color: var(--f-white);
   background: var(--c-blue-dark);
   box-shadow: 0px 0px 0px 0px;
 }
@@ -321,6 +322,26 @@ select {
 /* ▼ ホバーで 4px スライド */
 .button--icon:hover::after {
   transform: translateX(4px);
+}
+
+/* =======================================
+   CTA Button ‒ Hover Micro-interaction
+   ==================================== */
+
+/* ❶ ボタン全体を少し持ち上げ＋影を伸ばす */
+.button--icon:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(0 0 0 / .25);
+}
+
+/* ❷ 矢印アイコンを『伸び ⇒ 戻り』のイージングへ */
+@keyframes arrow-slide {
+  0%   { transform: translateX(0);   }
+  60%  { transform: translateX(6px); }
+  100% { transform: translateX(4px); }
+}
+.button--icon:hover::after {
+  animation: arrow-slide .45s cubic-bezier(.34,1.56,.64,1) forwards;
 }
 
 /* ==========================================================

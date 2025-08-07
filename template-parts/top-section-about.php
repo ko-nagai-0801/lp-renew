@@ -45,7 +45,7 @@ if (! defined('ABSPATH')) {
                     'url' => home_url('/about/'),
                     'label' => 'About Us',
                     'variant' => 'primary', // 'primary' or 'white'
-                    'extra_class' => 'about__cta' // 必要に応じて追加クラス
+                    'extra_class' => 'about__cta' // 追加クラス
                 ]
             );
             ?>
