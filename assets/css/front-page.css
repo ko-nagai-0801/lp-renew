@@ -1,6 +1,6 @@
-/* ============
+/* =======================
   top.css – BEM only
-=========== */
+===================== */
 
 :root {
   /* ABOUT-US グラデーション用（左→右）―― vivid blue → vivid red */
@@ -13,7 +13,7 @@
 }
 
 /* ===============
- 1. HERO (first-view)
+  1. HERO (first-view)
   ================== */
 .hero {
   position: relative;
@@ -106,11 +106,11 @@
 }
 
 /* ===== 可読性向上オプション（お好みで） ===== */
-/* 文字にシャドウを足す場合
+/* 文字にシャドウを足す場合 */
 .hero__title-text .hero__letter{
   text-shadow:0 4px 12px rgba(0,0,0,.25);
 }
-*/
+
 
 /* Scroll cue（ボタン全体） */
 .hero__scroll-btn {
