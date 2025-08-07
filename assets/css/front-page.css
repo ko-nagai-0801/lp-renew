@@ -326,7 +326,8 @@
 .about__big-text span {
   display: inline-block;
   background: inherit; /* ← 親のグラデを継承 */
-  -webkit-background-clip: text; /* 各文字にも適用 */
+  background-clip: text; /* 各文字にも適用 */
+  -webkit-background-clip: text; /* 同上 */
   -webkit-text-fill-color: transparent;
 }
 
