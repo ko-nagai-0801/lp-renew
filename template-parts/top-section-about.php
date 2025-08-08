@@ -21,7 +21,7 @@ if (! defined('ABSPATH')) {
                 null,
                 [
                     'id' => '', // 見出しID（任意）
-                    'sub' => 'About us', // 小見出し
+                    'sub' => 'About Us', // 小見出し
                     'title' => 'ＬｉＮＥ ＰＡＲＫについて', // メイン見出し
                     'tag' => 'h2', // h1〜h6（省略可）
                     'extra_class' => 'about__header' // 追加クラス（任意）

@@ -15,39 +15,41 @@
  * ] );
  * ---------------------------------------------------
  */
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-if (! defined('ABSPATH')) {
-    exit;
-}
-
-/* ---------- デフォルト値 ---------- */
 $defaults = [
-    'id'          => '',
-    'sub'         => '',
-    'title'       => '',
-    'tag'         => 'h2',
-    'extra_class' => '',
+  'id'          => '',
+  'sub'         => '',
+  'title'       => '',
+  'tag'         => 'h2',
+  'variant'     => '',          // ★ 追加
+  'extra_class' => '',
 ];
+$args = wp_parse_args( $args ?? [], $defaults );
 
-$args = wp_parse_args($args ?? [], $defaults);
+/* ① hタグを決定 */
+$tag = in_array( strtolower( $args['tag'] ), [ 'h1','h2','h3','h4','h5','h6' ], true )
+        ? strtolower( $args['tag'] ) : 'h2';
 
-$tag = in_array(strtolower($args['tag']), ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'], true) ? strtolower($args['tag']) : 'h2';
-
-$header_classes = trim('section__header ' . $args['extra_class']);
-
+/* ② Modifier Class を組み立て */
+$variant   = $args['variant'] ? ' section__header--' . esc_attr( $args['variant'] ) : '';
+$header_cl = trim( 'section__header' . $variant . ' ' . $args['extra_class'] );
+$sub_cl    = 'section__sub'   . ( $args['variant'] ? ' section__sub--'   . esc_attr( $args['variant'] ) : '' );
+$title_cl  = 'section__title' . ( $args['variant'] ? ' section__title--' . esc_attr( $args['variant'] ) : '' );
 ?>
-<header class="<?php echo esc_attr($header_classes); ?>">
-    <?php if ($args['sub']) : ?>
-        <p class="section__sub"><?php echo esc_html($args['sub']); ?></p>
-    <?php endif; ?>
+<header class="<?php echo $header_cl; ?>">
+  <?php if ( $args['sub'] ) : ?>
+    <p class="<?php echo $sub_cl; ?>"><?php echo esc_html( $args['sub'] ); ?></p>
+  <?php endif; ?>
 
-    <<?php echo $tag; ?><?php echo $args['id'] ? ' id="' . esc_attr($args['id']) . '"' : ''; ?> class="section__title">
-        <?php
-        /* 各文字を <span class="char"> に分割して出力 */
-        $chars = preg_split('//u', $args['title'], -1, PREG_SPLIT_NO_EMPTY);
-        foreach ($chars as $i => $c) {
-            printf('<span class="char" style="--i:%d;">%s</span>', $i, esc_html($c));
-        }
-        ?>
-    </<?php echo $tag; ?>>
+  <<?php echo $tag; ?><?php echo $args['id'] ? ' id="'.esc_attr($args['id']).'"' : ''; ?>
+      class="<?php echo $title_cl; ?>">
+      <?php
+      /* 1 文字ずつ <span class="char"> */
+      $chars = preg_split('//u', $args['title'], -1, PREG_SPLIT_NO_EMPTY);
+      foreach ( $chars as $i => $c ) {
+        printf( '<span class="char" style="--i:%d;">%s</span>', $i, esc_html( $c ) );
+      }
+      ?>
+  </<?php echo $tag; ?>>
 </header>

@@ -82,6 +82,23 @@
   /* ──────────────────────────────────────────────
      ③  Section アニメーション: 出入りでトグル
      ──────────────────────────────────────────── */
+
+  /* ===========================================
+   * 共通見出しを 1 文字ずつ <span class="char">
+   * ======================================= */
+  (() => {
+    const titles = document.querySelectorAll(".section__title");
+
+    titles.forEach((title) => {
+      if (title.querySelector(".char")) return; // 既に分割済みなら無視
+
+      const chars = Array.from(title.textContent.trim());
+      title.innerHTML = chars
+        .map((ch, i) => `<span class="char" style="--i:${i}">${ch}</span>`)
+        .join("");
+    });
+  })();
+
   const sections = document.querySelectorAll(".section");
 
   /* タイトル文字数を CSS 変数へ（delay 計算用）*/
@@ -91,36 +108,40 @@
   });
 
   /* ================= スクロール方向を記録 ================= */
-let lastScrollY = window.pageYOffset || document.documentElement.scrollTop;
-let scrollDir   = 'down';
+  let lastScrollY = window.pageYOffset || document.documentElement.scrollTop;
+  let scrollDir = "down";
 
-window.addEventListener('scroll', () => {
-  const curY = window.pageYOffset || document.documentElement.scrollTop;
-  scrollDir   = curY > lastScrollY ? 'down' : 'up';
-  lastScrollY = curY;
-});
-
-/* ============ IntersectionObserver ============ */
-const io = new IntersectionObserver(entries => {
-  entries.forEach(ent => {
-    if (ent.isIntersecting) {
-      /* ▼ 入ってきたときの条件判定 */
-      const ratioOK = (scrollDir === 'down')
-        ? true                       // 下方向は即
-        : ent.intersectionRatio >= 0.6; // 上方向は60%見えたら
-
-      if (ratioOK) ent.target.classList.add('is-visible');
-    } else {
-      /* ▼ 完全に出たらリセット */
-      ent.target.classList.remove('is-visible');
-    }
+  window.addEventListener("scroll", () => {
+    const curY = window.pageYOffset || document.documentElement.scrollTop;
+    scrollDir = curY > lastScrollY ? "down" : "up";
+    lastScrollY = curY;
   });
-}, {
-  rootMargin: '0px 0px -10% 0px', /* 上から下は早めに発火 */
-  threshold : [0, 0.6]            /* ratio=0 と 0.9 を拾う */
-});
 
-sections.forEach(sec => io.observe(sec));
+  /* ============ IntersectionObserver ============ */
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((ent) => {
+        if (ent.isIntersecting) {
+          /* ▼ 入ってきたときの条件判定 */
+          const ratioOK =
+            scrollDir === "down"
+              ? true // 下方向は即
+              : ent.intersectionRatio >= 0.6; // 上方向は60%見えたら
+
+          if (ratioOK) ent.target.classList.add("is-visible");
+        } else {
+          /* ▼ 完全に出たらリセット */
+          ent.target.classList.remove("is-visible");
+        }
+      });
+    },
+    {
+      rootMargin: "0px 0px -10% 0px" /* 上から下は早めに発火 */,
+      threshold: [0, 0.6] /* ratio=0 と 0.9 を拾う */,
+    }
+  );
+
+  sections.forEach((sec) => io.observe(sec));
 
   /* 初期実行 */
   updateParallax();
@@ -142,8 +163,8 @@ sections.forEach(sec => io.observe(sec));
       duration: 0.9,
       ease: "power3.out",
       scrollTrigger: {
-        trigger: btn,        // ボタン自身をトリガー
-        start: "top 85%",    // 85% 付近で発火
+        trigger: btn, // ボタン自身をトリガー
+        start: "top 85%", // 85% 付近で発火
         toggleActions: "play none none none",
       },
     });

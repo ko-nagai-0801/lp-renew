@@ -107,10 +107,9 @@
 
 /* ===== 可読性向上オプション（お好みで） ===== */
 /* 文字にシャドウを足す場合 */
-.hero__title-text .hero__letter{
-  text-shadow:0 4px 12px rgba(0,0,0,.25);
+.hero__title-text .hero__letter {
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
-
 
 /* Scroll cue（ボタン全体） */
 .hero__scroll-btn {
@@ -253,7 +252,6 @@
   margin-bottom: 2rem;
 }
 
-
 /* About Images */
 /* ===== 画像コンテナ ===== */
 .about__visual {
@@ -289,7 +287,6 @@
   }
 }
 
-
 .about__big-text {
   position: absolute;
   left: 5%;
@@ -312,7 +309,7 @@
     var(--about-grad-3) 33%,
     var(--about-grad-4) 50%,
     var(--about-grad-5) 66%, */
-    var(--about-grad-6) 83%
+      var(--about-grad-6) 83%
   );
   -webkit-background-clip: text;
   background-clip: text; /* Firefox 対応 */
@@ -354,8 +351,6 @@
     font-size: clamp(3rem, 10vw, 5rem);
   }
 }
-
-
 
 /* =============== 3. services ============================ */
 .services__cards {
@@ -458,7 +453,8 @@
 
 /* ---------- Recruit 内部レイアウト ---------- */
 .recruit__content {
-  max-width: 550px;
+  width: 60%;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 30px;
   border-radius: 12px;
@@ -469,26 +465,6 @@
     width: 100%;
     margin-inline: auto;
   }
-}
-
-.recruit__header {
-  position: relative;
-  margin-bottom: 1rem;
-}
-.recruit__header::before {
-  background: var(--f-yellow);
-}
-
-.recruit__sub {
-  color: var(--f-yellow);
-  border-bottom: 2px solid var(--f-yellow);
-}
-.recruit__title {
-  color: var(--f-white);
-  font-size: clamp(1.5rem, 1.8vw, 1.8rem);
-  font-weight: 700;
-  margin: 0;
-  white-space: nowrap;
 }
 
 .recruit__catch {

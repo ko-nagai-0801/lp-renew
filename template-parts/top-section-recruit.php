@@ -9,15 +9,18 @@ if (! defined('ABSPATH')) {
 }
 ?>
 
-<section id="recruit" class="parallax recruit section container-fluid" data-parallax-speed="0.35">
+<section id="recruit" class="parallax recruit section container-fluid" data-parallax-speed="0.5">
 
   <div class="recruit__inner">
     <div class="recruit__content">
 
-      <header class="recruit__header section__header">
-        <p class="recruit__sub section__sub">Recruit</p>
-        <h2 id="recruit__heading" class="recruit__title section__title">採用情報</h2>
-      </header>
+      <?php
+      get_template_part('components/section-header', null, [
+        'sub'     => 'Recruit',
+        'title'   => '採用情報',
+        'variant' => 'recruit', //追加クラス
+      ]);
+      ?>
 
       <p class="recruit__catch section__catch">私たちと一緒に働きませんか？</p>
 
@@ -28,18 +31,18 @@ if (! defined('ABSPATH')) {
         ご見学もお気軽にお越しください。
       </p>
 
-            <?php
-            get_template_part(
-                'components/cta',
-                null,
-                [
-                    'url' => home_url('/recruit/'),
-                    'label' => 'Recruit',
-                    'variant' => 'white', // 'primary' or 'white'
-                    'extra_class' => 'recruit__cta' // 必要に応じて追加クラス
-                ]
-            );
-            ?>
+      <?php
+      get_template_part(
+        'components/cta',
+        null,
+        [
+          'url' => home_url('/recruit/'),
+          'label' => 'Recruit',
+          'variant' => 'white', // 'primary' or 'white'
+          'extra_class' => 'recruit__cta' // 必要に応じて追加クラス
+        ]
+      );
+      ?>
     </div>
 
     <!-- <div class="recruit__visual">

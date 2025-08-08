@@ -9,13 +9,16 @@ if (! defined('ABSPATH')) {
 }
 ?>
 
-<section id="contact" class="contact-cta parallax" data-parallax-speed="0.35">
+<section id="contact" class="contact-cta parallax" data-parallax-speed="0.4">
   <div class="contact-cta__inner">
 
-    <h2 class="contact-cta__title">
-      <span class="contact-cta__sub">Contact&nbsp;us</span>
-      お問い合わせ
-    </h2>
+    <header class="section__header">
+      <p class="section__sub">Contact</p>
+      <h2 class="contact-cta__title">
+        <span class="contact-cta__sub">Contact Us</span>
+        お問い合わせ
+      </h2>
+    </header>
 
     <p class="contact-cta__message">
       仕事のご依頼やご見学についてなど<br>お気軽にご相談ください
@@ -27,8 +30,8 @@ if (! defined('ABSPATH')) {
       null,
       [
         'url' => home_url('/contact/'),
-        'label' => 'Contact&nbsp;Us',
-        'variant' => 'primary', // 'primary' or 'white'
+        'label' => 'Contact Us',
+        'variant' => 'white', // 'primary' or 'white'
         'extra_class' => 'contact__cta' // 必要に応じて追加クラス
       ]
     );
