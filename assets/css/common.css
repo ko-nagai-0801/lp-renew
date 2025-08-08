@@ -437,7 +437,7 @@ select {
    ======================================================= */
 .contact-cta {
   /* 画像とマスクを CSS 変数で上書き */
-  --parallax-image: url("../img/contact-cta.webp");
+  --parallax-image: url("../img/contact-cta-bg.webp");
   --parallax-overlay: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
 
   padding: 4rem 1rem;

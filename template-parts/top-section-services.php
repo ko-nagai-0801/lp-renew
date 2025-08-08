@@ -26,7 +26,7 @@ if (! defined('ABSPATH')) {
   ?>
 
   <p class="services__catch section__catch">
-    Web 制作から軽作業まで——多様な業務をワンストップで請け負います。
+    Web制作から軽作業まで——多様な業務をワンストップで請け負います。
   </p>
 
   <ul class="services__cards">

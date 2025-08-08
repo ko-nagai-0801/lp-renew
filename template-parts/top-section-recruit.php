@@ -9,7 +9,7 @@ if (! defined('ABSPATH')) {
 }
 ?>
 
-<section id="recruit" class="parallax recruit section container-fluid" data-parallax-speed="0.5">
+<section id="recruit" class="parallax recruit section container-fluid" data-parallax-speed="0.4">
 
   <div class="recruit__inner">
     <div class="recruit__content">
