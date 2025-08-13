@@ -114,12 +114,12 @@ function lp_enqueue_assets()
     );
 
     /* -----------------------------
-	 *  まず main.js を読み込む
+	 *  main.js
 	 * --------------------------- */
     wp_enqueue_script(
-        'main', // ハンドル名
-        "$theme_uri/assets/js/main.js", // パス
-        ['swiper', 'gsap', 'gsap-scrolltrigger'], // 依存ライブラリ
+        'main',
+        "$theme_uri/assets/js/main.js",
+        ['swiper', 'gsap', 'gsap-scrolltrigger'],
         $ver,
         true
     );
@@ -127,13 +127,13 @@ function lp_enqueue_assets()
 
     /* -----------------------------
  *  front-page.js（TOP だけ）
- *    parallax.js と main.js の後で読ませる
+ *   main.js の後で読ませる
  * --------------------------- */
     if (is_front_page()) {
         wp_enqueue_script(
             'front-page',
             "$theme_uri/assets/js/front-page.js",
-            ['main'],  // 依存を２つ指定
+            ['main'],  // mainに依存
             $ver,
             true
         );

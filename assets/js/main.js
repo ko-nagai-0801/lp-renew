@@ -1,171 +1,242 @@
 /* ==============================================================
-   main.js – Header UI ＋ 汎用 Parallax（.parallax クラス対象）
+   main.js – Header UI ＋ 慣性Parallax（.parallax 対象）＋ Section Anim
+   --------------------------------------------------------------
+   ◇ポイント
+   - 『.parallax が無いページでも』他の処理が止まらないように修正
+   - パララックスは“スクロール後に少し追従する”慣性式（lerp）
+   - 見出し分割は安全化（子要素は温存／必要な時だけ）
+   - TOPページのみヘッダー透過（<main class="isTop"> で判定）
+   - ナビ内リンククリック／ESC でメニューを閉じる
+   - passive でパフォーマンス最適化、reduce-motion 尊重
+   - ★ セクションの見出し・テキスト等を同時発火（.is-sync 付与）
    ============================================================== */
 (() => {
-  /* ----------------------------------------------------------------
-     1.  Header : ハンバーガー開閉 & スクロール着色
-     ---------------------------------------------------------------- */
-  const header = document.querySelector(".header");
-  const toggleBtn = document.querySelector(".header__toggle");
-  const toggleLine = document.querySelector(".header__toggle-line");
-  const nav = document.querySelector(".header__nav");
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  if (toggleBtn && toggleLine && nav) {
-    toggleBtn.addEventListener("click", () => {
-      toggleBtn.classList.toggle("is-active");
-      toggleLine.classList.toggle("is-active");
-      nav.classList.toggle("is-active");
+  /* ----------------------------------------------------------------
+   * 1) Header : ハンバーガー開閉 & スクロール着色 & TOP透過
+   * ---------------------------------------------------------------- */
+  const header     = document.querySelector('.header');
+  const toggleBtn  = document.querySelector('.header__toggle');
+  const toggleLine = document.querySelector('.header__toggle-line');
+  const nav        = document.querySelector('.header__nav');
+
+  const openMenu = () => {
+    toggleBtn?.classList.add('is-active');
+    toggleLine?.classList.add('is-active');
+    nav?.classList.add('is-active');
+    document.body.classList.add('is-locked');
+    toggleBtn?.setAttribute('aria-expanded', 'true');
+  };
+  const closeMenu = () => {
+    toggleBtn?.classList.remove('is-active');
+    toggleLine?.classList.remove('is-active');
+    nav?.classList.remove('is-active');
+    document.body.classList.remove('is-locked');
+    toggleBtn?.setAttribute('aria-expanded', 'false');
+  };
+
+  if (toggleBtn && nav) {
+    toggleBtn.addEventListener('click', () => {
+      const willOpen = !nav.classList.contains('is-active');
+      willOpen ? openMenu() : closeMenu();
+    });
+
+    // ナビ内リンクを押したら閉じる
+    nav.addEventListener('click', (e) => {
+      if (e.target.closest('a')) closeMenu();
+    });
+
+    // ESCで閉じる
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeMenu();
     });
   }
 
-  const setHeaderColor = () =>
-    header?.classList.toggle("header--scrolled", window.scrollY > 50);
-
+  // ヘッダーのスクロール着色（全ページ）
+  const setHeaderColor = () => header?.classList.toggle('header--scrolled', window.scrollY > 50);
   setHeaderColor();
-  window.addEventListener("scroll", setHeaderColor);
+  window.addEventListener('scroll', setHeaderColor, { passive: true });
+
+  // TOPのみ透過（main.isTop があるとき）
+  const isTopPage = !!document.querySelector('main.isTop');
+  if (isTopPage && header) {
+    const applyTopTransparent = () => {
+      const atTop = window.scrollY <= 10 && !nav?.classList.contains('is-active');
+      header.classList.toggle('header--transparent', atTop);
+    };
+    applyTopTransparent();
+    window.addEventListener('scroll', applyTopTransparent, { passive: true });
+  }
 
   /* ----------------------------------------------------------------
-     2.  Parallax : .parallax 要素を自動処理
-         カスタムプロパティ --parallax-offset / --parallax-extra を出力
-     ---------------------------------------------------------------- */
-  const PARALLAX_DEFAULT_SPEED = 0.4; // data-parallax-speed 無指定時
-  const PARALLAX_AMPLIFY_FACTOR = 1.2; // 背景余白＆最大振幅の係数
+   * 2) Inertia Parallax : .parallax 要素を慣性追従させる
+   *     CSS側：background-position のYに var(--parallax-offset) を使用
+   * ---------------------------------------------------------------- */
+  const pElems = [...document.querySelectorAll('.parallax')];
+  const hasParallax = pElems.length > 0 && !prefersReduced;
+  const lerp = (a, b, t) => a + (b - a) * t;
 
-  const pElems = document.querySelectorAll(".parallax");
-  if (!pElems.length) return; // 該当要素が無ければ終了
+  // 要素ごとの状態（現在値と目標値）を保持
+  const pState = new WeakMap();
+  const calcTarget = (el, scY, winH) => {
+    const speed = Number(el.dataset.parallaxSpeed || 0.4); // 旧仕様互換
+    const rect = el.getBoundingClientRect();
+    const elTop = rect.top + scY;
+    const ratio = (scY + winH - elTop) / (rect.height + winH); // 0–1
+    const prog = Math.min(Math.max(ratio, 0), 1);
+    const maxMove = rect.height * speed * 1.2; // 少し強めに
+    return { target: prog * maxMove, maxMove };
+  };
 
-  /* メイン更新関数 */
-  const updateParallax = () => {
+  let rafId = 0;
+  const renderParallax = () => {
     const scY = window.pageYOffset || document.documentElement.scrollTop;
     const winH = window.innerHeight;
 
     pElems.forEach((el) => {
-      /* data-parallax-speed="0.6" のように指定可 */
-      const speed = +el.dataset.parallaxSpeed || PARALLAX_DEFAULT_SPEED;
-
-      const rect = el.getBoundingClientRect();
-      const elTop = rect.top + scY;
-      const ratio = (scY + winH - elTop) / (rect.height + winH); // 0–1
-      const prog = Math.min(Math.max(ratio, 0), 1);
-
-      const maxMove = rect.height * speed * PARALLAX_AMPLIFY_FACTOR;
-      const offsetY = prog * maxMove;
-
-      el.style.setProperty("--parallax-offset", `-${offsetY}px`);
-      el.style.setProperty("--parallax-extra", `${maxMove}px`);
+      const st = pState.get(el) || { cur: 0, target: 0 };
+      // 目標を更新
+      const { target } = calcTarget(el, scY, winH);
+      st.target = target; // px
+      // 慣性追従
+      st.cur = lerp(st.cur, st.target, 0.12); // 0.08〜0.2 で好みに
+      el.style.setProperty('--parallax-offset', `-${st.cur.toFixed(2)}px`);
+      pState.set(el, st);
     });
+
+    rafId = requestAnimationFrame(renderParallax);
   };
 
-  /* requestAnimationFrame で最適化 */
-  let ticking = false;
-  const onScroll = () => {
-    if (!ticking) {
-      requestAnimationFrame(() => {
-        updateParallax();
-        ticking = false;
-      });
-      ticking = true;
+  const startParallax = () => {
+    if (!hasParallax) return;
+    // 初期マップ
+    pElems.forEach((el) => pState.set(el, { cur: 0, target: 0 }));
+    rafId = requestAnimationFrame(renderParallax);
+
+    // レイアウト変化に追随（観測だけ・処理は render 側で常時）
+    if ('ResizeObserver' in window) {
+      const ro = new ResizeObserver(() => {});
+      pElems.forEach((el) => ro.observe(el));
     }
   };
 
-  /* イベント登録 */
-  window.addEventListener("scroll", onScroll);
-  window.addEventListener("resize", updateParallax);
-  window.addEventListener("load", updateParallax);
+  /* ----------------------------------------------------------------
+   * 3) Section Animation : ★同時発火モード（.is-sync 付与）
+   *    - 従来の一文字分割は維持（必要なケースのため）
+   *    - ただし .is-sync が付いた時は全 delay を 0 に（CSS側で上書き）
+   * ---------------------------------------------------------------- */
+  const TRIGGER_POS = 0.9; // 画面下から10%ラインで発火
+  const sections = [...document.querySelectorAll('.section')];
 
-  /* 要素自身のサイズ変化も監視（画像遅延読込やフォントロードに対応） */
-  if ("ResizeObserver" in window) {
-    const rObserver = new ResizeObserver(updateParallax);
-    pElems.forEach((el) => rObserver.observe(el));
-  }
+  // 見出しの 1 文字分割（子要素は保持）。必要なときだけ実施
+  const splitTitle = (title) => {
+    if (!title || title.dataset.split === 'done') return;
 
-  /* ──────────────────────────────────────────────
-     ③  Section アニメーション: 出入りでトグル
-     ──────────────────────────────────────────── */
+    const wrapTextNode = (node) => {
+      const frag = document.createDocumentFragment();
+      const chars = node.textContent.split('');
+      chars.forEach((ch, i) => {
+        const span = document.createElement('span');
+        span.className = 'char';
+        span.style.setProperty('--i', i);
+        span.textContent = ch;
+        frag.appendChild(span);
+      });
+      node.parentNode.replaceChild(frag, node);
+    };
 
-  /* ===========================================
-   * 共通見出しを 1 文字ずつ <span class="char">
-   * ======================================= */
-  (() => {
-    const titles = document.querySelectorAll(".section__title");
-
-    titles.forEach((title) => {
-      if (title.querySelector(".char")) return; // 既に分割済みなら無視
-
-      const chars = Array.from(title.textContent.trim());
-      title.innerHTML = chars
-        .map((ch, i) => `<span class="char" style="--i:${i}">${ch}</span>`)
-        .join("");
+    // テキストノードのみ分割し、子要素はそのまま温存
+    const walker = document.createTreeWalker(title, NodeFilter.SHOW_TEXT, {
+      acceptNode: (n) => n.nodeValue.trim() ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT
     });
-  })();
+    const textNodes = [];
+    while (walker.nextNode()) textNodes.push(walker.currentNode);
+    textNodes.forEach(wrapTextNode);
 
-  const sections = document.querySelectorAll(".section");
+    title.dataset.split = 'done';
+  };
 
-  /* タイトル文字数を CSS 変数へ（delay 計算用）*/
+  // タイトル文字数を CSS 変数へ（delay 計算用だが .is-sync で無効化）
+  const updateTitleCounts = (sec) => {
+    const count = sec.querySelectorAll('.section__title .char').length;
+    if (count) sec.style.setProperty('--title-chars', String(count));
+  };
+
+  // 発火処理（同時発火クラスを必ず付与）
+  const onEnter = (sec) => {
+    const title = sec.querySelector('.section__title');
+    if (title) { splitTitle(title); updateTitleCounts(sec); }
+    sec.classList.add('is-visible', 'is-sync'); // ★ 同時発火用クラス
+  };
+
+  const io = new IntersectionObserver((entries, observer) => {
+    entries.forEach((ent) => {
+      if (!ent.isIntersecting) return;
+      onEnter(ent.target);
+      observer.unobserve(ent.target); // 1回だけ
+    });
+  }, {
+    rootMargin: `0px 0px -${(1 - TRIGGER_POS) * 100}% 0px`,
+    threshold: 0
+  });
+
+  // 初期表示で既に見えている要素は即時発火
   sections.forEach((sec) => {
-    const chars = sec.querySelectorAll(".section__title .char").length;
-    sec.style.setProperty("--title-chars", chars);
-  });
-
-  /* ================= スクロール方向を記録 ================= */
-  let lastScrollY = window.pageYOffset || document.documentElement.scrollTop;
-  let scrollDir = "down";
-
-  window.addEventListener("scroll", () => {
-    const curY = window.pageYOffset || document.documentElement.scrollTop;
-    scrollDir = curY > lastScrollY ? "down" : "up";
-    lastScrollY = curY;
-  });
-
-  /* ============ IntersectionObserver ============ */
-  const io = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((ent) => {
-        if (ent.isIntersecting) {
-          /* ▼ 入ってきたときの条件判定 */
-          const ratioOK =
-            scrollDir === "down"
-              ? true // 下方向は即
-              : ent.intersectionRatio >= 0.6; // 上方向は60%見えたら
-
-          if (ratioOK) ent.target.classList.add("is-visible");
-        } else {
-          /* ▼ 完全に出たらリセット */
-          ent.target.classList.remove("is-visible");
-        }
-      });
-    },
-    {
-      rootMargin: "0px 0px -10% 0px" /* 上から下は早めに発火 */,
-      threshold: [0, 0.6] /* ratio=0 と 0.9 を拾う */,
+    const r = sec.getBoundingClientRect();
+    if (r.top < window.innerHeight * TRIGGER_POS && r.bottom > 0) {
+      onEnter(sec);
+    } else {
+      io.observe(sec);
     }
-  );
+  });
 
-  sections.forEach((sec) => io.observe(sec));
+  /* ----------------------------------------------------------------
+   * 4) Smooth anchor (reduce-motion 尊重)
+   * ---------------------------------------------------------------- */
+  document.querySelectorAll('a[href^="#"]').forEach((a) => {
+    a.addEventListener('click', (e) => {
+      const id = decodeURIComponent(a.getAttribute('href'));
+      const target = id && id !== '#' ? document.querySelector(id) : null;
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'start' });
+      closeMenu();
+    });
+  });
 
-  /* 初期実行 */
-  updateParallax();
+  /* ----------------------------------------------------------------
+   * 5) 起動
+   * ---------------------------------------------------------------- */
+  const init = () => {
+    startParallax();
+  };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 })();
 
 /* -------------------------------------------------------
- * Global CTA Buttons – scroll-in animation
+ * Global CTA Buttons – scroll-in animation (GSAPがあれば)
  * ----------------------------------------------------- */
 (() => {
-  const ctaButtons = document.querySelectorAll(".c-cta__button");
+  const ctaButtons = document.querySelectorAll('.c-cta__button');
   if (!ctaButtons.length) return;
+  if (!(window.gsap && window.ScrollTrigger)) return; // GSAPが無い環境でのエラー回避
 
   gsap.registerPlugin(ScrollTrigger);
-
   ctaButtons.forEach((btn) => {
     gsap.from(btn, {
       y: 30,
       autoAlpha: 0,
       duration: 0.9,
-      ease: "power3.out",
+      ease: 'power3.out',
       scrollTrigger: {
-        trigger: btn, // ボタン自身をトリガー
-        start: "top 85%", // 85% 付近で発火
-        toggleActions: "play none none none",
+        trigger: btn,
+        start: 'top 85%',
+        toggleActions: 'play none none none',
       },
     });
   });

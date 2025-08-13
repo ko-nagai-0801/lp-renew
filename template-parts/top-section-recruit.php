@@ -24,10 +24,10 @@ if (! defined('ABSPATH')) {
 
       <p class="recruit__catch section__catch">私たちと一緒に働きませんか？</p>
 
-      <p class="recruit__text">
+      <p class="recruit__text section__text">
         株式会社ＬｉＮＥ&nbsp;ＰＡＲＫでは、共により良い障害福祉の確立、発信、貢献を行っていけるメンバーを募集しております。
       </p>
-      <p class="recruit__text">
+      <p class="recruit__text section__text">
         ご見学もお気軽にお越しください。
       </p>
 
