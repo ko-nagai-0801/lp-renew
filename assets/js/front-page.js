@@ -23,10 +23,11 @@
 })(); // ← 末尾で呼び出して実行
 
 const toggle = document.querySelector(".header__toggle");
-toggle.addEventListener("click", () => {
-  toggle.classList.toggle("is-active"); // ← ボタンの線をアニメ
-  document.querySelector(".header__nav").classList.toggle("is-open"); // ← メニューの開閉制御など
-});
+if (toggle)
+  toggle.addEventListener("click", () => {
+    toggle.classList.toggle("is-active"); // ← ボタンの線をアニメ
+    document.querySelector(".header__nav")?.classList.toggle("is-open");
+  });
 
 /* ----------------------------------------------
  * Recruit パララックス（モバイルも対応）
@@ -108,5 +109,17 @@ toggle.addEventListener("click", () => {
     onEnterBack: () => tl.play(),
     onLeave: () => tl.pause(),
     onLeaveBack: () => tl.pause(),
+  });
+})();
+
+
+/* ---------------------------------------------------------
+ * Services – カードに連番インデックス（--i）を付与
+ * ------------------------------------------------------ */
+(() => {
+  const sec = document.querySelector('#services');
+  if (!sec) return;
+  sec.querySelectorAll('.services__card').forEach((li, i) => {
+    li.style.setProperty('--i', i);
   });
 })();

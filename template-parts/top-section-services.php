@@ -29,62 +29,82 @@ if (! defined('ABSPATH')) {
     Web制作から軽作業まで——多様な業務をワンストップで請け負います。
   </p>
 
-  <ul class="services__cards">
-    <?php
-    $services = [
-      [
-        'slug' => 'web',
-        'icon' => 'img/icon-web.png',
-        'title' => 'Web制作',
-        'text' => 'UX 設計から公開後の保守まで、成果につながるサイトを構築。'
-      ],
-      [
-        'slug' => 'design',
-        'icon' => 'img/icon-design.svg',
-        'title' => 'デザイン制作',
-        'text' => 'ポスター・バナー・名刺など、ブランドを彩るビジュアルをご提案。'
-      ],
-      [
-        'slug' => 'movie',
-        'icon' => 'img/icon-movie.svg',
-        'title' => '動画編集',
-        'text' => 'SNS／YouTube 向け動画を企画〜編集までワンストップ対応。'
-      ],
-      [
-        'slug' => 'lightwork',
-        'icon' => 'img/icon-box.svg',
-        'title' => '軽作業',
-        'text' => '封入・梱包・検品などバックオフィス業務を正確・迅速に代行。'
-      ],
-    ];
+<?php
+$services = [
+  [
+    'slug'  => 'web',
+    'icon'  => 'bi-code-slash', // ← ここをクラス名に
+    'title' => 'Web制作',
+    'text'  => 'UX 設計から公開後の保守まで、成果につながるサイトを構築。',
+    'bg'    => 'assets/img/top-services/bg-web.webp',
+    'tone'  => 'light',
+  ],
+  [
+    'slug'  => 'design',
+    'icon'  => 'bi-brush',
+    'title' => 'デザイン制作',
+    'text'  => 'ポスター・バナー・名刺など、ブランドを彩るビジュアルをご提案。',
+    'bg'    => 'assets/img/top-services/bg-design.webp',
+    'tone'  => 'light',
+  ],
+  [
+    'slug'  => 'movie',
+    'icon'  => 'bi-camera-reels',
+    'title' => '動画編集',
+    'text'  => 'SNS／YouTube 向け動画を企画〜編集までワンストップ対応。',
+    'bg'    => 'assets/img/top-services/bg-movie.webp',
+    'tone'  => 'light',
+  ],
+  [
+    'slug'  => 'lightwork',
+    'icon'  => 'bi-box-seam',
+    'title' => '軽作業',
+    'text'  => '封入・梱包・検品などバックオフィス業務を正確・迅速に代行。',
+    'bg'    => 'assets/img/top-services/bg-lightwork.webp',
+    'tone'  => 'light',
+  ],
+  [
+    'slug'  => 'others',
+    'icon'  => 'bi-stars',
+    'title' => 'その他の業務',
+    'text'  => 'リスト作成やデータ収集、検証など、「こんなことも？」にお応えします。',
+    'bg'    => 'assets/img/top-services/bg-others.webp',
+    'tone'  => 'light',
+  ],
+];
+?>
 
-    foreach ($services as $s) : ?>
-      <li class="services__card">
-        <a href="<?php echo esc_url(home_url("/services/{$s['slug']}/")); ?>"
-          class="services__link">
-          <h3 class="services__card-title">
-            <img src="<?php echo esc_url(get_theme_file_uri($s['icon'])); ?>"
-              alt="" aria-hidden="true"> <?php echo esc_html($s['title']); ?>
-          </h3>
-          <p class="services__card-text"><?php echo esc_html($s['text']); ?></p>
-          <span class="services__card-cta">詳しく見る</span>
-        </a>
-      </li>
-    <?php endforeach; ?>
 
-    <li class="services__card services__card--more">
-      <a href="<?php echo esc_url(home_url('/services/#others')); ?>" class="services__link">
+<ul class="services__cards">
+  <?php foreach ($services as $s) :
+    $bg_url = get_theme_file_uri($s['bg'] ?? '');
+    $tone   = $s['tone'] ?? 'dark';
+    $icon   = $s['icon'] ?? '';
+    $is_bi  = (0 === strpos($icon, 'bi-')); // PHP7互換
+  ?>
+    <li class="services__card">
+      <a
+        href="<?php echo esc_url(home_url("/services/{$s['slug']}/")); ?>"
+        class="services__link services__link--<?php echo esc_attr($tone); ?>"
+        style="--card-bg:url('<?php echo esc_url($bg_url); ?>')"
+      >
         <h3 class="services__card-title">
-          <img src="<?php echo esc_url(get_theme_file_uri('img/icon-more.svg')); ?>"
-            alt="" aria-hidden="true"> その他の業務
+          <span class="services__icon" aria-hidden="true">
+            <?php if ($is_bi): ?>
+              <i class="bi <?php echo esc_attr($icon); ?>"></i>
+            <?php else: ?>
+              <img src="<?php echo esc_url(get_theme_file_uri($icon)); ?>" alt="">
+            <?php endif; ?>
+          </span>
+          <?php echo esc_html($s['title']); ?>
         </h3>
-        <p class="services__card-text">
-          リスト作成・データ収集・システム検証など<br>「こんなこと頼める？」もお気軽にご相談ください。
-        </p>
-        <span class="services__card-cta">事例を見る</span>
+        <p class="services__card-text"><?php echo esc_html($s['text']); ?></p>
+        <span class="services__card-cta">詳しく見る</span>
       </a>
     </li>
-  </ul>
+  <?php endforeach; ?>
+</ul>
+
 
   <?php
   get_template_part(
@@ -94,7 +114,7 @@ if (! defined('ABSPATH')) {
       'url' => home_url('/services/'),
       'label' => 'Services',
       'variant' => 'primary', // 'primary' or 'white'
-      'extra_class' => 'services__cta' // 必要に応じて追加クラス
+      'extra_class' => 'services__cta' // 追加クラス
     ]
   );
   ?>

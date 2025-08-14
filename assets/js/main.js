@@ -11,69 +11,73 @@
    - ★ セクションの見出し・テキスト等を同時発火（.is-sync 付与）
    ============================================================== */
 (() => {
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const prefersReduced = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
 
   /* ----------------------------------------------------------------
    * 1) Header : ハンバーガー開閉 & スクロール着色 & TOP透過
    * ---------------------------------------------------------------- */
-  const header     = document.querySelector('.header');
-  const toggleBtn  = document.querySelector('.header__toggle');
-  const toggleLine = document.querySelector('.header__toggle-line');
-  const nav        = document.querySelector('.header__nav');
+  const header = document.querySelector(".header");
+  const toggleBtn = document.querySelector(".header__toggle");
+  const toggleLine = document.querySelector(".header__toggle-line");
+  const nav = document.querySelector(".header__nav");
 
   const openMenu = () => {
-    toggleBtn?.classList.add('is-active');
-    toggleLine?.classList.add('is-active');
-    nav?.classList.add('is-active');
-    document.body.classList.add('is-locked');
-    toggleBtn?.setAttribute('aria-expanded', 'true');
+    toggleBtn?.classList.add("is-active");
+    toggleLine?.classList.add("is-active");
+    nav?.classList.add("is-active");
+    document.body.classList.add("is-locked");
+    toggleBtn?.setAttribute("aria-expanded", "true");
   };
   const closeMenu = () => {
-    toggleBtn?.classList.remove('is-active');
-    toggleLine?.classList.remove('is-active');
-    nav?.classList.remove('is-active');
-    document.body.classList.remove('is-locked');
-    toggleBtn?.setAttribute('aria-expanded', 'false');
+    toggleBtn?.classList.remove("is-active");
+    toggleLine?.classList.remove("is-active");
+    nav?.classList.remove("is-active");
+    document.body.classList.remove("is-locked");
+    toggleBtn?.setAttribute("aria-expanded", "false");
   };
 
   if (toggleBtn && nav) {
-    toggleBtn.addEventListener('click', () => {
-      const willOpen = !nav.classList.contains('is-active');
+    toggleBtn.addEventListener("click", () => {
+      const willOpen = !nav.classList.contains("is-active");
       willOpen ? openMenu() : closeMenu();
     });
 
     // ナビ内リンクを押したら閉じる
-    nav.addEventListener('click', (e) => {
-      if (e.target.closest('a')) closeMenu();
+    nav.addEventListener("click", (e) => {
+      if (e.target.closest("a")) closeMenu();
     });
 
     // ESCで閉じる
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeMenu();
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeMenu();
     });
   }
 
   // ヘッダーのスクロール着色（全ページ）
-  const setHeaderColor = () => header?.classList.toggle('header--scrolled', window.scrollY > 50);
+  const setHeaderColor = () =>
+    header?.classList.toggle("header--scrolled", window.scrollY > 50);
   setHeaderColor();
-  window.addEventListener('scroll', setHeaderColor, { passive: true });
+  window.addEventListener("scroll", setHeaderColor, { passive: true });
 
   // TOPのみ透過（main.isTop があるとき）
-  const isTopPage = !!document.querySelector('main.isTop');
+  const isTopPage = !!document.querySelector("main.isTop");
   if (isTopPage && header) {
     const applyTopTransparent = () => {
-      const atTop = window.scrollY <= 10 && !nav?.classList.contains('is-active');
-      header.classList.toggle('header--transparent', atTop);
+      const atTop =
+        window.scrollY <= 10 && !nav?.classList.contains("is-active");
+      header.classList.toggle("header--transparent", atTop);
     };
     applyTopTransparent();
-    window.addEventListener('scroll', applyTopTransparent, { passive: true });
+    window.addEventListener("scroll", applyTopTransparent, { passive: true });
   }
 
   /* ----------------------------------------------------------------
    * 2) Inertia Parallax : .parallax 要素を慣性追従させる
    *     CSS側：background-position のYに var(--parallax-offset) を使用
    * ---------------------------------------------------------------- */
-  const pElems = [...document.querySelectorAll('.parallax')];
+  const pElems = [...document.querySelectorAll(".parallax")];
   const hasParallax = pElems.length > 0 && !prefersReduced;
   const lerp = (a, b, t) => a + (b - a) * t;
 
@@ -95,13 +99,18 @@
     const winH = window.innerHeight;
 
     pElems.forEach((el) => {
-      const st = pState.get(el) || { cur: 0, target: 0 };
-      // 目標を更新
-      const { target } = calcTarget(el, scY, winH);
-      st.target = target; // px
-      // 慣性追従
-      st.cur = lerp(st.cur, st.target, 0.12); // 0.08〜0.2 で好みに
-      el.style.setProperty('--parallax-offset', `-${st.cur.toFixed(2)}px`);
+      const st = pState.get(el) || { cur: 0, target: 0, maxMove: 0 };
+      const { target, maxMove } = calcTarget(el, scY, winH);
+
+      // ★ 余白を動的に設定（2 × 最大移動量）
+      if (st.maxMove == null || Math.abs(maxMove - st.maxMove) > 0.5) {
+        el.style.setProperty("--parallax-extra", `${Math.ceil(maxMove * 2)}px`);
+        st.maxMove = maxMove;
+      }
+
+      st.target = target;
+      st.cur = lerp(st.cur, st.target, 0.12); // 慣性
+      el.style.setProperty("--parallax-offset", `-${st.cur.toFixed(2)}px`);
       pState.set(el, st);
     });
 
@@ -111,14 +120,21 @@
   const startParallax = () => {
     if (!hasParallax) return;
     // 初期マップ
-    pElems.forEach((el) => pState.set(el, { cur: 0, target: 0 }));
+    pElems.forEach((el) => pState.set(el, { cur: 0, target: 0, maxMove: 0 }));
     rafId = requestAnimationFrame(renderParallax);
 
     // レイアウト変化に追随（観測だけ・処理は render 側で常時）
-    if ('ResizeObserver' in window) {
+    if ("ResizeObserver" in window) {
       const ro = new ResizeObserver(() => {});
       pElems.forEach((el) => ro.observe(el));
     }
+    window.addEventListener(
+      "resize",
+      () => {
+        /* 次フレームでmaxMove反映 */
+      },
+      { passive: true }
+    );
   };
 
   /* ----------------------------------------------------------------
@@ -127,19 +143,19 @@
    *    - ただし .is-sync が付いた時は全 delay を 0 に（CSS側で上書き）
    * ---------------------------------------------------------------- */
   const TRIGGER_POS = 0.9; // 画面下から10%ラインで発火
-  const sections = [...document.querySelectorAll('.section')];
+  const sections = [...document.querySelectorAll(".section")];
 
   // 見出しの 1 文字分割（子要素は保持）。必要なときだけ実施
   const splitTitle = (title) => {
-    if (!title || title.dataset.split === 'done') return;
+    if (!title || title.dataset.split === "done") return;
 
     const wrapTextNode = (node) => {
       const frag = document.createDocumentFragment();
-      const chars = node.textContent.split('');
+      const chars = node.textContent.split("");
       chars.forEach((ch, i) => {
-        const span = document.createElement('span');
-        span.className = 'char';
-        span.style.setProperty('--i', i);
+        const span = document.createElement("span");
+        span.className = "char";
+        span.style.setProperty("--i", i);
         span.textContent = ch;
         frag.appendChild(span);
       });
@@ -148,38 +164,47 @@
 
     // テキストノードのみ分割し、子要素はそのまま温存
     const walker = document.createTreeWalker(title, NodeFilter.SHOW_TEXT, {
-      acceptNode: (n) => n.nodeValue.trim() ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT
+      acceptNode: (n) =>
+        n.nodeValue.trim()
+          ? NodeFilter.FILTER_ACCEPT
+          : NodeFilter.FILTER_REJECT,
     });
     const textNodes = [];
     while (walker.nextNode()) textNodes.push(walker.currentNode);
     textNodes.forEach(wrapTextNode);
 
-    title.dataset.split = 'done';
+    title.dataset.split = "done";
   };
 
   // タイトル文字数を CSS 変数へ（delay 計算用だが .is-sync で無効化）
   const updateTitleCounts = (sec) => {
-    const count = sec.querySelectorAll('.section__title .char').length;
-    if (count) sec.style.setProperty('--title-chars', String(count));
+    const count = sec.querySelectorAll(".section__title .char").length;
+    if (count) sec.style.setProperty("--title-chars", String(count));
   };
 
   // 発火処理（同時発火クラスを必ず付与）
   const onEnter = (sec) => {
-    const title = sec.querySelector('.section__title');
-    if (title) { splitTitle(title); updateTitleCounts(sec); }
-    sec.classList.add('is-visible', 'is-sync'); // ★ 同時発火用クラス
+    const title = sec.querySelector(".section__title");
+    if (title) {
+      splitTitle(title);
+      updateTitleCounts(sec);
+    }
+    sec.classList.add("is-visible", "is-sync"); // ★ 同時発火用クラス
   };
 
-  const io = new IntersectionObserver((entries, observer) => {
-    entries.forEach((ent) => {
-      if (!ent.isIntersecting) return;
-      onEnter(ent.target);
-      observer.unobserve(ent.target); // 1回だけ
-    });
-  }, {
-    rootMargin: `0px 0px -${(1 - TRIGGER_POS) * 100}% 0px`,
-    threshold: 0
-  });
+  const io = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((ent) => {
+        if (!ent.isIntersecting) return;
+        onEnter(ent.target);
+        observer.unobserve(ent.target); // 1回だけ
+      });
+    },
+    {
+      rootMargin: `0px 0px -${(1 - TRIGGER_POS) * 100}% 0px`,
+      threshold: 0,
+    }
+  );
 
   // 初期表示で既に見えている要素は即時発火
   sections.forEach((sec) => {
@@ -195,12 +220,15 @@
    * 4) Smooth anchor (reduce-motion 尊重)
    * ---------------------------------------------------------------- */
   document.querySelectorAll('a[href^="#"]').forEach((a) => {
-    a.addEventListener('click', (e) => {
-      const id = decodeURIComponent(a.getAttribute('href'));
-      const target = id && id !== '#' ? document.querySelector(id) : null;
+    a.addEventListener("click", (e) => {
+      const id = decodeURIComponent(a.getAttribute("href"));
+      const target = id && id !== "#" ? document.querySelector(id) : null;
       if (!target) return;
       e.preventDefault();
-      target.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'start' });
+      target.scrollIntoView({
+        behavior: prefersReduced ? "auto" : "smooth",
+        block: "start",
+      });
       closeMenu();
     });
   });
@@ -211,18 +239,18 @@
   const init = () => {
     startParallax();
   };
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
   } else {
     init();
   }
 })();
 
 /* -------------------------------------------------------
- * Global CTA Buttons – scroll-in animation (GSAPがあれば)
+ * Global CTA Buttons – scroll-in animation
  * ----------------------------------------------------- */
 (() => {
-  const ctaButtons = document.querySelectorAll('.c-cta__button');
+  const ctaButtons = document.querySelectorAll(".c-cta__button");
   if (!ctaButtons.length) return;
   if (!(window.gsap && window.ScrollTrigger)) return; // GSAPが無い環境でのエラー回避
 
@@ -232,11 +260,11 @@
       y: 30,
       autoAlpha: 0,
       duration: 0.9,
-      ease: 'power3.out',
+      ease: "power3.out",
       scrollTrigger: {
         trigger: btn,
-        start: 'top 85%',
-        toggleActions: 'play none none none',
+        start: "top 85%",
+        toggleActions: "play none none none",
       },
     });
   });

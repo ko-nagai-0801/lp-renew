@@ -431,30 +431,30 @@ select {
    Parallax  –  共通ベース
    （クラス .parallax を付けるだけで適用される）
    ======================================================= */
-.parallax {
-  --parallax-extra: 0px; /* JS が計算して上書き             */
-  --parallax-offset: 0px; /* JS がスクロールごとに上書き       */
-  --parallax-image: none; /* 各要素で画像を指定（必須）        */
-  --parallax-overlay: none; /* 色マスクを重ねたい場合に指定       */
-
+.parallax{
+  --parallax-extra: 0px;   /* JSで上書きされる想定 */
+  --parallax-offset: 0px;
+  --parallax-image: none;
+  --parallax-overlay: none;
   position: relative;
   overflow: hidden;
 }
 
-/* 背景カーテン：transform 不使用・途切れ防止付き */
-.parallax::before {
-  content: "";
-  position: absolute;
+/* 背景カーテンのサイズを “100% + 余白” に */
+.parallax::before{
+  content:"";
+  position:absolute;
   top: calc(-1 * var(--parallax-extra) / 2);
-  left: 0;
-  width: 100%;
-  height: calc(120% + var(--parallax-extra));
-  background: var(--parallax-overlay),
-    /* ① 色マスク（任意） */ var(--parallax-image) center var(--parallax-offset) /
-      cover no-repeat; /* ② 画像 */
-  will-change: background-position; /* GPU 最適化 */
-  z-index: -1;
+  left:0;
+  width:100%;
+  height: calc(100% + var(--parallax-extra));
+  background:
+    var(--parallax-overlay),
+    var(--parallax-image) center var(--parallax-offset) / cover no-repeat;
+  will-change: background-position;
+  z-index:-1;
 }
+
 
 /* ==========================================================
    Contact-CTA  –  Parallax を継承したカスタムスタイル
