@@ -1,5 +1,5 @@
 /**
- * assets/js/top.js
+ * assets/js/front-page.js
  * ---------------------------------------------------------
  * ① Hero セクション Swiper（フェード＋ズーム）
  * ---------------------------------------------------------
@@ -121,5 +121,52 @@ if (toggle)
   if (!sec) return;
   sec.querySelectorAll('.services__card').forEach((li, i) => {
     li.style.setProperty('--i', i);
+  });
+})();
+
+/* ---------------------------------------------------------
+ * NEWS – 各アイテムが順に“奥からパタッ”と倒れてくる
+ * ------------------------------------------------------ */
+(() => {
+  const sec  = document.querySelector('#news');
+  if (!sec) return;
+
+  const list  = sec.querySelector('.news__list');
+  const rows  = sec.querySelectorAll('.news__item .news__link'); // ← 各行のaを動かす
+  if (!rows.length) return;
+
+  if (!(window.gsap && window.ScrollTrigger)) return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  const prefersReduced =
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // 初期状態：少し奥に傾けて浮かせておく
+  gsap.set(rows, {
+    transformOrigin: 'top center',
+    rotateX: -65,
+    y: -8,
+    opacity: 0
+  });
+
+  // リストが見えたら“順に”実行（1回だけ）
+  ScrollTrigger.create({
+    trigger: list,
+    start: 'top 80%',
+    once: true,
+    onEnter: () => {
+      if (prefersReduced) {
+        gsap.to(rows, { opacity: 1, y: 0, duration: 0.4, stagger: 0.08, ease: 'power2.out' });
+        return;
+      }
+      gsap.to(rows, {
+        rotateX: 0,
+        y: 0,
+        opacity: 1,
+        duration: 0.9,
+        ease: 'back.out(1.5)',
+        stagger: 0.12    // ← ここで“1行ずつ順番に”
+      });
+    }
   });
 })();

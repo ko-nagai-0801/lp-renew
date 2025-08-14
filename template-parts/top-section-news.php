@@ -56,4 +56,18 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
     </div>
 
   </div><!-- /.news__inner -->
+
+
+    <?php
+  get_template_part(
+    'components/cta',
+    null,
+    [
+      'url' => home_url('/news/'),
+      'label' => 'NEWS',
+      'variant' => 'primary', // 'primary' or 'white'
+      'extra_class' => 'news__cta' // 追加クラス
+    ]
+  );
+  ?>
 </section>

@@ -25,11 +25,13 @@
   --f-white: #fff;
   --f-navy: #005b94;
   --f-yellow: #ffc107;
+  --f-gray: #686f75;
   --c-white: #fff;
   --c-navy: #005b94;
   --c-blue: #009cdf;
   --c-blue-dark: #007bb5;
   --c-yellow: #ffc107;
+  --c-gray: #686f75;
 
   --radius-card: 16px;
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);

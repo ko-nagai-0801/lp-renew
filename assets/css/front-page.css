@@ -806,8 +806,13 @@
 .news__body {
   width: 100%;
   margin: 0 auto;
+  padding-bottom: 3rem;
 }
 .news__list {
+  /* アニメーション用 */
+  perspective: 1000px; /* 奥行きを付与 */
+  transform-style: preserve-3d;
+
   margin-bottom: 1rem;
   padding-left: 2rem;
 }
@@ -817,13 +822,25 @@
   }
 }
 .news__item {
-  border-bottom: 1px solid #b4b4b4;
+  border-bottom: 1px solid var(--c-gray);
 }
+
 .news__link {
   display: flex;
   align-items: center;
   padding: 24px 0 0;
   position: relative;
+
+  /* アニメーション用 */
+  transform-style: preserve-3d;
+  backface-visibility: hidden; /* iOSのチラつき対策 */
+  will-change: transform, opacity;
+}
+/* reduce-motion 環境ではフェードのみ */
+@media (prefers-reduced-motion: reduce) {
+  .news__link {
+    will-change: auto;
+  }
 }
 .news__link::after {
   content: url(../img/common/right-arrow-blue.svg);
@@ -859,9 +876,9 @@
 }
 
 .news__date {
-  margin-right: 10px;
-  color: #686f75;
-  font-size: clamp(0.875rem, 1.2vw, 2rem);
+  margin-right: 0.5rem;
+  color: var(--f-gray);
+  font-size: clamp(0.7rem, 0.9vw, 1.0rem);
   line-height: 24px;
 }
 @media (max-width: 640px) {
@@ -869,9 +886,30 @@
     font-size: 11px;
   }
 }
+/* 共通バッジ */
 .news__label {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  height: 1.6em; /* 行高を一定にして芯を揃える */
+  padding: 0 0.6em;
+  margin-left: 0.25rem; /* 日付との間 */
+  background: var(--c-blue); /* 青地 */
+  color: #fff; /* 白文字 */
+  border-radius: 9999px; /* Pill 形状 */
+  font-weight: 700;
+  font-size: clamp(0.7rem, 0.9vw, 1.0rem);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  white-space: nowrap; /* 折り返さない */
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.08);
+  vertical-align: middle; /* 日付と縦位置を合わせる */
 }
+
+/* ホバー時は少しだけ濃く */
+.news__link:hover .news__label {
+  background: var(--c-blue-dark);
+}
+
 .news__text {
   font-size: clamp(0.875rem, 1.2vw, 2rem);
   margin-bottom: 0;
