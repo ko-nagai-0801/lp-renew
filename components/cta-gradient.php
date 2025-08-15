@@ -153,7 +153,7 @@ if (!$printed) : ?>
             .cta--gradient .button:active {
                 transition: transform .18s ease, box-shadow .18s ease;
                 transform: translateY(1px) scale(.98);
-                box-shadow: 0 8px 20px rgba(0, 0, 0, .16);
+                box-shadow: none;
             }
         }
 
