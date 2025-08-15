@@ -102,7 +102,8 @@ if (!$printed) : ?>
         .cta--gradient .button:focus-visible {
             color: #fff;
             outline: none;
-            box-shadow: 0 12px 26px rgba(0, 0, 0, .18);
+            /* box-shadow: 0 12px 26px rgba(0, 0, 0, .18); */
+            box-shadow: none !important;
             background: none !important;
             /* テーマの:hover背景を無効化 */
         }

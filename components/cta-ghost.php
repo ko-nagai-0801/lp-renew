@@ -151,6 +151,7 @@ if (!$printed): ?>
                 z-index: 3;
                 background: none;
                 -webkit-mask-image: none;
+                mask-image: none;
             }
         }
 
