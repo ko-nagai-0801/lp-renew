@@ -28,7 +28,7 @@ if (! defined('ABSPATH')) {
 
       <?php
       get_template_part(
-        'components/cta',
+        'components/cta-ghost',
         null,
         [
           'url' => home_url('/contact/'),

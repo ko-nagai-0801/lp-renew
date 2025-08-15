@@ -39,13 +39,14 @@ if (! defined('ABSPATH')) {
             </div>
             <?php
             get_template_part(
-                'components/cta',
+                'components/cta-gradient',
                 null,
                 [
-                    'url' => home_url('/about/'),
+                    'url'   => home_url('/about/'),
                     'label' => 'About Us',
-                    'variant' => 'primary', // 'primary' or 'white'
-                    'extra_class' => 'about__cta' // 追加クラス
+                    'variant'     => 'primary',
+                    'extra_class' => 'about__cta',
+                    'split'       => true,
                 ]
             );
             ?>
@@ -73,54 +74,74 @@ if (! defined('ABSPATH')) {
 <style>
     /* ====== About CTA（ゴースト → 左から塗り）====== */
     #about .about__cta .button {
-        --g1: var(--about-grad-1, #92d0f0);
-        --g2: var(--about-grad-5, #5c98ff);
-        --g3: var(--about-grad-6, #fb8484);
+        /* 濃い目グラデ：Green → Blue → Red */
+        --g1: #74D690;
+        --g2: #5AA8FF;
+        --g3: #FF7A7A;
         --grad: linear-gradient(90deg, var(--g1), var(--g2), var(--g3));
 
-        /* 既存の青背景を打ち消し */
+        /* 既存の塗りを打ち消し／枠はグラデ */
         background: none !important;
         background-color: transparent !important;
-
-        /* 枠は常にグラデ */
         border: 2px solid transparent;
         border-image: var(--grad) 1;
 
-        /* 重ね順の基準にする（::before を下層、文字は上層） */
+        /* レイヤー制御 */
         position: relative;
         overflow: hidden;
         isolation: isolate;
 
+        /* 角丸は使わない */
+        border-radius: 0;
+
+        /* 初期テキスト色（グラデ文字をfallbackで支える） */
         color: var(--c-navy);
-        /* 初期は読める色 */
+
         box-shadow: 0 10px 22px rgba(0, 0, 0, .12);
         transition: color .35s, box-shadow .35s, transform .25s;
     }
 
-    /* ← グラデ塗り。初期は横幅 0%（見えない） */
+    /* ← 左から伸びる塗り（初期は0%） */
     #about .about__cta .button::before {
-        content: "" !important;
-        /* ← ここで再有効化 */
+        content: "";
         position: absolute;
         inset: 0;
         border-radius: inherit;
-        background: var(--grad);
+        /* 角丸0を継承 */
+        /* 白文字の視認性を少し上げる薄い影を重ねる */
+        background: linear-gradient(rgba(0, 0, 0, .06), rgba(0, 0, 0, .06)), var(--grad);
         transform-origin: left center;
         transform: scaleX(0);
         transition: transform .55s cubic-bezier(.22, 1, .36, 1);
         z-index: 0;
-        /* テキストより下 */
         pointer-events: none;
+        will-change: transform;
     }
 
-    /* 矢印は常にテキストと同色・前面 */
-    #about .about__cta .button::after {
+    /* 初期：テキスト＆矢印をグラデで描画 */
+    #about .about__cta .button .btn-text {
+        background-image: var(--grad);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
         position: relative;
         z-index: 1;
-        color: currentColor !important;
+        /* ::before の上 */
     }
 
-    /* hover / focus：塗りを全幅にして白文字に */
+    #about .about__cta .button::after {
+        background-image: var(--grad) !important;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent !important;
+        display: inline-block;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* hover / focus：塗りを全幅にして白文字へ */
     #about .about__cta .button:hover::before,
     #about .about__cta .button:focus-visible::before {
         transform: scaleX(1);
@@ -131,62 +152,10 @@ if (! defined('ABSPATH')) {
         color: #fff;
         box-shadow: 0 12px 26px rgba(0, 0, 0, .18);
         outline: none;
-        border-radius: 0;
-    }
-
-    #about .about__cta .button:hover .btn-text {
-        color: var(--f-white);
-        z-index: 100;
-    }
-
-    /* 既存の .button:hover の背景指定を無効化（安全策） */
-    #about .about__cta .button:hover {
         background: none !important;
+        /* 既存 .button:hover の塗りを無効化 */
     }
 
-    /* reduce-motion 環境ではフェードに切替 */
-    @media (prefers-reduced-motion: reduce) {
-        #about .about__cta .button::before {
-            transition: opacity .3s;
-            transform: none;
-            opacity: 0;
-        }
-
-        #about .about__cta .button:hover::before,
-        #about .about__cta .button:focus-visible::before {
-            opacity: 1;
-        }
-    }
-
-    /* ===== 初期：文字＆矢印をグラデーションで描画 ===== */
-    #about .about__cta .button .btn-text {
-        background-image: var(--grad);
-        /* 同じグラデを使用 */
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        /* 文字色は背景で塗る */
-        -webkit-text-fill-color: transparent;
-        position: relative;
-        z-index: 1;
-        /* ::before の上 */
-    }
-
-    /* 矢印（bootstrap-icons の疑似要素）もグラデ塗り */
-    #about .about__cta .button::after {
-        background-image: var(--grad) !important;
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        /* iOS/Safari */
-        color: transparent !important;
-        display: inline-block;
-        /* クリップ安定 */
-        position: relative;
-        z-index: 1;
-    }
-
-    /* ===== ホバー／フォーカス：白文字へ ===== */
     #about .about__cta .button:hover .btn-text,
     #about .about__cta .button:focus-visible .btn-text {
         background-image: none;
@@ -201,16 +170,20 @@ if (! defined('ABSPATH')) {
         color: #fff !important;
     }
 
-    /* モバイル（hover なし）では常に塗り＋白文字 */
+    /* モバイル：常に塗り＋白文字、タップで軽く沈む */
     @media (hover: none) {
         #about .about__cta .button {
-            /* 枠は残してもOK。外したいなら border: 0; に */
             border-image: none;
+            /* 枠を消したい場合。残すならこの行を削除 */
+            min-height: 48px;
+            padding: .9rem 1.25rem;
+            font-size: 1.0625rem;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            touch-action: manipulation;
         }
 
         #about .about__cta .button::before {
             transform: scaleX(1);
-            /* ← 既に全幅で塗っておく */
         }
 
         #about .about__cta .button .btn-text {
@@ -225,20 +198,29 @@ if (! defined('ABSPATH')) {
             color: #fff !important;
         }
 
-        /* タップの微小フィードバック */
         #about .about__cta .button:active {
+            transition: transform .18s ease, box-shadow .18s ease;
             transform: translateY(1px) scale(.98);
             box-shadow: 0 8px 20px rgba(0, 0, 0, .16);
         }
+    }
 
-        /* ヒットエリア確保と読みやすさ */
-        #about .about__cta .button {
-            min-height: 48px;
-            /* 親指サイズ */
-            padding: .9rem 1.25rem;
-            font-size: 1.0625rem;
-            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-            touch-action: manipulation;
+    /* 動きが苦手な環境ではフェードに切替 */
+    @media (prefers-reduced-motion: reduce) {
+        #about .about__cta .button::before {
+            transition: opacity .3s;
+            transform: none;
+            opacity: 0;
         }
+
+        #about .about__cta .button:hover::before,
+        #about .about__cta .button:focus-visible::before {
+            opacity: 1;
+        }
+    }
+
+    /* （保険）テーマ由来の hover 背景を無効化 */
+    #about .about__cta .button:hover {
+        background: none !important;
     }
 </style>

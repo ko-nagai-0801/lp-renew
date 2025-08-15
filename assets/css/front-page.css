@@ -736,7 +736,7 @@
   margin: 0 auto;
   padding: 30px;
   border-radius: 12px;
-  background: var(--c-navy);
+  background: #005b94d6;
 }
 @media (max-width: 960px) {
   .recruit__content {
