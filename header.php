@@ -41,16 +41,16 @@
             </div>
 
             <!-- Global-nav ------------------------------------------------------- -->
-            <nav class="header__nav">
+            <nav class="header__nav" id="global-nav">
                 <ul class="header__menu">
                     <li class="header__item">
                         <a href="<?php echo esc_url(home_url('/about/')); ?>" class="header__link">
-                            ＬｉＮＥ&nbsp;ＰＡＲＫについて<span class="header__sub">About</span>
+                            ＬｉＮＥ&nbsp;ＰＡＲＫについて<span class="header__sub">About Us</span>
                         </a>
                     </li>
                     <li class="header__item">
                         <a href="<?php echo esc_url(home_url('/#business')); ?>" class="header__link">
-                            事業内容<span class="header__sub">Business</span>
+                            事業内容<span class="header__sub">Services</span>
                         </a>
                     </li>
                     <li class="header__item">
@@ -65,7 +65,7 @@
                     </li>
                     <li class="header__item">
                         <a href="<?php echo esc_url(home_url('/#news')); ?>" class="header__link">
-                            お知らせ<span class="header__sub">News</span>
+                            お知らせ<span class="header__sub">NEWS</span>
                         </a>
                     </li>
                     <li class="header__item header__item--cta">
@@ -78,7 +78,7 @@
             </nav>
 
             <!-- Hamburger button (for SP) -------------------------------------- -->
-            <button class="header__toggle" aria-label="メニューを開閉">
+            <button class="header__toggle" type="button" aria-label="メニューを開閉" aria-controls="global-nav">
                 <span class="header__toggle-line"></span>
             </button>
 

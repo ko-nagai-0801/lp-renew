@@ -2,13 +2,23 @@
    Header  (BEM)   LP_WP_Theme/assets/css/header.css
    ============================================================ */
 
+/* ヘッダー高さの変数 */
+:root {
+  --header-h: 80px;
+}
+@media (max-width: 992px) {
+  :root {
+    --header-h: 68px;
+  }
+}
+
 /* 1) 基本レイアウト ------------------------------------------ */
 .header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 80px;
+  height: var(--header-h);
   z-index: 1000;
   transition: background-color 0.3s, box-shadow 0.3s;
 }
@@ -25,18 +35,10 @@
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 }
 
-/* スクロールで薄グレー背景を付けたい場合は JS で .header--scrolled を付与 */
+/* スクロールで薄グレー背景（任意） */
 .header--scrolled {
   background: rgba(0, 0, 0, 0.1);
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-}
-
-/* 高さ（SP） */
-@media (max-width: 992px) {
-  .header {
-    height: 68px;
-    padding: 0;
-  }
 }
 
 /* 2) インナー ------------------------------------------------- */
@@ -44,10 +46,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 100%;
   padding: 0 10px;
 }
 @media (max-width: 992px) {
   .header__inner {
+    position: relative; /* navより前面に出す */
+    z-index: 2;
     flex-direction: column;
     align-items: flex-start;
   }
@@ -56,7 +61,6 @@
 /* 3) ロゴ ----------------------------------------------------- */
 .header__logo-image {
   display: inline-block;
-  z-index: 1000;
 }
 
 /* 4) ナビゲーション ------------------------------------------- */
@@ -64,19 +68,41 @@
   width: 80%;
   transition: opacity 0.6s, visibility 0.6s;
 }
+
+/* SP時は “ヘッダーの下から” 全面に展開 */
+/* SP時は “ヘッダーの下から” 全面に展開 */
 @media (max-width: 992px) {
   .header__nav {
-    position: absolute;
-    inset: 0;
+    position: fixed; /* fixed に */
+    top: var(--header-h); /* ヘッダー直下から */
+    left: 0;
+    right: 0;
+    bottom: 0; /* ← 高さは bottom:0 で全画面にフィット */
     width: 100%;
-    height: 100svh;
+    /* height: calc(100svh - var(--header-h));  ← 不要 */
+    height: auto; /* 明示的に無効化 */
     background: rgba(0, 0, 0, 0.9);
     opacity: 0;
     visibility: hidden;
+    z-index: 1; /* ヘッダーより後ろ */
+    padding-bottom: max(16px, env(safe-area-inset-bottom)); /* iOS下部安全域 */
+    overflow-y: auto; /* メニューが長くてもスクロール可 */
+    -webkit-overflow-scrolling: touch;
   }
   .header__nav.is-active {
     opacity: 1;
     visibility: visible;
+  }
+
+  .header__menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+    /* height: 100svh; ← これが隙間の原因、撤去 */
+    height: 100%; /* navの高さに追従 */
+    min-height: 100%; /* 念のため */
+    padding-inline: 0;
   }
 }
 
@@ -92,13 +118,14 @@
     flex-direction: column;
     justify-content: center;
     gap: 15px;
-    height: 100%;
+    height: 100svh;
+    padding-inline: 0;
   }
 }
 
 /* 4-2) アイテム */
 .header__item {
-  font-size: clamp(0.8rem, 1vw, 1.2vw);
+  font-size: clamp(1rem, 1.5vw, 1.3rem);
 }
 @media (max-width: 992px) {
   .header__item {
@@ -118,7 +145,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #1c1c1c;
+  color: var(--f-black);
+  font-weight: normal;
   transition: color 0.3s;
 }
 .header__link:hover {
@@ -127,7 +155,7 @@
 @media (max-width: 992px) {
   .header__link {
     color: #fff;
-    font-size: 14px;
+    font-size: 1.3rem;
     padding: 24px 0;
   }
 }
@@ -135,7 +163,7 @@
 /* サブ（英語） */
 .header__sub {
   color: #686f75;
-  font-size: 0.8rem;
+  font-size: clamp(0.875rem, 1vw, 1rem);
   transition: 0.3s;
 }
 .header__link:hover .header__sub {
@@ -198,28 +226,26 @@
     border: none;
     background: #005b94;
     cursor: pointer;
-    z-index: 10000;
+    z-index: 3; /* nav(1) / inner(2) より前 */
     transition: background 0.3s;
   }
 }
 
-/* ② “三本線” を作る ------------------ */
+/* “三本線” ベース */
 .header__toggle-line,
 .header__toggle-line::before,
 .header__toggle-line::after {
   display: block;
-  width: 34px; /* 実線の長さ（お好みで）*/
+  width: 34px;
   height: 2px;
   border-radius: 4px;
   background: #fff;
-  transition: transform 0.3s, opacity 0.3s;
+  transition: transform 0.25s ease, top 0.25s ease, background-color 0.2s ease,
+    opacity 0.2s ease;
 }
-
 .header__toggle-line {
   position: relative;
 }
-
-/* 上下の線を 8px ずらす */
 .header__toggle-line::before,
 .header__toggle-line::after {
   content: "";
@@ -233,15 +259,45 @@
   top: 8px;
 } /* 下の線 */
 
-/* ③ × アイコンに変形 ----------------- */
+/* is-active = × に変形（中央に揃えて回転） */
 .header__toggle.is-active .header__toggle-line {
-  background: transparent; /* 真ん中の線を消す */
+  background: transparent;
 }
-
-.header__toggle.is-active .header__toggle-line::before {
-  transform: translateY(8px) rotate(45deg);
-}
-
+.header__toggle.is-active .header__toggle-line::before,
 .header__toggle.is-active .header__toggle-line::after {
-  transform: translateY(-8px) rotate(-45deg);
+  top: 0;
 }
+.header__toggle.is-active .header__toggle-line::before {
+  transform: rotate(45deg);
+}
+.header__toggle.is-active .header__toggle-line::after {
+  transform: rotate(-45deg);
+}
+
+/* Header toggle – Topで透過（SPのみ） */
+@media (max-width: 992px) {
+  /* ヘッダーが透明のときはボタンも透明 */
+  .header--transparent .header__toggle {
+    background: transparent;
+    box-shadow: none;
+  }
+  .header--transparent .header__toggle:hover {
+    background: transparent;
+  }
+  /* メニューを開いたら（×表示時）は常に色付きに戻す */
+  .header__toggle.is-active {
+    background: #005b94;
+  }
+
+  /* 視認性が不安なら三本線に薄い縁取り（任意） */
+  .header--transparent .header__toggle-line,
+  .header--transparent .header__toggle-line::before,
+  .header--transparent .header__toggle-line::after {
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* メニュー展開中のスクロールロック（必要なら） */
+/* body.is-locked {
+  overflow: hidden;
+} */

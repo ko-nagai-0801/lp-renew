@@ -1,14 +1,15 @@
 /* ==============================================================
    main.js – Header UI ＋ 慣性Parallax（.parallax 対象）＋ Section Anim
    --------------------------------------------------------------
-   ◇ポイント
-   - 『.parallax が無いページでも』他の処理が止まらないように修正
-   - パララックスは“スクロール後に少し追従する”慣性式（lerp）
-   - 見出し分割は安全化（子要素は温存／必要な時だけ）
-   - TOPページのみヘッダー透過（<main class="isTop"> で判定）
-   - ナビ内リンククリック／ESC でメニューを閉じる
-   - passive でパフォーマンス最適化、reduce-motion 尊重
-   - ★ セクションの見出し・テキスト等を同時発火（.is-sync 付与）
+   - 多重バインド防止
+   - 開閉state一本化（menuOpen）
+   - 空白クリック/タップで閉じる：PCのみ（スマホ/タブは無効）
+   - SPレイアウト時、hover対応端末なら「ホバーで開閉」
+     → 閉じ判定は header の mouseleave のみ
+     → ウィンドウ外へ出た場合は閉じない
+   - TOPページのみヘッダー透過（<main class="isTop">）
+   - ナビ内リンク／ESCで閉じる
+   - passive適用、reduce-motion尊重
    ============================================================== */
 (() => {
   const prefersReduced = window.matchMedia(
@@ -18,78 +19,174 @@
   /* ----------------------------------------------------------------
    * 1) Header : ハンバーガー開閉 & スクロール着色 & TOP透過
    * ---------------------------------------------------------------- */
-  const header = document.querySelector(".header");
-  const toggleBtn = document.querySelector(".header__toggle");
-  const toggleLine = document.querySelector(".header__toggle-line");
-  const nav = document.querySelector(".header__nav");
+  if (!window.__LP_HEADER_BOUND__) {
+    window.__LP_HEADER_BOUND__ = true;
 
-  const openMenu = () => {
-    toggleBtn?.classList.add("is-active");
-    toggleLine?.classList.add("is-active");
-    nav?.classList.add("is-active");
-    document.body.classList.add("is-locked");
-    toggleBtn?.setAttribute("aria-expanded", "true");
-  };
-  const closeMenu = () => {
-    toggleBtn?.classList.remove("is-active");
-    toggleLine?.classList.remove("is-active");
-    nav?.classList.remove("is-active");
-    document.body.classList.remove("is-locked");
-    toggleBtn?.setAttribute("aria-expanded", "false");
-  };
+    const header = document.querySelector(".header");
+    const toggleBtn = document.querySelector(".header__toggle");
+    const nav = document.querySelector(".header__nav");
 
-  if (toggleBtn && nav) {
-    toggleBtn.addEventListener("click", () => {
-      const willOpen = !nav.classList.contains("is-active");
-      willOpen ? openMenu() : closeMenu();
-    });
+    if (header && toggleBtn && nav) {
+      let applyTopTransparent = () => {};
+      let menuOpen = false;
 
-    // ナビ内リンクを押したら閉じる
-    nav.addEventListener("click", (e) => {
-      if (e.target.closest("a")) closeMenu();
-    });
+      // 判定：SPレイアウト（幅≤992px）かつ タッチ端末 なら「空白で閉じる」を無効化
+      const mqSP = window.matchMedia("(max-width: 992px)");
+      const canHover = window.matchMedia("(hover: hover) and (pointer: fine)");
+      const isTouchLike = window.matchMedia("(hover: none), (pointer: coarse)");
+      const blankCloseEnabled = () => !(mqSP.matches && isTouchLike.matches); // ← PCのみ true
 
-    // ESCで閉じる
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeMenu();
-    });
-  }
+      const syncMenuState = (open) => {
+        menuOpen = !!open;
+        toggleBtn.classList.toggle("is-active", menuOpen);
+        nav.classList.toggle("is-active", menuOpen);
+        document.body.classList.toggle("is-locked", menuOpen);
+        toggleBtn.setAttribute("aria-expanded", menuOpen ? "true" : "false");
+        applyTopTransparent();
+      };
+      const openMenu = () => syncMenuState(true);
+      const closeMenu = () => syncMenuState(false);
 
-  // ヘッダーのスクロール着色（全ページ）
-  const setHeaderColor = () =>
-    header?.classList.toggle("header--scrolled", window.scrollY > 50);
-  setHeaderColor();
-  window.addEventListener("scroll", setHeaderColor, { passive: true });
+      // 初期 ARIA
+      toggleBtn.setAttribute("aria-expanded", "false");
 
-  // TOPのみ透過（main.isTop があるとき）
-  const isTopPage = !!document.querySelector("main.isTop");
-  if (isTopPage && header) {
-    const applyTopTransparent = () => {
-      const atTop =
-        window.scrollY <= 10 && !nav?.classList.contains("is-active");
-      header.classList.toggle("header--transparent", atTop);
-    };
-    applyTopTransparent();
-    window.addEventListener("scroll", applyTopTransparent, { passive: true });
+      // クリック：現在の state を反転（同要素の他ハンドラを遮断）
+      toggleBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        syncMenuState(!menuOpen);
+      });
+
+      // ====== nav内クリック/タップ：リンクで閉じる。空白閉じはPCのみ ======
+      const interactiveSel =
+        "button, input, select, textarea, label, [role='button'], [role='menuitem'], [data-keepopen]";
+      const navHandler = (e) => {
+        const t = e.target;
+        if (t.closest("a")) {
+          closeMenu();
+          return;
+        } // リンク押下で閉じる（全環境）
+        if (t.closest(interactiveSel)) {
+          return;
+        } // 入力系は閉じない
+        if (blankCloseEnabled()) {
+          // PCのみ：空白で閉じる
+          closeMenu();
+        }
+      };
+      nav.addEventListener("click", navHandler);
+      nav.addEventListener("touchstart", navHandler);
+
+      // ====== ドキュメント外側クリック/タップ：PCのみ有効 ======
+      const outsideCloseHandler = (e) => {
+        if (!menuOpen || !blankCloseEnabled()) return; // SP/タブでは無効
+        const t = e.target;
+        if (t.closest(".header__nav") || t.closest(".header__toggle")) return;
+        closeMenu();
+      };
+      document.addEventListener("click", outsideCloseHandler, {
+        capture: true,
+      });
+      document.addEventListener("touchstart", outsideCloseHandler, {
+        capture: true,
+      });
+
+      // ESCで閉じる（全環境）
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeMenu();
+      });
+
+      // 幅が広がったら一旦閉じる（表示崩れ対策）
+      window.addEventListener(
+        "resize",
+        () => {
+          if (window.innerWidth > 992) closeMenu();
+        },
+        { passive: true }
+      );
+
+      // ヘッダーのスクロール着色（全ページ）
+      const setHeaderColor = () =>
+        header.classList.toggle("header--scrolled", window.scrollY > 50);
+      setHeaderColor();
+      window.addEventListener("scroll", setHeaderColor, { passive: true });
+
+      // TOPのみ透過（main.isTop があるとき）
+      const isTopPage = !!document.querySelector("main.isTop");
+      if (isTopPage) {
+        applyTopTransparent = () => {
+          // 「トップ位置 かつ メニュー閉」のときだけ透過
+          const atTop = window.scrollY <= 10 && !menuOpen;
+          header.classList.toggle("header--transparent", atTop);
+        };
+        applyTopTransparent();
+        window.addEventListener("scroll", applyTopTransparent, {
+          passive: true,
+        });
+      }
+
+      // ====== SPレイアウト時のみ、hover対応端末でホバー開閉を有効化 ======
+      let hoverBound = false;
+      let openTimer, closeTimer;
+
+      const bindHoverHandlers = () => {
+        // 既存解除
+        if (hoverBound) {
+          toggleBtn.removeEventListener("mouseenter", onEnterOpen);
+          nav.removeEventListener("mouseenter", onEnterOpen);
+          header.removeEventListener("mouseleave", onHeaderLeaveClose);
+          hoverBound = false;
+        }
+        // 条件：SPレイアウト かつ hover可能環境（=小さめウィンドウ＋マウス等）
+        if (mqSP.matches && canHover.matches) {
+          toggleBtn.addEventListener("mouseenter", onEnterOpen);
+          nav.addEventListener("mouseenter", onEnterOpen);
+          header.addEventListener("mouseleave", onHeaderLeaveClose);
+          hoverBound = true;
+        }
+      };
+
+      // 開く（hover-intent）
+      function onEnterOpen() {
+        clearTimeout(closeTimer);
+        openTimer = setTimeout(openMenu, 120);
+      }
+      // 閉じる：ヘッダー領域を“出たときのみ”
+      // ただし、relatedTarget === null（＝ウィンドウ外へ）や header/nav/toggle へ移動は閉じない
+      function onHeaderLeaveClose(e) {
+        clearTimeout(openTimer);
+        const rt = e && e.relatedTarget;
+        if (!rt) return; // ウィンドウ外へ出た → 閉じない
+        if (header.contains(rt) || nav.contains(rt) || toggleBtn.contains(rt))
+          return;
+        closeTimer = setTimeout(closeMenu, 180);
+      }
+
+      // 初期＆変更時に適用
+      bindHoverHandlers();
+      mqSP.addEventListener?.("change", bindHoverHandlers);
+      canHover.addEventListener?.("change", bindHoverHandlers);
+
+      // 他スクリプトから安全に閉じられるよう公開（アンカー処理等）
+      window.__LP_closeMenu = closeMenu;
+    }
   }
 
   /* ----------------------------------------------------------------
    * 2) Inertia Parallax : .parallax 要素を慣性追従させる
-   *     CSS側：background-position のYに var(--parallax-offset) を使用
    * ---------------------------------------------------------------- */
   const pElems = [...document.querySelectorAll(".parallax")];
   const hasParallax = pElems.length > 0 && !prefersReduced;
   const lerp = (a, b, t) => a + (b - a) * t;
 
-  // 要素ごとの状態（現在値と目標値）を保持
   const pState = new WeakMap();
   const calcTarget = (el, scY, winH) => {
-    const speed = Number(el.dataset.parallaxSpeed || 0.4); // 旧仕様互換
+    const speed = Number(el.dataset.parallaxSpeed || 0.4);
     const rect = el.getBoundingClientRect();
     const elTop = rect.top + scY;
     const ratio = (scY + winH - elTop) / (rect.height + winH); // 0–1
     const prog = Math.min(Math.max(ratio, 0), 1);
-    const maxMove = rect.height * speed * 1.2; // 少し強めに
+    const maxMove = rect.height * speed * 1.2;
     return { target: prog * maxMove, maxMove };
   };
 
@@ -102,7 +199,6 @@
       const st = pState.get(el) || { cur: 0, target: 0, maxMove: 0 };
       const { target, maxMove } = calcTarget(el, scY, winH);
 
-      // ★ 余白を動的に設定（2 × 最大移動量）
       if (st.maxMove == null || Math.abs(maxMove - st.maxMove) > 0.5) {
         el.style.setProperty("--parallax-extra", `${Math.ceil(maxMove * 2)}px`);
         st.maxMove = maxMove;
@@ -119,11 +215,8 @@
 
   const startParallax = () => {
     if (!hasParallax) return;
-    // 初期マップ
     pElems.forEach((el) => pState.set(el, { cur: 0, target: 0, maxMove: 0 }));
     rafId = requestAnimationFrame(renderParallax);
-
-    // レイアウト変化に追随（観測だけ・処理は render 側で常時）
     if ("ResizeObserver" in window) {
       const ro = new ResizeObserver(() => {});
       pElems.forEach((el) => ro.observe(el));
@@ -139,13 +232,10 @@
 
   /* ----------------------------------------------------------------
    * 3) Section Animation : ★同時発火モード（.is-sync 付与）
-   *    - 従来の一文字分割は維持（必要なケースのため）
-   *    - ただし .is-sync が付いた時は全 delay を 0 に（CSS側で上書き）
    * ---------------------------------------------------------------- */
-  const TRIGGER_POS = 0.9; // 画面下から10%ラインで発火
+  const TRIGGER_POS = 0.9;
   const sections = [...document.querySelectorAll(".section")];
 
-  // 見出しの 1 文字分割（子要素は保持）。必要なときだけ実施
   const splitTitle = (title) => {
     if (!title || title.dataset.split === "done") return;
 
@@ -162,7 +252,6 @@
       node.parentNode.replaceChild(frag, node);
     };
 
-    // テキストノードのみ分割し、子要素はそのまま温存
     const walker = document.createTreeWalker(title, NodeFilter.SHOW_TEXT, {
       acceptNode: (n) =>
         n.nodeValue.trim()
@@ -176,20 +265,18 @@
     title.dataset.split = "done";
   };
 
-  // タイトル文字数を CSS 変数へ（delay 計算用だが .is-sync で無効化）
   const updateTitleCounts = (sec) => {
     const count = sec.querySelectorAll(".section__title .char").length;
     if (count) sec.style.setProperty("--title-chars", String(count));
   };
 
-  // 発火処理（同時発火クラスを必ず付与）
   const onEnter = (sec) => {
     const title = sec.querySelector(".section__title");
     if (title) {
       splitTitle(title);
       updateTitleCounts(sec);
     }
-    sec.classList.add("is-visible", "is-sync"); // ★ 同時発火用クラス
+    sec.classList.add("is-visible", "is-sync");
   };
 
   const io = new IntersectionObserver(
@@ -197,7 +284,7 @@
       entries.forEach((ent) => {
         if (!ent.isIntersecting) return;
         onEnter(ent.target);
-        observer.unobserve(ent.target); // 1回だけ
+        observer.unobserve(ent.target);
       });
     },
     {
@@ -206,7 +293,6 @@
     }
   );
 
-  // 初期表示で既に見えている要素は即時発火
   sections.forEach((sec) => {
     const r = sec.getBoundingClientRect();
     if (r.top < window.innerHeight * TRIGGER_POS && r.bottom > 0) {
@@ -229,7 +315,7 @@
         behavior: prefersReduced ? "auto" : "smooth",
         block: "start",
       });
-      closeMenu();
+      (window.__LP_closeMenu || function () {})();
     });
   });
 
@@ -252,7 +338,7 @@
 (() => {
   const ctaButtons = document.querySelectorAll(".c-cta__button");
   if (!ctaButtons.length) return;
-  if (!(window.gsap && window.ScrollTrigger)) return; // GSAPが無い環境でのエラー回避
+  if (!(window.gsap && window.ScrollTrigger)) return;
 
   gsap.registerPlugin(ScrollTrigger);
   ctaButtons.forEach((btn) => {
