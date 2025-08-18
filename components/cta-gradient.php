@@ -6,178 +6,83 @@
  */
 if (!defined('ABSPATH')) exit;
 
-/* デフォルト */
+/* デフォルト値（必要に応じて上書き可） */
 $defaults = [
     'url'         => '#',
     'label'       => 'View More',
-    'variant'     => 'primary',
-    'extra_class' => '',   // 既存と同じAPI
-    'split'       => true, // 文字分割も踏襲
-    // 色は淡〜濃の使い分けが効くように引数化
-    'g1'          => '#55CB7B', // Green
-    'g2'          => '#3D97FF', // Blue
-    'g3'          => '#FF6666', // Red
+    'variant'     => 'primary',  // baseの.buttonに付与（例：button--white等）。未使用なら空でもOK
+    'extra_class' => '',
+    'split'       => true,       // 文字分割（視覚演出）
+
+    // グラデーション色（inline styleのCSS変数で上書き可能）
+    'g1' => '#55CB7B', // Green
+    'g2' => '#FF6666', // Red
+    'g3' => '#3D97FF', // Blue
+
+    // 追加オプション
+    'target'      => '',         // '' | '_blank'
+    'rel'         => '',         // 'nofollow' 等。_blank時は自動でnoopener付与
+    'with_icon'   => true,       // 矢印アイコンを出すなら true
 ];
+
 $args = wp_parse_args($args ?? [], $defaults);
 
-/* ラベルを <span> 分割（既存に合わせる） */
-$label = $args['label'];
+/* --------------------------------
+ * ラベル生成（XSS対策 & アクセシビリティ）
+ * ------------------------------ */
+$raw_label = $args['label'];
+
 if ($args['split']) {
-    $chars = preg_split('//u', $label, -1, PREG_SPLIT_NO_EMPTY);
+    $chars = preg_split('//u', $raw_label, -1, PREG_SPLIT_NO_EMPTY);
     $label = '';
     foreach ($chars as $i => $c) {
         $escaped = ($c === ' ') ? '&nbsp;' : esc_html($c);
-        $label .= sprintf('<span class="btn-char" style="--i:%d;">%s</span>', $i, $escaped);
+        $label  .= sprintf('<span class="btn-char" style="--i:%d;">%s</span>', $i, $escaped);
     }
+} else {
+    $label = esc_html($raw_label); // 非分割時は必ずエスケープ
 }
+$aria_label = wp_strip_all_tags($raw_label);
 
-/* クラス */
-$footer_classes = trim('c-cta cta--gradient ' . $args['extra_class']);
-$button_classes = 'c-cta__button button button--' . esc_attr($args['variant']) . ' button--icon';
+/* --------------------------------
+ * クラス生成（配列→implodeで整頓）
+ * ------------------------------ */
+$footer_classes = implode(' ', array_filter([
+    'c-cta',
+    'cta--gradient',
+    $args['extra_class'],
+]));
 
-/* スタイルは一度だけ出力 */
-static $printed = false;
-if (!$printed) : ?>
-    <style>
-        /* ===== Scoped: .cta--gradient 以下だけに適用 ===== */
-        .cta--gradient .button {
-            --grad: linear-gradient(90deg, var(--g1), var(--g2), var(--g3));
-            background: none !important;
-            background-color: transparent !important;
-            border: 2px solid transparent;
-            border-image: var(--grad) 1;
-            position: relative;
-            overflow: hidden;
-            isolation: isolate;
-            border-radius: 0;
-            color: var(--c-navy);
-            box-shadow: 0 10px 22px rgba(0, 0, 0, .12);
-            transition: color .35s, box-shadow .35s, transform .25s;
-        }
+// variantは class名として安全化
+$variant_class  = $args['variant'] ? 'button--' . sanitize_html_class($args['variant']) : '';
 
-        /* 左→右に広がる塗り */
-        .cta--gradient .button::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            background: linear-gradient(rgba(0, 0, 0, .06), rgba(0, 0, 0, .06)), var(--grad);
-            transform-origin: left center;
-            transform: scaleX(0);
-            transition: transform .55s cubic-bezier(.22, 1, .36, 1);
-            z-index: 0;
-            pointer-events: none;
-            will-change: transform;
-        }
+$button_classes = implode(' ', array_filter([
+    'c-cta__button',
+    'button',
+    $variant_class,
+    $args['with_icon'] ? 'button--icon' : '',
+]));
 
-        /* 初期：文字＆矢印はグラデ塗り */
-        .cta--gradient .button .btn-text {
-            background-image: var(--grad);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            color: transparent;
-            position: relative;
-            z-index: 1;
-        }
+/* --------------------------------
+ * リンク属性（target / rel）
+ * ------------------------------ */
+$target_attr = $args['target'] ? ' target="' . esc_attr($args['target']) . '"' : '';
 
-        .cta--gradient .button::after {
-            background-image: var(--grad) !important;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            color: transparent !important;
-            display: inline-block;
-            position: relative;
-            z-index: 1;
-        }
+$rel = $args['rel'];
+if ($args['target'] === '_blank' && stripos($rel, 'noopener') === false) {
+    $rel = trim($rel . ' noopener');
+}
+$rel_attr = $rel ? ' rel="' . esc_attr($rel) . '"' : '';
 
-        /* hover / focus：塗りを全幅→白文字 */
-        .cta--gradient .button:hover::before,
-        .cta--gradient .button:focus-visible::before {
-            transform: scaleX(1);
-        }
-
-        .cta--gradient .button:hover,
-        .cta--gradient .button:focus-visible {
-            color: #fff;
-            outline: none;
-            /* box-shadow: 0 12px 26px rgba(0, 0, 0, .18); */
-            box-shadow: none !important;
-            background: none !important;
-            /* テーマの:hover背景を無効化 */
-        }
-
-        .cta--gradient .button:hover .btn-text,
-        .cta--gradient .button:focus-visible .btn-text {
-            background-image: none;
-            -webkit-text-fill-color: #fff;
-            color: #fff;
-        }
-
-        .cta--gradient .button:hover::after,
-        .cta--gradient .button:focus-visible::after {
-            background-image: none !important;
-            -webkit-text-fill-color: #fff;
-            color: #fff !important;
-        }
-
-        /* モバイル：常に塗り＋白文字、タップで軽く沈む */
-        @media (hover: none) {
-            .cta--gradient .button {
-                border-image: none;
-                /* 枠消したい場合。残すならこの行を削除 */
-                min-height: 48px;
-                padding: .9rem 1.25rem;
-                font-size: 1.0625rem;
-                -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-                touch-action: manipulation;
-            }
-
-            .cta--gradient .button::before {
-                transform: scaleX(1);
-            }
-
-            .cta--gradient .button .btn-text {
-                background-image: none;
-                -webkit-text-fill-color: #fff;
-                color: #fff;
-            }
-
-            .cta--gradient .button::after {
-                background-image: none !important;
-                -webkit-text-fill-color: #fff;
-                color: #fff !important;
-            }
-
-            .cta--gradient .button:active {
-                transition: transform .18s ease, box-shadow .18s ease;
-                transform: translateY(1px) scale(.98);
-                box-shadow: none;
-            }
-        }
-
-        /* 動きが苦手な環境ではフェードに切替 */
-        @media (prefers-reduced-motion: reduce) {
-            .cta--gradient .button::before {
-                transition: opacity .3s;
-                transform: none;
-                opacity: 0;
-            }
-
-            .cta--gradient .button:hover::before,
-            .cta--gradient .button:focus-visible::before {
-                opacity: 1;
-            }
-        }
-    </style>
-<?php
-    $printed = true;
-endif;
 ?>
 <footer class="<?php echo esc_attr($footer_classes); ?>"
-    style="--g1: <?php echo esc_attr($args['g1']); ?>; --g2: <?php echo esc_attr($args['g2']); ?>; --g3: <?php echo esc_attr($args['g3']); ?>;">
-    <a href="<?php echo esc_url($args['url']); ?>" class="<?php echo esc_attr($button_classes); ?>">
-        <span class="btn-text"><?php echo $label; ?></span>
+    style="--g1: <?php echo esc_attr($args['g1']); ?>;
+         --g2: <?php echo esc_attr($args['g2']); ?>;
+         --g3: <?php echo esc_attr($args['g3']); ?>;">
+    <a href="<?php echo esc_url($args['url']); ?>"
+        class="<?php echo esc_attr($button_classes); ?>"
+        aria-label="<?php echo esc_attr($aria_label); ?>"
+        <?php echo $target_attr . $rel_attr; ?>>
+        <span class="btn-text" aria-hidden="true"><?php echo $label; ?></span>
     </a>
 </footer>
