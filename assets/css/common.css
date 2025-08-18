@@ -747,3 +747,48 @@ select {
   .cta--ghost .button:hover::before,
   .cta--ghost .button:focus-visible::before{ opacity:1; }
 }
+
+/* ============================================
+   Ghost button – Mobile = Always "hovered"
+   ========================================== */
+@media (hover: none) {
+  /* 1) 白塗りを最初から展開（wipe: slide想定） */
+  .cta--ghost .button::before {
+    transform: scaleX(1);
+  }
+  /* wipe: fade の場合も最初から表示 */
+  .cta--ghost.is-fade .button::before {
+    opacity: 1;
+  }
+
+  /* 2) テキスト＆矢印を最初からグラデ塗り */
+  .cta--ghost .button .btn-text {
+    background-image: var(--ghost-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .cta--ghost .button::after {
+    background-image: var(--ghost-grad) !important;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent !important;
+  }
+
+  /* 3) タップ時の小さな沈み（既存を踏襲） */
+  .cta--ghost .button:active {
+    transform: translateY(1px) scale(.98);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .16);
+  }
+}
+
+/* Reduce Motion を尊重しつつ、モバイルでは“表示状態”を維持 */
+@media (hover: none) and (prefers-reduced-motion: reduce) {
+  .cta--ghost .button::before,
+  .cta--ghost.is-fade .button::before {
+    transform: none;   /* アニメしない */
+    opacity: 1;        /* ただし白塗りは見せる */
+  }
+}
