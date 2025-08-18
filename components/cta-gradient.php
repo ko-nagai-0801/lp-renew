@@ -16,8 +16,8 @@ $defaults = [
 
     // グラデーション色（inline styleのCSS変数で上書き可能）
     'g1' => '#55CB7B', // Green
-    'g2' => '#FF6666', // Red
-    'g3' => '#3D97FF', // Blue
+    'g2' => '#3D97FF', // Blue
+    'g3' => '#FF6666', // Red
 
     // 追加オプション
     'target'      => '',         // '' | '_blank'

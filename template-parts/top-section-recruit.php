@@ -33,7 +33,7 @@ if (! defined('ABSPATH')) {
 
       <?php
       get_template_part(
-        'components/cta-gradient',
+        'components/cta-ghost',
         null,
         [
           'url' => home_url('/recruit/'),
@@ -45,9 +45,6 @@ if (! defined('ABSPATH')) {
       ?>
     </div>
 
-    <!-- <div class="recruit__visual">
-      <img src="<?php echo esc_url(get_theme_file_uri('img/recruit-big-text.svg')); ?>"
-        alt="採用情報"> -->
   </div>
   </div>
 </section>

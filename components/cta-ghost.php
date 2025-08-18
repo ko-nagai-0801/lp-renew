@@ -34,8 +34,8 @@ $defaults = [
     'knockout'    => false,        // 実験的ノックアウト文字
 
     'g1' => '#74D690', // Green
-    'g2' => '#FF7A7A', // Red
-    'g3' => '#5AA8FF', // Blue
+    'g2' => '#5AA8FF', // Blue
+    'g3' => '#FF7A7A', // Red
 
     // 追加オプション
     'target'      => '',           // '' | '_blank'
