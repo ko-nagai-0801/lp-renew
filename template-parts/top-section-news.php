@@ -60,7 +60,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
     <?php
   get_template_part(
-    'components/cta',
+    'components/cta-gradient',
     null,
     [
       'url' => home_url('/news/'),
