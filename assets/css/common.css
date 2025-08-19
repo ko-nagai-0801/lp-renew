@@ -67,7 +67,7 @@ li {
   list-style: none;
 }
 ::selection {
-  background: #005b94;
+  background: var(--c-navy);
   color: #fff;
 }
 input,
@@ -149,7 +149,7 @@ select {
   right: 30px;
   width: 56px;
   height: 56px;
-  background: #005b94;
+  background: var(--c-navy);
   border-radius: 50%;
   display: flex;
   justify-content: center;

@@ -177,7 +177,7 @@
 
 /* 4-4) CTA ボタン本体 */
 .header__cta {
-  background: #005b94;
+  background: var(--c-navy);
   border-radius: 50px;
   width: 192px;
   padding: 15px 0;
@@ -224,7 +224,7 @@
     top: 0;
     right: 0;
     border: none;
-    background: #005b94;
+    background: var(--c-navy);
     cursor: pointer;
     z-index: 3; /* nav(1) / inner(2) より前 */
     transition: background 0.3s;
@@ -286,7 +286,7 @@
   }
   /* メニューを開いたら（×表示時）は常に色付きに戻す */
   .header__toggle.is-active {
-    background: #005b94;
+    background: var(--c-navy);
   }
 
   /* 視認性が不安なら三本線に薄い縁取り（任意） */

@@ -49,7 +49,7 @@
                         </a>
                     </li>
                     <li class="header__item">
-                        <a href="<?php echo esc_url(home_url('/#business')); ?>" class="header__link">
+                        <a href="<?php echo esc_url(home_url('/services/')); ?>" class="header__link">
                             事業内容<span class="header__sub">Services</span>
                         </a>
                     </li>
@@ -60,18 +60,17 @@
                     </li>
                     <li class="header__item">
                         <a href="<?php echo esc_url(home_url('/access/')); ?>" class="header__link">
-                            アクセスガイド<span class="header__sub">Access</span>
+                            アクセス<span class="header__sub">Access</span>
                         </a>
                     </li>
                     <li class="header__item">
-                        <a href="<?php echo esc_url(home_url('/#news')); ?>" class="header__link">
+                        <a href="<?php echo esc_url(home_url('/news/')); ?>" class="header__link">
                             お知らせ<span class="header__sub">NEWS</span>
                         </a>
                     </li>
                     <li class="header__item header__item--cta">
                         <a href="<?php echo esc_url(home_url('/contact/')); ?>" class="header__link header__link--cta">
-                            <img src="<?php echo esc_url(get_theme_file_uri('img/common/contact-icon.svg')); ?>"
-                                alt="" class="header__cta-icon"> お問い合わせ
+                            <i class="bi bi-envelope-fill"></i>お問い合わせ
                         </a>
                     </li>
                 </ul>

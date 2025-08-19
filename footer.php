@@ -68,7 +68,7 @@
         <nav class="footer__nav">
             <ul class="footer__nav-list">
                 <li class="footer__nav-item"><a href="/about/">ＬｉＮＥ&nbsp;ＰＡＲＫについて</a></li>
-                <li class="footer__nav-item"><a href="/#business">事業内容</a>
+                <li class="footer__nav-item"><a href="/services/">事業内容</a>
                     <ul class="footer__service-nav-list">
                         <li class="footer__service-nav-item"><a href="/products-web/">Web制作</a></li>
                         <li class="footer__service-nav-item"><a href="/products-design/">デザイン制作</a></li>
@@ -78,7 +78,7 @@
                     </ul>
                 </li>
                 <li class="footer__nav-item"><a href="/access/">アクセス</a></li>
-                <li class="footer__nav-item"><a href="/#news">お知らせ</a></li>
+                <li class="footer__nav-item"><a href="/news">お知らせ</a></li>
                 <li class="footer__nav-item"><a href="/recruit/">採用情報</a></li>
                 <li class="footer__nav-item"><a href="/associates/">協力企業</a></li>
                 <li class="footer__nav-item"><a href="/contact/">お問い合わせ</a></li>
