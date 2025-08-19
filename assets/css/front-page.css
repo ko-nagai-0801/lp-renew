@@ -406,20 +406,20 @@
   isolation: isolate;
   box-sizing: border-box;
 
-  /* レイヤ（必要なら濃度を微調整） */
+  /* レイヤ（バランス調整版） */
   --overlay: linear-gradient(
     180deg,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(255, 255, 255, 0.4) 100%
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.3) 100%
   );
   --band: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.85) 0%,
-    rgba(255, 255, 255, 0.35) 42%,
-    rgba(255, 255, 255, 0) 72%
+    rgba(255, 255, 255, 0.75) 0%,
+    rgba(255, 255, 255, 0.4) 35%,
+    rgba(255, 255, 255, 0) 65%
   );
-  --txt-shadow: 0 1px 0 rgba(255, 255, 255, 0.8),
-    0 0 8px rgba(255, 255, 255, 0.35);
+  --txt-shadow: 0 1px 2px rgba(255, 255, 255, 0.9),
+    0 1px 3px rgba(0, 0, 0, 0.4);
 
   background: var(--overlay), var(--card-bg, none);
   background-position: center, center;
@@ -429,12 +429,41 @@
 
   aspect-ratio: 16/9; /* 高さは幅から算出 */
   min-height: clamp(160px, 14vw, 220px); /* さらに控えめに調整 */
-  transition: transform 0.25s, box-shadow 0.25s;
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
   will-change: transform;
 }
+
+/* 矢印アイコンを右下に追加 */
+.services__link::after {
+  content: "\F231"; /* Bootstrap Icons */
+  font-family: "bootstrap-icons";
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  font-size: 1.2rem;
+  color: var(--f-navy);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+              background 0.3s;
+  z-index: 2;
+}
+
 .services__link:hover {
   box-shadow: var(--shadow-lg);
   transform: translateY(-3px);
+  border-color: rgba(0, 0, 0, 0.25);
+}
+
+.services__link:hover::after {
+  transform: translateX(3px);
+  background: rgba(255, 255, 255, 0.95);
 }
 
 /* テキストは前面 */
@@ -453,43 +482,44 @@
   pointer-events: none;
 }
 
-/* sheen（斜めの光） */
-.services__link::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -30%;
-  width: 30%;
-  height: 100%;
-  background: linear-gradient(
-    75deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.45) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  transform: skewX(-18deg);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 0;
-}
+/* sheen効果は削除（矢印と競合するため） */
+/* .services__link::after は上記で矢印用に使用 */
 
-/* タイトル（グラス調のピル） */
+/* タイトル（グラス調のピル - バランス版） */
 .services__card-title {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
   margin: 0;
-  font-size: clamp(1.5rem, 2.8vw, 2rem);
+  font-size: clamp(1.25rem, 2vw, 1.75rem); /* 大画面でのサイズを抑制 */
   font-weight: 700;
   line-height: 1.25;
   padding: 0.35rem 0.6rem;
-  border-radius: 0.65rem;
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(3px);
+  border-radius: 0.5rem;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.75),
+    rgba(255, 255, 255, 0.6)
+  );
+  backdrop-filter: blur(4px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   text-shadow: var(--txt-shadow);
 }
 
-/* 画像アイコン（BIを使う場合は .services__icon でもOK） */
+/* アイコン（Bootstrap Icons使用時） */
+.services__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0.4rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+}
+
+/* 画像アイコン（imgを使う場合） */
 .services__card-title img {
   width: 36px;
   height: 36px;
@@ -499,58 +529,55 @@
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
 }
 
-/* 本文・CTA */
+/* 本文 */
 .services__card-text {
   flex: 1;
   margin: 0;
-  font-size: clamp(0.875rem, 2.5vw, 2rem);
-  font-weight: 700;
+  font-size: clamp(0.875rem, 1.2vw, 1.125rem); /* 大画面での文字サイズを抑制 */
+  font-weight: 600; /* 700→600で少し細く */
   line-height: 1.6;
   letter-spacing: 0.01em;
   text-shadow: var(--txt-shadow);
+  /* グラデーション背景で自然に */
+  padding: 0.2rem 0.4rem;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.45),
+    rgba(255, 255, 255, 0.25)
+  );
+  border-radius: 0.25rem;
+  backdrop-filter: blur(2px);
 
-  /* 行数トリムで高さを揃える */
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  /* 全文表示（行数制限を削除） */
+  /* display: -webkit-box; */
+  /* -webkit-box-orient: vertical; */
+  /* overflow: hidden; */
 }
-.services__card-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35em;
-  color: var(--f-black);
-  font-size: clamp(1.2rem, 2.8vw, 2rem);
-  font-weight: 700;
-  font-family: inherit; /* 文字列にしない */
-  line-height: 1.25;
-  letter-spacing: 0.03em;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-  color: inherit; /* サイトの本文色に合わせる */
-  padding-right: 1.2em;
-  text-shadow: var(--txt-shadow);
-}
-.services__card-cta::after {
-  content: "\F138";
-  font-family: "bootstrap-icons";
-  position: absolute;
-  right: 0;
-  top: 0;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.services__link:hover .services__card-cta::after {
-  transform: translateX(4px);
-}
-/* SPでは文字をくっきりさせるためシャドウを消す */
+/* CTAテキストは削除（PHPで削除するため不要） */
+
+/* SPではテキストシャドウを削除 */
 @media (max-width: 576px) {
   .services__card-title,
-  .services__card-text,
-  .services__card-cta {
+  .services__card-text {
     text-shadow: none;
+  }
+  /* モバイルでは背景を少し強化して視認性確保 */
+  .services__card-text {
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.65),
+      rgba(255, 255, 255, 0.45)
+    );
+  }
+  /* 矢印アイコンを少し小さく */
+  .services__link::after {
+    width: 2rem;
+    height: 2rem;
+    font-size: 1rem;
   }
 }
 
-/* “もっと見る” 等（必要なら） */
+/* "もっと見る" 等（必要なら） */
 .services__card--more .services__link {
   background: var(--clr-gray-100);
   color: var(--clr-text);
@@ -587,19 +614,6 @@
     filter: blur(0);
   }
 }
-@keyframes services-sheen {
-  0% {
-    opacity: 0;
-    transform: translateX(0) skewX(-18deg);
-  }
-  1% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(260%) skewX(-18deg);
-  }
-}
 
 /* reduce-motion 尊重 */
 @media (prefers-reduced-motion: reduce) {
@@ -613,103 +627,6 @@
     transform: none !important;
   }
   .services__link::before,
-  .services__link::after {
-    display: none !important;
-  }
-}
-
-/* ==============================================
-    アニメーション
-    Services：カードの順次フェードアップ（強調版） 
-============================================== */
-
-/* 初期は非表示・下げ＋軽い縮小＋ぼかし */
-.services__card {
-  opacity: 0;
-  transform: translateY(24px) scale(0.98);
-  filter: blur(6px);
-  will-change: transform, opacity, filter;
-}
-
-/* 基本のカード内リンクは相対配置（sheen用） */
-.services__link {
-  position: relative;
-  overflow: hidden; /* sheenのはみ出し防止 */
-}
-
-/* sheen（白いハイライトの筋） */
-.services__link::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -30%;
-  width: 30%;
-  height: 100%;
-  background: linear-gradient(
-    75deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.45) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  transform: skewX(-18deg);
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* カード本体は pop のみ */
-.section.is-visible .services__card {
-  animation: services-pop 0.7s cubic-bezier(0.22, 1.2, 0.36, 1) forwards;
-  animation-delay: calc(var(--i, 0) * 0.5s + 0.1s);
-}
-
-/* sheen は擬似要素に付与（--i は継承される） */
-.section.is-visible .services__link::after {
-  animation: services-sheen 0.65s ease-out forwards;
-  animation-delay: calc(var(--i, 0) * 0.5s + 0.22s);
-}
-
-/* 本体：ぼかしが解けながら、少し跳ねて着地 */
-@keyframes services-pop {
-  0% {
-    opacity: 0;
-    transform: translateY(24px) scale(0.98);
-    filter: blur(6px);
-  }
-  60% {
-    opacity: 1;
-    transform: translateY(-4px) scale(1.015);
-    filter: blur(0);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
-  }
-}
-
-/* sheen：斜めの光が左→右へ走る（短くキラッ） */
-@keyframes services-sheen {
-  0% {
-    opacity: 0;
-    transform: translateX(0) skewX(-18deg);
-  }
-  1% {
-    opacity: 1;
-  } /* 走り始めで一気に点灯 */
-  100% {
-    opacity: 0;
-    transform: translateX(260%) skewX(-18deg);
-  }
-}
-
-/* reduce-motion 尊重 */
-@media (prefers-reduced-motion: reduce) {
-  .services__card {
-    opacity: 1;
-    transform: none !important;
-    filter: none !important;
-    animation: none !important;
-  }
   .services__link::after {
     display: none !important;
   }
