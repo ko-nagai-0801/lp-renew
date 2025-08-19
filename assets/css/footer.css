@@ -66,7 +66,7 @@
 /* メール・電話 */
 .footer__mail,
 .footer__phone {
-  font-size: clamp(0.875rem, 1vw, 1.5rem);
+  font-size: clamp(0.875rem, 1.5vw, 1.5rem);
   color: var(--f-white);
   margin: 0;
   padding: 0.25rem 0;

@@ -533,7 +533,7 @@
 .services__card-text {
   flex: 1;
   margin: 0;
-  font-size: clamp(0.875rem, 1.2vw, 1.125rem); /* 大画面での文字サイズを抑制 */
+  font-size: clamp(0.875rem, 2.5vw, 1.125rem); /* 大画面での文字サイズを抑制 */
   font-weight: 600; /* 700→600で少し細く */
   line-height: 1.6;
   letter-spacing: 0.01em;
