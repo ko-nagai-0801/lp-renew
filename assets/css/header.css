@@ -20,14 +20,14 @@
   width: 100%;
   height: var(--header-h);
   z-index: 1000;
-  background: #fff;
+  background: var(--c-white);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 /* モディファイア：透明（TOP 初期） */
 .header--transparent {
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0);
   box-shadow: none;
 }
 
@@ -56,7 +56,6 @@
 /* 3) ロゴ ----------------------------------------------------- */
 .header__logo {
   flex-shrink: 0;
-  z-index: 1000;
 }
 
 .header__logo-link {
@@ -166,12 +165,12 @@
   transform: translateX(-50%);
   width: 0;
   height: 2px;
-  background: var(--c-blue);
+  background: var(--c-navy);
   transition: width 0.3s;
 }
 
 .header__link:hover::after {
-  width: 100%;
+  width: 80%;
 }
 
 @media (max-width: 992px) {
@@ -212,7 +211,7 @@
 /* サブテキスト（英語） */
 .header__link-sub {
   font-size: clamp(0.875rem, 1vw, 1rem);
-  color: #686f75;
+  color: var(--f-gray);
   text-transform: capitalize;
   margin-top: 2px;
   transition: color 0.3s;
@@ -247,7 +246,7 @@
   color: var(--c-white);
   padding: 15px 24px;
   border-radius: 50px;
-  font-size: clamp(0.875rem, 1.3vw, 1.5rem);
+  font-size: 15px;
   font-weight: normal;
   text-decoration: none;
   transition: all 0.3s;
@@ -273,12 +272,11 @@
   }
   .header__cta-button:hover {
     background: var(--c-blue);
-    color: var(--c-white);
   }
 }
 
 .header__cta-icon {
-  font-size: clamp(0.875rem, 1.3vw, 1.5rem);
+  font-size: 18px;
   flex-shrink: 0;
 }
 
@@ -343,7 +341,7 @@
 .header__toggle.is-active .header__toggle-line::before,
 .header__toggle.is-active .header__toggle-line::after {
   top: 0;
-  background: #fff;
+  background: var(--c-white);
 }
 .header__toggle.is-active .header__toggle-line::before {
   transform: rotate(45deg);
