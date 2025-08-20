@@ -54,12 +54,22 @@ function lp_enqueue_assets()
         );
     }
 
-    // 4) トップページ
+    // 4) TOPページ 専用CSS
     if (is_front_page()) {
         wp_enqueue_style(
             'lp-front-page',
             "$theme_uri/assets/css/front-page.css",
             ['bootstrap'],
+            $ver
+        );
+    }
+
+    // 5) About Us 専用CSS
+    if (is_page_template('page-about.php') || is_page('about')) {
+        wp_enqueue_style(
+            'lp-about',
+            get_theme_file_uri('assets/css/about.css'),
+            ['lp-common'],  // 共通CSSのあとに読み込み
             $ver
         );
     }

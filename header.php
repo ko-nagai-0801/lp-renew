@@ -45,7 +45,7 @@
                 <ul class="header__menu">
                     <li class="header__item">
                         <a href="<?php echo esc_url(home_url('/about/')); ?>" class="header__link">
-                            <span class="header__link-main">LiNE PARKについて</span>
+                            <span class="header__link-main">ＬｉＮＥ ＰＡＲＫについて</span>
                             <span class="header__link-sub">About us</span>
                         </a>
                     </li>

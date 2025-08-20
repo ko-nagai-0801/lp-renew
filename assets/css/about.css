@@ -1,0 +1,514 @@
+/* ===============================================================
+   About Page Styles (BEM)
+   assets/css/about.css
+   ============================================================ */
+
+/* ================================
+   Subpage Hero
+   ================================ */
+.subhero {
+  position: relative;
+  height: 50vh;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-top: var(--header-h);
+}
+
+.subhero--about {
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+    url(../img/about-hero.webp) center / cover no-repeat;
+}
+
+.subhero__inner {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.subhero__content {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.subhero__sub {
+  color: var(--c-white);
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  opacity: 0.9;
+}
+
+.subhero__title {
+  color: var(--c-white);
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 900;
+  line-height: 1.2;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================================
+   Message Section
+   ================================ */
+.message {
+  background: var(--c-white);
+}
+
+.message__content {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.message__catch {
+  text-align: center;
+  font-size: clamp(1.3rem, 2.5vw, 2rem);
+  font-weight: 700;
+  color: var(--c-navy);
+  line-height: 1.5;
+  margin: 3rem 0;
+  padding: 1.5rem;
+  position: relative;
+}
+
+.message__catch::before,
+.message__catch::after {
+  content: '"';
+  position: absolute;
+  font-size: 3em;
+  color: var(--c-navy);
+  opacity: 0.2;
+}
+
+.message__catch::before {
+  top: -0.2em;
+  left: 0;
+}
+
+.message__catch::after {
+  bottom: -0.5em;
+  right: 0;
+}
+
+.message__text {
+  font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+  line-height: 1.8;
+  color: var(--f-black);
+  margin-bottom: 3rem;
+}
+
+.message__text p {
+  margin-bottom: 1.5rem;
+}
+
+.message__signature {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  margin-top: 4rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--clr-gray-200);
+}
+
+.message__sign {
+  width: clamp(200px, 25vw, 300px);
+  height: auto;
+}
+
+.message__name {
+  text-align: right;
+}
+
+.message__company,
+.message__ceo {
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  font-weight: 500;
+  color: var(--f-black);
+  margin: 0.5rem 0;
+}
+
+@media (max-width: 768px) {
+  .message__signature {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .message__name {
+    text-align: center;
+  }
+}
+
+/* ================================
+   Vision Section
+   ================================ */
+.vision {
+  background: linear-gradient(to bottom, var(--clr-gray-050), var(--c-white));
+  position: relative;
+  overflow: hidden;
+}
+/* 星アイコンの調整用カスタムプロパティ */
+.vision {
+  --vision-icon-size: 44px; /* 星の大きさ */
+  --vision-icon-inset: 1rem; /* カード左内側からの距離 */
+  --vision-icon-gap: 0.75rem; /* 星とテキストの間隔 */
+  --vision-icon-color: #f5b301; /* 既存の星に近い黄色。色はお好みで */
+}
+
+.vision__content {
+  position: relative;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.vision__bg {
+  position: absolute;
+  top: 50%;
+  right: -10%;
+  transform: translateY(-50%);
+  width: 60%;
+  height: 600px;
+  background: url(../img/phiso_bg.svg) center / contain no-repeat;
+  opacity: 0.1;
+  z-index: 0;
+}
+
+.vision__list {
+  position: relative;
+  z-index: 1;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.vision__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 3rem;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: var(--c-white);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+  position: relative;
+}
+/* 星の分だけ左に余白を確保（はみ出し防止） */
+.vision__item {
+  padding-left: calc(
+    var(--vision-icon-inset) + var(--vision-icon-size) + var(--vision-icon-gap)
+  );
+  position: relative; /* 念のため */
+}
+
+.vision__item:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ★ 背景画像をやめて、Bootstrap Icons のグリフを出す */
+.vision__item::before {
+  content: "\f586"; /* star-fill のコードポイント */
+  font-family: "bootstrap-icons"; /* 重要：フォント指定 */
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  position: absolute;
+  top: 2rem;
+  left: var(--vision-icon-inset); /* ← -20px 等の負値は使わない */
+  font-size: var(--vision-icon-size);
+  color: var(--vision-icon-color);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.vision__heading {
+  flex: 0 0 auto;
+  min-width: 300px;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 700;
+  color: var(--f-black);
+  line-height: 1.2;
+}
+
+.vision__initial {
+  color: var(--c-blue);
+  font-size: 1.2em;
+  margin-right: 0.2em;
+}
+
+.vision__subtitle {
+  display: block;
+  font-size: clamp(0.875rem, 1vw, 1rem);
+  color: var(--c-blue-dark);
+  font-weight: 500;
+  margin-top: 0.5rem;
+}
+
+.vision__text {
+  flex: 1;
+  font-size: clamp(0.9rem, 1.1vw, 1rem);
+  line-height: 1.7;
+  color: var(--f-black);
+  padding-top: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .vision {
+    --vision-icon-size: 30px; /* 星の大きさ（少し小さめ） */
+    --vision-icon-inset: 0.6rem; /* 左端から星まで */
+    --vision-icon-gap: 0.2rem; /* 星→テキストのスキマ（ここを詰める） */
+    --vision-base-left: 0.15rem; /* テキストのベース左余白（0〜.25rem推奨） */
+  }
+
+  .vision__item {
+    flex-direction: column;
+    padding: .9rem; /* 全体の上下左右 */
+    /* 左パディング = ベース余白 + 星の位置 + 星の幅 + ギャップ */
+    padding-left: calc(
+      var(--vision-base-left)
+      + var(--vision-icon-inset)
+      + var(--vision-icon-size)
+      + var(--vision-icon-gap)
+    );
+    gap: 0.6rem;
+  }
+
+  /* 星のY位置も少し詰めると揃う */
+  .vision__item::before {
+    top: .9rem;
+    font-size: var(--vision-icon-size);
+  }
+
+  /* 見出しが大きすぎる場合の保険 */
+  /* 行間を気持ちタイトに（被らない範囲で） */
+  .vision__heading{
+    min-width: auto;
+    font-size: clamp(1.2rem, 5vw, 1.5rem);
+    line-height: 1.15;
+  }
+  .vision__subtitle {
+    font-size: 0.9rem;
+  }
+
+  .vision__bg {
+    display: none;
+  }
+}
+
+/* ================================
+   Vision Flow Animation
+   ================================ */
+.vision__flow {
+  margin-top: 5rem;
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(
+    90deg,
+    var(--c-white) 0%,
+    transparent 10%,
+    transparent 90%,
+    var(--c-white) 100%
+  );
+}
+
+.vision__flow-track {
+  display: flex;
+  height: 100%;
+  align-items: center;
+}
+
+.vision__flow-list {
+  display: flex;
+  gap: 4rem;
+  animation: scrollFlow 30s linear infinite;
+}
+
+.vision__flow-item {
+  width: 300px;
+  height: auto;
+  flex-shrink: 0;
+}
+
+@keyframes scrollFlow {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vision__flow-list {
+    animation: none;
+  }
+}
+
+/* ================================
+   Company Section
+   ================================ */
+.company {
+  background: var(--c-white);
+  padding-bottom: 8rem;
+}
+
+.company__content {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.company__table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.company__row {
+  transition: background 0.3s ease;
+}
+
+.company__label {
+  width: 30%;
+  padding: 2rem 1.5rem;
+  background: var(--c-blue-dark);
+  color: var(--c-white);
+  font-weight: 500;
+  font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.company__data {
+  padding: 2rem 1.5rem;
+  background: var(--clr-gray-050);
+  font-size: clamp(0.9rem, 1.2vw, 1rem);
+  line-height: 1.6;
+  color: var(--f-black);
+  vertical-align: middle;
+}
+
+.company__row:first-child .company__label {
+  border-top-left-radius: var(--radius-card);
+}
+
+.company__row:first-child .company__data {
+  border-top-right-radius: var(--radius-card);
+}
+
+.company__row:last-child .company__label {
+  border-bottom-left-radius: var(--radius-card);
+}
+
+.company__row:last-child .company__data {
+  border-bottom-right-radius: var(--radius-card);
+}
+
+@media (max-width: 768px) {
+  .company__table {
+    font-size: 0.9rem;
+  }
+
+  .company__label {
+    width: 35%;
+    padding: 1.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .company__data {
+    padding: 1.5rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .company__label {
+    width: 40%;
+    padding: 1.2rem 0.8rem;
+    font-size: 0.85rem;
+  }
+
+  .company__data {
+    padding: 1.2rem 0.8rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* ===== Company（区切り線を入れる） ===== */
+/* tr に border を当てても効きにくいので、セルに線を入れる */
+.company__label,
+.company__data {
+  border-bottom: 1px solid var(--clr-gray-200);
+}
+
+/* 最終行だけボーダーを消す */
+.company__row:last-child .company__label,
+.company__row:last-child .company__data {
+  border-bottom: none;
+}
+
+/* 左の紺カラムは白系の線の方が見やすい（色味は変えず控えめに） */
+.company__label {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* ================================
+   Section Animation Overrides for About
+   ================================ */
+.message .section__header,
+.vision .section__header,
+.company .section__header {
+  text-align: start;
+  margin-bottom: 3rem;
+}
+
+/* Vision items staggered animation */
+.vision__item {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.vision.is-visible .vision__item {
+  animation: fadeInUpStagger 0.6s ease forwards;
+}
+
+.vision.is-visible .vision__item:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.vision.is-visible .vision__item:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.vision.is-visible .vision__item:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.vision.is-visible .vision__item:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.vision.is-visible .vision__item:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
+@keyframes fadeInUpStagger {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
