@@ -45,35 +45,43 @@
                 <ul class="header__menu">
                     <li class="header__item">
                         <a href="<?php echo esc_url(home_url('/about/')); ?>" class="header__link">
-                            ＬｉＮＥ&nbsp;ＰＡＲＫについて<span class="header__sub">About Us</span>
+                            <span class="header__link-main">LiNE PARKについて</span>
+                            <span class="header__link-sub">About us</span>
                         </a>
                     </li>
                     <li class="header__item">
                         <a href="<?php echo esc_url(home_url('/services/')); ?>" class="header__link">
-                            事業内容<span class="header__sub">Services</span>
+                            <span class="header__link-main">事業内容</span>
+                            <span class="header__link-sub">Business</span>
                         </a>
                     </li>
                     <li class="header__item">
                         <a href="<?php echo esc_url(home_url('/recruit/')); ?>" class="header__link">
-                            採用情報<span class="header__sub">Recruit</span>
+                            <span class="header__link-main">採用情報</span>
+                            <span class="header__link-sub">Recruit</span>
                         </a>
                     </li>
                     <li class="header__item">
                         <a href="<?php echo esc_url(home_url('/access/')); ?>" class="header__link">
-                            アクセス<span class="header__sub">Access</span>
+                            <span class="header__link-main">アクセス</span>
+                            <span class="header__link-sub">Access</span>
                         </a>
                     </li>
                     <li class="header__item">
                         <a href="<?php echo esc_url(home_url('/news/')); ?>" class="header__link">
-                            お知らせ<span class="header__sub">NEWS</span>
-                        </a>
-                    </li>
-                    <li class="header__item header__item--cta">
-                        <a href="<?php echo esc_url(home_url('/contact/')); ?>" class="header__link header__link--cta">
-                            <i class="bi bi-envelope-fill"></i>お問い合わせ
+                            <span class="header__link-main">お知らせ</span>
+                            <span class="header__link-sub">News</span>
                         </a>
                     </li>
                 </ul>
+                
+                <!-- CTA Button -->
+                <div class="header__cta">
+                    <a href="<?php echo esc_url(home_url('/contact/')); ?>" class="header__cta-button">
+                        <i class="bi bi-envelope-fill header__cta-icon"></i>
+                        お問い合わせ
+                    </a>
+                </div>
             </nav>
 
             <!-- Hamburger button (for SP) -------------------------------------- -->

@@ -20,25 +20,21 @@
   width: 100%;
   height: var(--header-h);
   z-index: 1000;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 /* モディファイア：透明（TOP 初期） */
 .header--transparent {
-  background: rgba(0, 0, 0, 0);
+  background: rgba(255, 255, 255, 0.95);
   box-shadow: none;
 }
 
-/* 通常時（透明以外） */
-.header:not(.header--transparent) {
-  background: #fff;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-}
-
-/* スクロールで薄グレー背景（任意） */
+/* スクロール時 */
 .header--scrolled {
-  background: rgba(0, 0, 0, 0.1);
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  background: var(--c-white);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* 2) インナー ------------------------------------------------- */
@@ -47,97 +43,109 @@
   justify-content: space-between;
   align-items: center;
   height: 100%;
-  padding: 0 10px;
+  padding: 0 20px;
 }
 @media (max-width: 992px) {
   .header__inner {
-    position: relative; /* navより前面に出す */
+    position: relative;
     z-index: 2;
-    flex-direction: column;
-    align-items: flex-start;
+    padding: 0 10px;
   }
 }
 
 /* 3) ロゴ ----------------------------------------------------- */
+.header__logo {
+  flex-shrink: 0;
+  z-index: 1000;
+}
+
+.header__logo-link {
+  display: block;
+}
+
 .header__logo-image {
-  display: inline-block;
+  height: 80px;
+  width: auto;
+  display: block;
+}
+@media (max-width: 992px) {
+  .header__logo-image {
+    height: 60px;
+  }
 }
 
 /* 4) ナビゲーション ------------------------------------------- */
 .header__nav {
-  width: 80%;
-  transition: opacity 0.6s, visibility 0.6s;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-grow: 1;
+  justify-content: flex-end;
 }
 
-/* SP時は “ヘッダーの下から” 全面に展開 */
-/* SP時は “ヘッダーの下から” 全面に展開 */
+/* SP時はフルスクリーンメニュー */
 @media (max-width: 992px) {
   .header__nav {
-    position: fixed; /* fixed に */
-    top: var(--header-h); /* ヘッダー直下から */
+    position: fixed;
+    top: 0;
     left: 0;
     right: 0;
-    bottom: 0; /* ← 高さは bottom:0 で全画面にフィット */
+    bottom: 0;
     width: 100%;
-    /* height: calc(100svh - var(--header-h));  ← 不要 */
-    height: auto; /* 明示的に無効化 */
-    background: rgba(0, 0, 0, 0.9);
+    height: 100vh;
+    background: rgba(20, 20, 20, 0.95);
     opacity: 0;
     visibility: hidden;
-    z-index: 1; /* ヘッダーより後ろ */
-    padding-bottom: max(16px, env(safe-area-inset-bottom)); /* iOS下部安全域 */
-    overflow-y: auto; /* メニューが長くてもスクロール可 */
+    z-index: 999;
+    padding: 80px 20px 40px;
+    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    transition: opacity 0.3s, visibility 0.3s;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0;
   }
   .header__nav.is-active {
     opacity: 1;
     visibility: visible;
-  }
-
-  .header__menu {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 15px;
-    /* height: 100svh; ← これが隙間の原因、撤去 */
-    height: 100%; /* navの高さに追従 */
-    min-height: 100%; /* 念のため */
-    padding-inline: 0;
   }
 }
 
 /* 4-1) メニューリスト */
 .header__menu {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 2rem;
   margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (max-width: 1200px) {
+  .header__menu {
+    gap: 1.2rem;
+  }
 }
 @media (max-width: 992px) {
   .header__menu {
     flex-direction: column;
-    justify-content: center;
-    gap: 15px;
-    height: 100svh;
-    padding-inline: 0;
+    gap: 0;
+    width: 100%;
+    margin-bottom: 40px;
   }
 }
 
 /* 4-2) アイテム */
 .header__item {
-  font-size: clamp(1rem, 1.5vw, 1.3rem);
+  margin: 0;
 }
 @media (max-width: 992px) {
   .header__item {
     width: 100%;
-    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
-}
-
-/* CTA ボタン用モディファイア */
-.header__item--cta {
-  display: flex;
-  justify-content: center;
+  .header__item:first-child {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
 }
 
 /* 4-3) リンク */
@@ -145,67 +153,133 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: var(--f-black);
-  font-weight: normal;
-  transition: color 0.3s;
+  text-decoration: none;
+  transition: all 0.3s;
+  position: relative;
 }
-.header__link:hover {
-  color: #0084ad;
+
+.header__link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background: var(--c-blue);
+  transition: width 0.3s;
 }
+
+.header__link:hover::after {
+  width: 100%;
+}
+
 @media (max-width: 992px) {
   .header__link {
-    color: #fff;
-    font-size: 1.3rem;
-    padding: 24px 0;
+    padding: 25px 20px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  .header__link::after {
+    display: none;
+  }
+  .header__link:hover {
+    background: rgba(255, 255, 255, 0.05);
   }
 }
 
-/* サブ（英語） */
-.header__sub {
-  color: #686f75;
-  font-size: clamp(0.875rem, 1vw, 1rem);
-  transition: 0.3s;
+/* メインテキスト（日本語） */
+.header__link-main {
+  font-size: clamp(0.875rem, 1.3vw, 1.5rem);
+  font-weight: normal;
+  color: var(--f-black);
+  line-height: 1.2;
+  transition: color 0.3s;
 }
-.header__link:hover .header__sub {
-  color: #0084ad;
+.header__link:hover .header__link-main {
+  color: var(--c-blue);
 }
 @media (max-width: 992px) {
-  .header__sub {
+  .header__link-main {
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--c-white);
+    letter-spacing: 0.05em;
+  }
+}
+
+/* サブテキスト（英語） */
+.header__link-sub {
+  font-size: clamp(0.875rem, 1vw, 1rem);
+  color: #686f75;
+  text-transform: capitalize;
+  margin-top: 2px;
+  transition: color 0.3s;
+}
+.header__link:hover .header__link-sub {
+  color: var(--c-blue);
+}
+@media (max-width: 992px) {
+  .header__link-sub {
     display: none;
   }
 }
 
-/* 4-4) CTA ボタン本体 */
+/* 4-4) CTA ボタン */
 .header__cta {
-  background: var(--c-navy);
-  border-radius: 50px;
-  width: 192px;
-  padding: 15px 0;
-  text-align: center;
-  font-size: 15px;
-  transition: 0.3s;
-}
-.header__cta:hover {
-  background: #0084ad;
+  flex-shrink: 0;
 }
 @media (max-width: 992px) {
   .header__cta {
-    width: 75%;
-    max-width: 300px;
-    padding: 0;
+    width: 100%;
+    margin-top: 0;
+    display: flex;
+    justify-content: center;
   }
 }
 
-/* CTA 内テキスト＆アイコン */
-.header__cta-text {
-  display: flex;
+.header__cta-button {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  color: #fff;
+  gap: 8px;
+  background: var(--c-navy);
+  color: var(--c-white);
+  padding: 15px 24px;
+  border-radius: 50px;
+  font-size: clamp(0.875rem, 1.3vw, 1.5rem);
+  font-weight: normal;
+  text-decoration: none;
+  transition: all 0.3s;
+  box-shadow: 0 2px 8px rgba(0, 90, 158, 0.2);
 }
+
+.header__cta-button:hover {
+  color: var(--c-white);
+  background: var(--c-blue);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 90, 158, 0.3);
+}
+
+@media (max-width: 992px) {
+  .header__cta-button {
+    display: inline-flex;
+    justify-content: center;
+    width: auto;
+    padding: 16px 40px;
+    font-size: 16px;
+    border-radius: 50px;
+    background: var(--c-navy);
+  }
+  .header__cta-button:hover {
+    background: var(--c-blue);
+    color: var(--c-white);
+  }
+}
+
 .header__cta-icon {
-  width: 20px;
-  margin-right: 8px;
+  font-size: clamp(0.875rem, 1.3vw, 1.5rem);
+  flex-shrink: 0;
 }
 
 /* 5) ハンバーガーボタン --------------------------------------- */
@@ -217,31 +291,34 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 68px;
-    height: 68px;
+    width: 48px;
+    height: 48px;
     padding: 0;
     position: fixed;
-    top: 0;
-    right: 0;
+    top: 10px;
+    right: 10px;
     border: none;
-    background: var(--c-navy);
+    background: transparent;
     cursor: pointer;
-    z-index: 3; /* nav(1) / inner(2) より前 */
+    z-index: 1001;
     transition: background 0.3s;
+  }
+  .header__toggle:hover {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
   }
 }
 
-/* “三本線” ベース */
+/* "三本線" ベース */
 .header__toggle-line,
 .header__toggle-line::before,
 .header__toggle-line::after {
   display: block;
-  width: 34px;
+  width: 24px;
   height: 2px;
-  border-radius: 4px;
-  background: #fff;
-  transition: transform 0.25s ease, top 0.25s ease, background-color 0.2s ease,
-    opacity 0.2s ease;
+  border-radius: 2px;
+  background: var(--f-black);
+  transition: all 0.3s ease;
 }
 .header__toggle-line {
   position: relative;
@@ -253,19 +330,20 @@
   left: 0;
 }
 .header__toggle-line::before {
-  top: -8px;
-} /* 上の線 */
+  top: -7px;
+}
 .header__toggle-line::after {
-  top: 8px;
-} /* 下の線 */
+  top: 7px;
+}
 
-/* is-active = × に変形（中央に揃えて回転） */
+/* is-active = × に変形（白色に） */
 .header__toggle.is-active .header__toggle-line {
   background: transparent;
 }
 .header__toggle.is-active .header__toggle-line::before,
 .header__toggle.is-active .header__toggle-line::after {
   top: 0;
+  background: #fff;
 }
 .header__toggle.is-active .header__toggle-line::before {
   transform: rotate(45deg);
@@ -274,30 +352,7 @@
   transform: rotate(-45deg);
 }
 
-/* Header toggle – Topで透過（SPのみ） */
-@media (max-width: 992px) {
-  /* ヘッダーが透明のときはボタンも透明 */
-  .header--transparent .header__toggle {
-    background: transparent;
-    box-shadow: none;
-  }
-  .header--transparent .header__toggle:hover {
-    background: transparent;
-  }
-  /* メニューを開いたら（×表示時）は常に色付きに戻す */
-  .header__toggle.is-active {
-    background: var(--c-navy);
-  }
-
-  /* 視認性が不安なら三本線に薄い縁取り（任意） */
-  .header--transparent .header__toggle-line,
-  .header--transparent .header__toggle-line::before,
-  .header--transparent .header__toggle-line::after {
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
-  }
-}
-
-/* メニュー展開中のスクロールロック（必要なら） */
+/* メニュー展開中のスクロールロック */
 /* body.is-locked {
   overflow: hidden;
 } */
