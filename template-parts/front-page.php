@@ -15,7 +15,7 @@ if (! defined('ABSPATH')) {
     get_template_part('template-parts/top-section', 'hero' );
     get_template_part('template-parts/top-section', 'about');
     get_template_part('template-parts/top-section', 'services');
-    get_template_part('template-parts/top-section', 'recruit');
+    get_template_part('template-parts/top-section', 'join');
     get_template_part('template-parts/top-section', 'office');
     get_template_part('template-parts/top-section', 'news');
     get_template_part('template-parts/section', 'contact-cta');

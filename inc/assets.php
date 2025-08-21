@@ -74,6 +74,17 @@ function lp_enqueue_assets()
         );
     }
 
+    // 6) Join Us 専用CSS
+    if (is_page_template('page-join.php') || is_page('join')) {
+        wp_enqueue_style(
+            'lp-join',
+            get_theme_file_uri('assets/css/join.css'),
+            ['lp-common'],  // 共通CSSのあとに読み込み
+            $ver
+        );
+    }
+
+
 
     // ＊) Google Fonts（順序依存なし）
     wp_enqueue_style(

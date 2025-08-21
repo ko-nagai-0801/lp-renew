@@ -245,10 +245,7 @@ select {
   margin: 0 0 0.2em;
   width: max-content;
 }
-.section__sub--recruit {
-  color: #ffd600;
-  border-bottom: 2px solid var(--f-yellow);
-}
+
 .section__title {
   color: var(--f-black);
   font-size: clamp(1.5rem, 3vw, 5rem);
@@ -256,9 +253,7 @@ select {
   margin: 0;
   white-space: nowrap;
 }
-.section__title--recruit {
-  color: var(--f-white);
-}
+
 .section__catch {
   font-size: clamp(1.2rem, 1.6vw, 2.5rem);
   font-weight: 700;

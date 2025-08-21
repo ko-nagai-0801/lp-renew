@@ -7,8 +7,6 @@
  * @since 1.0.0
  */
 if (!defined('ABSPATH')) exit;
-
-get_header();
 ?>
 
 <main class="page page--about" role="main">
@@ -21,5 +19,3 @@ get_header();
     get_template_part('includes/to-top');      // ページトップへ
     ?>
 </main>
-
-<?php get_footer(); ?>
