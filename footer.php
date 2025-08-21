@@ -5,7 +5,15 @@
  * theme root /footer.php
  */
 ?>
-<footer class="footer">
+<footer
+  class="footer is-bright"
+  style="
+    --footer-image:url('<?php echo esc_url(get_theme_file_uri('assets/img/footer-bg.webp')); ?>');
+    --footer-pos:center 60%;
+    --mask-0:.80; --mask-1:.55; --mask-2:.55;
+  "
+>
+
 
     <div class="footer__inner">
 
@@ -16,24 +24,25 @@
                 <img src="<?php echo esc_url(get_theme_file_uri('assets/img/footer-logo.svg')); ?>" alt="">
             </div>
 
-            <div class="footer__company-item">
-                <p class="footer__address py-3">
-                    株式会社ＬｉＮＥ&nbsp;ＰＡＲＫ<br>
-                    〒120-0005<br>
-                    東京都足立区綾瀬&nbsp;2-27-4&nbsp;D1&nbsp;AYASE&nbsp;2F
-                </p>
-            </div>
-
-            <div class="footer__company-item">
-                <p class="footer__mail">
-                    <i class="bi bi-send-fill"></i>
-                    <a href="mailto:info@linepark.co.jp" data-nosnippet>info@linepark.co.jp</a>
-                </p>
-                <p class="footer__phone">
-                    <i class="bi bi-telephone-fill"></i>
-                    <a href="tel:03-4400-5584">03-4400-5584</a><br>
-                <p class="footer__time">受付：月-金&nbsp;9:00-17:00（土・日・祝日は閉所）</p>
-                </p>
+            <div class="footer__company-group">
+                <div class="footer__company-item">
+                    <p class="footer__address py-3">
+                        株式会社ＬｉＮＥ&nbsp;ＰＡＲＫ<br>
+                        〒120-0005<br>
+                        東京都足立区綾瀬&nbsp;2-27-4&nbsp;D1&nbsp;AYASE&nbsp;2F
+                    </p>
+                </div>
+                <div class="footer__company-item">
+                    <p class="footer__mail">
+                        <i class="bi bi-send-fill"></i>
+                        <a href="mailto:info@linepark.co.jp" data-nosnippet>info@linepark.co.jp</a>
+                    </p>
+                    <p class="footer__phone">
+                        <i class="bi bi-telephone-fill"></i>
+                        <a href="tel:03-4400-5584">03-4400-5584</a><br>
+                    <span class="footer__time">受付：月-金&nbsp;9:00-17:00（土・日・祝日は閉所）</span>
+                    </p>
+                </div>
             </div>
 
             <!-- SNS -->

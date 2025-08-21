@@ -2,12 +2,33 @@
    0.  背景イメージと基礎レイアウト
    ========================================================== */
 .footer {
-  position: relative; /* copy-right を absolute で置きたいので基準化 */
+  position: relative;
   padding-bottom: 50px;
-  height: auto;
-  /* min-height: 100vh; */
-  background: url("../img/footer-bg.webp") no-repeat right bottom/cover;
   color: var(--f-white);
+
+  /* ▼デフォルト値（PHPの inline style で上書き可） */
+  --footer-image: url("../img/footer-bg.webp"); /* 画像パス */
+  --footer-pos: center bottom; /* 位置 */
+  --mask-angle: to top; /* マスク方向 */
+  --mask-0: 0.68; /* 下端（濃い） */
+  --mask-1: 0.45; /* 中間 */
+  --mask-2: 0.1; /* 上端（薄い） */
+
+  /* 画像 + マスク（多層背景） */
+  background: linear-gradient(
+      var(--mask-angle),
+      rgba(0, 0, 0, var(--mask-0)) 0%,
+      rgba(0, 0, 0, var(--mask-1)) 40%,
+      rgba(0, 0, 0, var(--mask-2)) 100%
+    ),
+    var(--footer-image) no-repeat var(--footer-pos) / cover;
+}
+
+/* 明るい写真用の“強めマスク”プリセット（任意） */
+.footer.is-bright {
+  --mask-0: 0.78;
+  --mask-1: 0.55;
+  --mask-2: 0.2;
 }
 
 /* ======================================
@@ -55,6 +76,24 @@
   max-width: 100%;
   height: auto;
   vertical-align: bottom;
+}
+
+/* ラッパーのデフォルトは左揃え（PC時） */
+.footer__company-group {
+  display: grid;
+  row-gap: 0.25rem;
+}
+/* 縦並びになる幅では中央寄せ（margin で管理） */
+@media (max-width: 991px) {
+  .footer__company-group {
+    margin: 0 auto;
+    width: fit-content; /* full幅だと中央寄せにならないため */
+    max-width: 100%;
+    align-self: center; /* flex親の影響を受ける場合の保険 */
+  }
+  .footer__company-group .footer__company-item {
+    text-align: left;
+  }
 }
 
 /* --- テキスト住所 --- */
@@ -121,7 +160,7 @@
    3.  ナビゲーション
    ========================================================== */
 .footer__nav {
-  width: 70%;
+  width: 65%;
   padding-inline: 1.5rem;
 }
 @media (max-width: 991px) {

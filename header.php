@@ -52,7 +52,7 @@
                     <li class="header__item">
                         <a href="<?php echo esc_url(home_url('/services/')); ?>" class="header__link">
                             <span class="header__link-main">事業内容</span>
-                            <span class="header__link-sub">Business</span>
+                            <span class="header__link-sub">Services</span>
                         </a>
                     </li>
                     <li class="header__item">
@@ -70,7 +70,7 @@
                     <li class="header__item">
                         <a href="<?php echo esc_url(home_url('/news/')); ?>" class="header__link">
                             <span class="header__link-main">お知らせ</span>
-                            <span class="header__link-sub">News</span>
+                            <span class="header__link-sub">NEWS</span>
                         </a>
                     </li>
                 </ul>
