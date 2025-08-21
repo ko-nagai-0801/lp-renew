@@ -16,50 +16,42 @@
  *   'id'         => 'subhero-join'  // セクションID
  * ]);
  */
-
 if (!defined('ABSPATH')) exit;
 
 $defaults = [
   'sub'          => '',
   'title'        => '',
-  'variant'      => '',       // ex) 'about', 'join'
+  'title_html'   => '',      // ← 追加：HTMLタイトル用
+  'variant'      => '',
   'tag'          => 'h1',
-  'image_url'    => '',       // 指定なければ投稿サムネを使用
+  'image_url'    => '',
   'overlay_from' => 'rgba(0,0,0,.30)',
   'overlay_to'   => 'rgba(0,0,0,.30)',
   'extra_class'  => '',
   'id'           => '',
 ];
-
 $args = wp_parse_args($args ?? [], $defaults);
 
-/* 画像の決定：明示指定が無ければ投稿サムネを試す */
+/* サムネ自動適用 */
 if (empty($args['image_url'])) {
   $thumb = get_the_post_thumbnail_url(null, 'full');
   if ($thumb) $args['image_url'] = $thumb;
 }
 
-/* style カスタムプロパティ & 背景画像 */
+/* style */
 $style = [];
-if (!empty($args['image_url'])) {
-  $style[] = "background-image:url('" . esc_url($args['image_url']) . "')";
-}
-/* 変数は汎用名（--subhero-overlay-*）と、join用の互換名の両方を出す */
+if (!empty($args['image_url'])) $style[] = "background-image:url('" . esc_url($args['image_url']) . "')";
 $style[] = "--subhero-overlay-from:{$args['overlay_from']}";
 $style[] = "--subhero-overlay-to:{$args['overlay_to']}";
-$style[] = "--join-overlay-from:{$args['overlay_from']}"; // 互換
-$style[] = "--join-overlay-to:{$args['overlay_to']}";     // 互換
 $style_attr = implode(';', $style);
 
-/* クラス */
+/* class */
 $classes = ['subhero'];
-if (!empty($args['variant'])) $classes[] = 'subhero--' . sanitize_html_class($args['variant']);
+if (!empty($args['variant']))   $classes[] = 'subhero--' . sanitize_html_class($args['variant']);
 if (!empty($args['extra_class'])) $classes[] = $args['extra_class'];
 $class_attr = esc_attr(implode(' ', $classes));
-
 $tag = in_array($args['tag'], ['h1','h2','h3','h4','h5','h6'], true) ? $args['tag'] : 'h1';
 ?>
-
 <section<?php if ($args['id']) echo ' id="' . esc_attr($args['id']) . '"'; ?>
   class="<?php echo $class_attr; ?>"
   style="<?php echo esc_attr($style_attr); ?>">
@@ -68,9 +60,14 @@ $tag = in_array($args['tag'], ['h1','h2','h3','h4','h5','h6'], true) ? $args['ta
       <?php if ($args['sub']) : ?>
         <p class="subhero__sub"><?php echo esc_html($args['sub']); ?></p>
       <?php endif; ?>
-      <?php if ($args['title']) : ?>
+
+      <?php if ($args['title_html'] || $args['title']) : ?>
         <<?php echo $tag; ?> class="subhero__title">
-          <?php echo esc_html($args['title']); ?>
+          <?php
+            echo $args['title_html']
+              ? wp_kses_post($args['title_html'])  // HTML許可版
+              : esc_html($args['title']);          // テキスト版
+          ?>
         </<?php echo $tag; ?>>
       <?php endif; ?>
     </div>

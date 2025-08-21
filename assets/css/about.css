@@ -6,60 +6,13 @@
 /* ================================
    Subpage Hero
    ================================ */
-.subhero {
-  position: relative;
-  height: 50vh;
-  min-height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  margin-top: var(--header-h);
-}
-
 .subhero--about {
-  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-    url(../img/about-hero.webp) center / cover no-repeat;
-}
+  /* サムネ/inline style が無い場合のフォールバック背景 */
+  background-image: url(../img/about-hero.webp);
 
-.subhero__inner {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  padding: 0 20px;
-}
-
-.subhero__content {
-  animation: fadeInUp 0.8s ease-out;
-}
-
-.subhero__sub {
-  color: var(--c-white);
-  font-size: clamp(1rem, 2vw, 1.5rem);
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 0.5rem;
-  opacity: 0.9;
-}
-
-.subhero__title {
-  color: var(--c-white);
-  font-size: clamp(2rem, 5vw, 4rem);
-  font-weight: 900;
-  line-height: 1.2;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  /* 必要なら暗幕の濃さを上書き（なくてもOK：共通で .3/.3 が既定） */
+  /* --subhero-overlay-from: rgba(0, 0, 0, 0.30);
+     --subhero-overlay-to:   rgba(0, 0, 0, 0.30); */
 }
 
 /* ================================
@@ -366,108 +319,6 @@
 .company {
   background: var(--c-white);
   padding-bottom: 8rem;
-}
-
-.company__content {
-  max-width: 100%;
-  margin: 0 auto;
-}
-
-.company__table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  border-radius: var(--radius-card);
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-}
-
-.company__row {
-  transition: background 0.3s ease;
-}
-
-.company__label {
-  width: 30%;
-  padding: 2rem 1.5rem;
-  background: var(--c-blue-dark);
-  color: var(--c-white);
-  font-weight: 500;
-  font-size: clamp(0.9rem, 1.2vw, 1.1rem);
-  text-align: left;
-  vertical-align: middle;
-}
-
-.company__data {
-  padding: 2rem 1.5rem;
-  background: var(--clr-gray-050);
-  font-size: clamp(0.9rem, 1.2vw, 1rem);
-  line-height: 1.6;
-  color: var(--f-black);
-  vertical-align: middle;
-}
-
-.company__row:first-child .company__label {
-  border-top-left-radius: var(--radius-card);
-}
-
-.company__row:first-child .company__data {
-  border-top-right-radius: var(--radius-card);
-}
-
-.company__row:last-child .company__label {
-  border-bottom-left-radius: var(--radius-card);
-}
-
-.company__row:last-child .company__data {
-  border-bottom-right-radius: var(--radius-card);
-}
-
-@media (max-width: 768px) {
-  .company__table {
-    font-size: 0.9rem;
-  }
-
-  .company__label {
-    width: 35%;
-    padding: 1.5rem 1rem;
-    font-size: 0.9rem;
-  }
-
-  .company__data {
-    padding: 1.5rem 1rem;
-    font-size: 0.9rem;
-  }
-}
-
-@media (max-width: 576px) {
-  .company__label {
-    width: 40%;
-    padding: 1.2rem 0.8rem;
-    font-size: 0.85rem;
-  }
-
-  .company__data {
-    padding: 1.2rem 0.8rem;
-    font-size: 0.85rem;
-  }
-}
-
-/* ===== Company（区切り線を入れる） ===== */
-/* tr に border を当てても効きにくいので、セルに線を入れる */
-.company__label,
-.company__data {
-  border-bottom: 1px solid var(--clr-gray-200);
-}
-
-/* 最終行だけボーダーを消す */
-.company__row:last-child .company__label,
-.company__row:last-child .company__data {
-  border-bottom: none;
-}
-
-/* 左の紺カラムは白系の線の方が見やすい（色味は変えず控えめに） */
-.company__label {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 /* ================================

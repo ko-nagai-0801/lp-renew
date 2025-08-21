@@ -811,6 +811,7 @@ select {
 }
 
 /* 子ページ共通 */
+/* subhero */
 .subhero {
   position: relative;
   height: 50vh;
@@ -870,7 +871,8 @@ select {
   }
 }
 
-/* 既存 company__table を info-table にも適用（エイリアス） */
+/* ===== Shared: Info Table ===== */
+
 .info-table__wrap .section__header {
   text-align: start;
   margin-bottom: 1.5rem;
@@ -884,9 +886,11 @@ select {
   overflow: hidden;
   box-shadow: var(--shadow-sm);
 }
+
 .info-table__row {
   transition: background 0.3s ease;
 }
+
 .info-table__label {
   width: var(--info-label-width, 30%);
   padding: 2rem 1.5rem;
@@ -896,8 +900,9 @@ select {
   font-size: clamp(0.9rem, 1.2vw, 1.1rem);
   text-align: left;
   vertical-align: middle;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25); /* 紺地で視認性UP */
 }
+
 .info-table__data {
   padding: 2rem 1.5rem;
   background: var(--clr-gray-050);
@@ -907,6 +912,8 @@ select {
   vertical-align: middle;
   border-bottom: 1px solid var(--clr-gray-200);
 }
+
+/* 角丸 */
 .info-table__row:first-child .info-table__label {
   border-top-left-radius: var(--radius-card);
 }
@@ -920,6 +927,7 @@ select {
   border-bottom-right-radius: var(--radius-card);
 }
 
+/* Responsive */
 @media (max-width: 768px) {
   .info-table {
     font-size: 0.9rem;
