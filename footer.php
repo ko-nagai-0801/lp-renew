@@ -6,13 +6,12 @@
  */
 ?>
 <footer
-  class="footer is-bright"
-  style="
+    class="footer is-bright"
+    style="
     --footer-image:url('<?php echo esc_url(get_theme_file_uri('assets/img/footer-bg.webp')); ?>');
     --footer-pos:center 60%;
     --mask-0:.80; --mask-1:.55; --mask-2:.55;
-  "
->
+  ">
 
 
     <div class="footer__inner">
@@ -40,7 +39,7 @@
                     <p class="footer__phone">
                         <i class="bi bi-telephone-fill"></i>
                         <a href="tel:03-4400-5584">03-4400-5584</a><br>
-                    <span class="footer__time">受付：月-金&nbsp;9:00-17:00（土・日・祝日は閉所）</span>
+                        <span class="footer__time">受付：月-金&nbsp;9:00-17:00（土・日・祝日は閉所）</span>
                     </p>
                 </div>
             </div>
@@ -76,26 +75,54 @@
         <!-- Footer-nav ------------------------------------------------------ -->
         <nav class="footer__nav">
             <ul class="footer__nav-list">
-                <li class="footer__nav-item"><a href="/about/">ＬｉＮＥ&nbsp;ＰＡＲＫについて</a></li>
-                <li class="footer__nav-item"><a href="/services/">事業内容</a>
+                <li class="footer__nav-item">
+                    <a href="<?php echo esc_url(home_url('/about/')); ?>">ＬｉＮＥ&nbsp;ＰＡＲＫについて</a>
+                </li>
+                <li class="footer__nav-item">
+                    <a href="<?php echo esc_url(home_url('/services/')); ?>">事業内容</a>
                     <ul class="footer__service-nav-list">
-                        <li class="footer__service-nav-item"><a href="/products-web/">Web制作</a></li>
-                        <li class="footer__service-nav-item"><a href="/products-design/">デザイン制作</a></li>
-                        <li class="footer__service-nav-item"><a href="/products-movie/">動画編集</a></li>
-                        <li class="footer__service-nav-item"><a href="　">軽作業</a></li>
-                        <li class="footer__service-nav-item"><a href="　">その他の業務</a></li>
+                        <li class="footer__service-nav-item">
+                            <a href="<?php echo esc_url(home_url('/products-web/')); ?>">Web制作</a>
+                        </li>
+                        <li class="footer__service-nav-item">
+                            <a href="<?php echo esc_url(home_url('/products-design/')); ?>">デザイン制作</a>
+                        </li>
+                        <li class="footer__service-nav-item">
+                            <a href="<?php echo esc_url(home_url('/products-movie/')); ?>">動画編集</a>
+                        </li>
+                        <li class="footer__service-nav-item">
+                            <!-- TODO: スラッグ確定後に変更してください -->
+                            <a href="<?php echo esc_url(home_url('/products-lightwork/')); ?>">軽作業</a>
+                        </li>
+                        <li class="footer__service-nav-item">
+                            <!-- TODO: スラッグ確定後に変更してください -->
+                            <a href="<?php echo esc_url(home_url('/products-others/')); ?>">その他の業務</a>
+                        </li>
                     </ul>
                 </li>
-                <li class="footer__nav-item"><a href="/access/">アクセス</a></li>
-                <li class="footer__nav-item"><a href="/news">お知らせ</a></li>
-                <li class="footer__nav-item"><a href="/recruit/">採用情報</a></li>
-                <li class="footer__nav-item"><a href="/associates/">協力企業</a></li>
-                <li class="footer__nav-item"><a href="/contact/">お問い合わせ</a></li>
-                <li class="footer__nav-item"><a href="/privacy/">プライバシーポリシー</a></li>
+                <li class="footer__nav-item">
+                    <a href="<?php echo esc_url(home_url('/access/')); ?>">アクセス</a>
+                </li>
+                <li class="footer__nav-item">
+                    <a href="<?php echo esc_url(home_url('/news/')); ?>">お知らせ</a>
+                </li>
+                <li class="footer__nav-item">
+                    <a href="<?php echo esc_url(home_url('/join/')); ?>">利用者募集</a>
+                </li>
+                <li class="footer__nav-item">
+                    <a href="<?php echo esc_url(home_url('/associates/')); ?>">協力企業</a>
+                </li>
+                <li class="footer__nav-item">
+                    <a href="<?php echo esc_url(home_url('/contact/')); ?>">お問い合わせ</a>
+                </li>
+                <li class="footer__nav-item">
+                    <a href="<?php echo esc_url(home_url('/privacy/')); ?>">プライバシーポリシー</a>
+                </li>
             </ul>
         </nav>
 
     </div><!-- /.footer__inner -->
+
 
     <small class="footer__copyright">
         &copy;&nbsp;2022&nbsp;<?php bloginfo('name'); ?> Inc.

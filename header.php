@@ -56,9 +56,9 @@
                         </a>
                     </li>
                     <li class="header__item">
-                        <a href="<?php echo esc_url(home_url('/recruit/')); ?>" class="header__link">
-                            <span class="header__link-main">採用情報</span>
-                            <span class="header__link-sub">Recruit</span>
+                        <a href="<?php echo esc_url(home_url('/join/')); ?>" class="header__link">
+                            <span class="header__link-main">利用者募集</span>
+                            <span class="header__link-sub">Join Us</span>
                         </a>
                     </li>
                     <li class="header__item">

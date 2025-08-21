@@ -25,11 +25,11 @@
   --f-white: #fff;
   --f-blue: #009cdf;
   --f-blue-dark: #007bb5;
-  --f-navy: #3B6EA5;
+  --f-navy: #3b6ea5;
   --f-yellow: #ffc107;
   --f-gray: #686f75;
   --c-white: #fff;
-  --c-navy: #3B6EA5;
+  --c-navy: #3b6ea5;
   --c-blue: #009cdf;
   --c-blue-dark: #007bb5;
   --c-yellow: #ffc107;
@@ -495,14 +495,14 @@ select {
 /* ---------------------------
    1) Gradient Button
    ------------------------ */
-.cta--gradient{
+.cta--gradient {
   /* デフォルト値（PHP からの inline style で上書き可） */
-  --g1:#55CB7B;
-  --g2:#3D97FF;
-  --g3:#FF6666;
+  --g1: #55cb7b;
+  --g2: #3d97ff;
+  --g3: #ff6666;
   --grad: linear-gradient(90deg, var(--g1), var(--g2), var(--g3));
 }
-.cta--gradient .button{
+.cta--gradient .button {
   background: none;
   background-color: transparent;
   /* 枠はグラデの border-image を使用 */
@@ -511,236 +511,258 @@ select {
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  border-radius: 0;                 /* 角丸不要なら 0、必要なら削除 */
+  border-radius: 0; /* 角丸不要なら 0、必要なら削除 */
   color: var(--c-navy);
-  box-shadow: 0 10px 22px rgba(0,0,0,.12);
-  transition: color .35s, box-shadow .35s, transform .25s, background .0s; /* 背景は常に none */
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+  transition: color 0.35s, box-shadow 0.35s, transform 0.25s, background 0s; /* 背景は常に none */
 }
 
 /* 左→右に広がる塗り（初期 0%） */
-.cta--gradient .button::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:inherit;
-  background: linear-gradient(rgba(0,0,0,.06), rgba(0,0,0,.06)), var(--grad);
-  transform-origin:left center;
+.cta--gradient .button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.06)),
+    var(--grad);
+  transform-origin: left center;
   transform: scaleX(0);
-  transition: transform .55s cubic-bezier(.22,1,.36,1);
-  z-index:0;
-  pointer-events:none;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 0;
+  pointer-events: none;
   will-change: transform;
 }
 
 /* 初期：テキスト＆矢印はグラデ塗り（背景は none のまま） */
-.cta--gradient .button .btn-text{
+.cta--gradient .button .btn-text {
   background-image: var(--grad);
-  -webkit-background-clip:text;
-  background-clip:text;
+  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-  position:relative;
-  z-index:1;
+  position: relative;
+  z-index: 1;
 }
-.cta--gradient .button::after{
+.cta--gradient .button::after {
   /* baseの .button--icon::after を“文字として”グラデで塗る */
   background-image: var(--grad);
-  -webkit-background-clip:text;
-  background-clip:text;
+  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent !important;
   position: relative;
-  z-index:1;
+  z-index: 1;
 }
 
 /* hover / focus：塗りを全幅→白文字。base の :hover 背景を打ち消す */
 .cta--gradient .button:hover::before,
-.cta--gradient .button:focus-visible::before{ transform: scaleX(1); }
+.cta--gradient .button:focus-visible::before {
+  transform: scaleX(1);
+}
 .cta--gradient .button:hover,
-.cta--gradient .button:focus-visible{
-  color:#fff;
-  outline:none;
-  background: none;               /* baseの .button:hover を上書き */
-  box-shadow:none;                /* 影を消したい場合。残すなら削除 */
+.cta--gradient .button:focus-visible {
+  color: #fff;
+  outline: none;
+  background: none; /* baseの .button:hover を上書き */
+  box-shadow: none; /* 影を消したい場合。残すなら削除 */
 }
 .cta--gradient .button:hover .btn-text,
-.cta--gradient .button:focus-visible .btn-text{
-  background-image:none;
-  -webkit-text-fill-color:#fff;
-  color:#fff;
+.cta--gradient .button:focus-visible .btn-text {
+  background-image: none;
+  -webkit-text-fill-color: #fff;
+  color: #fff;
 }
 .cta--gradient .button:hover::after,
-.cta--gradient .button:focus-visible::after{
-  background-image:none;
-  -webkit-text-fill-color:#fff;
-  color:#fff !important;
+.cta--gradient .button:focus-visible::after {
+  background-image: none;
+  -webkit-text-fill-color: #fff;
+  color: #fff !important;
 }
 
 /* モバイル（hoverなし端末）：常時塗り＋白文字、タップで軽く沈む */
-@media (hover:none){
-  .cta--gradient .button{
-    border-image: none;           /* 枠を消したい場合。残すなら削除 */
-    min-height:48px;
-    padding:.9rem 1.25rem;
-    font-size:1.0625rem;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
+@media (hover: none) {
+  .cta--gradient .button {
+    border-image: none; /* 枠を消したい場合。残すなら削除 */
+    min-height: 48px;
+    padding: 0.9rem 1.25rem;
+    font-size: 1.0625rem;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     touch-action: manipulation;
   }
-  .cta--gradient .button::before{ transform: scaleX(1); }
-  .cta--gradient .button .btn-text{
-    background-image:none;
-    -webkit-text-fill-color:#fff;
-    color:#fff;
+  .cta--gradient .button::before {
+    transform: scaleX(1);
   }
-  .cta--gradient .button::after{
-    background-image:none;
-    -webkit-text-fill-color:#fff;
-    color:#fff !important;
+  .cta--gradient .button .btn-text {
+    background-image: none;
+    -webkit-text-fill-color: #fff;
+    color: #fff;
   }
-  .cta--gradient .button:active{
-    transition: transform .18s ease, box-shadow .18s ease;
-    transform: translateY(1px) scale(.98);
-    box-shadow:none;
+  .cta--gradient .button::after {
+    background-image: none;
+    -webkit-text-fill-color: #fff;
+    color: #fff !important;
+  }
+  .cta--gradient .button:active {
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    transform: translateY(1px) scale(0.98);
+    box-shadow: none;
   }
 }
 
 /* reduce-motion：スライド→フェード */
-@media (prefers-reduced-motion: reduce){
-  .cta--gradient .button::before{
-    transition: opacity .3s;
-    transform:none;
-    opacity:0;
+@media (prefers-reduced-motion: reduce) {
+  .cta--gradient .button::before {
+    transition: opacity 0.3s;
+    transform: none;
+    opacity: 0;
   }
   .cta--gradient .button:hover::before,
-  .cta--gradient .button:focus-visible::before{ opacity:1; }
+  .cta--gradient .button:focus-visible::before {
+    opacity: 1;
+  }
 }
-
 
 /* ---------------------------
    2) Ghost Button
    ------------------------ */
-.cta--ghost{
+.cta--ghost {
   /* デフォルト値（PHP からの inline style で上書き可） */
   --ghost-border-w: 2px;
-  --ghost-brand: #5c98ff;     /* hover時のフォールバック色 */
-  --ghost-g1:#74D690;
-  --ghost-g2:#5AA8FF;
-  --ghost-g3:#FF7A7A;
-  --ghost-grad: linear-gradient(90deg, var(--ghost-g1), var(--ghost-g2), var(--ghost-g3));
+  --ghost-brand: #5c98ff; /* hover時のフォールバック色 */
+  --ghost-g1: #74d690;
+  --ghost-g2: #5aa8ff;
+  --ghost-g3: #ff7a7a;
+  --ghost-grad: linear-gradient(
+    90deg,
+    var(--ghost-g1),
+    var(--ghost-g2),
+    var(--ghost-g3)
+  );
 }
-.cta--ghost .button{
+.cta--ghost .button {
   position: relative;
   isolation: isolate;
-  background: none;           /* 常時透過 */
-  color: #fff;                /* 初期は白文字 */
-  border: var(--ghost-border-w) solid rgba(255,255,255,.95);
+  background: none; /* 常時透過 */
+  color: #fff; /* 初期は白文字 */
+  border: var(--ghost-border-w) solid rgba(255, 255, 255, 0.95);
   border-radius: 0;
-  box-shadow: 0 10px 22px rgba(0,0,0,.12);
-  transition: color .3s, box-shadow .3s, transform .2s, background .0s;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+  transition: color 0.3s, box-shadow 0.3s, transform 0.2s, background 0s;
   overflow: hidden;
 }
 
 /* 左→右の白塗り（初期 0%） */
-.cta--ghost .button::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:#fff;
-  z-index:0;
-  pointer-events:none;
-  transform-origin:left center;
+.cta--ghost .button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  z-index: 0;
+  pointer-events: none;
+  transform-origin: left center;
   transform: scaleX(0);
-  transition: transform .45s cubic-bezier(.22,1,.36,1), opacity .3s;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s;
 }
 
 /* テキスト＆矢印は前面。矢印は currentColor ベース */
 .cta--ghost .button .btn-text,
-.cta--ghost .button::after{
-  position:relative;
-  z-index:1;
+.cta--ghost .button::after {
+  position: relative;
+  z-index: 1;
 }
-.cta--ghost .button::after{
+.cta--ghost .button::after {
   color: currentColor !important;
-  display:inline-block;
+  display: inline-block;
 }
 
 /* hover/focus：白塗り展開＋色変化 */
 .cta--ghost .button:hover::before,
-.cta--ghost .button:focus-visible::before{ transform: scaleX(1); }
+.cta--ghost .button:focus-visible::before {
+  transform: scaleX(1);
+}
 
 .cta--ghost .button:hover,
-.cta--ghost .button:focus-visible{
-  color: var(--ghost-brand);      /* フォールバック色（下でグラデ上書き） */
-  outline:none;
-  box-shadow: 0 12px 26px rgba(0,0,0,.18);
-  background: none;               /* base の :hover 背景抑止 */
+.cta--ghost .button:focus-visible {
+  color: var(--ghost-brand); /* フォールバック色（下でグラデ上書き） */
+  outline: none;
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.18);
+  background: none; /* base の :hover 背景抑止 */
 }
 
 /* hover時：文字＆矢印をグラデ塗り */
 .cta--ghost .button:hover .btn-text,
-.cta--ghost .button:focus-visible .btn-text{
+.cta--ghost .button:focus-visible .btn-text {
   background-image: var(--ghost-grad);
-  -webkit-background-clip:text;
-  background-clip:text;
+  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
 }
 .cta--ghost .button:hover::after,
-.cta--ghost .button:focus-visible::after{
+.cta--ghost .button:focus-visible::after {
   background-image: var(--ghost-grad);
-  -webkit-background-clip:text;
-  background-clip:text;
+  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent !important;
 }
 
 /* wipe: fade バリエーション（.cta--ghost に .is-fade を追加） */
-.cta--ghost.is-fade .button::before{
-  transform:none; opacity:0;
+.cta--ghost.is-fade .button::before {
+  transform: none;
+  opacity: 0;
 }
 .cta--ghost.is-fade .button:hover::before,
-.cta--ghost.is-fade .button:focus-visible::before{
-  opacity:1;
+.cta--ghost.is-fade .button:focus-visible::before {
+  opacity: 1;
 }
 
 /* ノックアウト（実験的）.cta--ghost に .is-knockout を追加 */
 .cta--ghost.is-knockout .button:hover .btn-text,
-.cta--ghost.is-knockout .button:focus-visible .btn-text{
+.cta--ghost.is-knockout .button:focus-visible .btn-text {
   -webkit-text-fill-color: transparent;
   color: transparent;
   mix-blend-mode: normal;
 }
-@supports (-webkit-mask-composite: xor) or (mask-composite: exclude){
+@supports (-webkit-mask-composite: xor) or (mask-composite: exclude) {
   .cta--ghost.is-knockout .button:hover::before,
-  .cta--ghost.is-knockout .button:focus-visible::before{ z-index:2; }
+  .cta--ghost.is-knockout .button:focus-visible::before {
+    z-index: 2;
+  }
   .cta--ghost.is-knockout .button:hover .btn-text,
-  .cta--ghost.is-knockout .button:focus-visible .btn-text{
-    position:relative; z-index:3;
-    background:none; -webkit-mask-image:none; mask-image:none;
+  .cta--ghost.is-knockout .button:focus-visible .btn-text {
+    position: relative;
+    z-index: 3;
+    background: none;
+    -webkit-mask-image: none;
+    mask-image: none;
   }
 }
 
 /* モバイル：タップ時の小さな沈み */
-@media (hover:none){
-  .cta--ghost .button{
-    min-height:48px;
-    padding:.9rem 1.25rem;
-    font-size:1.0625rem;
+@media (hover: none) {
+  .cta--ghost .button {
+    min-height: 48px;
+    padding: 0.9rem 1.25rem;
+    font-size: 1.0625rem;
   }
-  .cta--ghost .button:active{
-    transform: translateY(1px) scale(.98);
-    box-shadow: 0 8px 20px rgba(0,0,0,.16);
+  .cta--ghost .button:active {
+    transform: translateY(1px) scale(0.98);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
   }
 }
 
 /* reduce-motion：スライド→フェード */
-@media (prefers-reduced-motion: reduce){
-  .cta--ghost .button::before{
-    transition: opacity .3s;
-    transform:none; opacity:0;
+@media (prefers-reduced-motion: reduce) {
+  .cta--ghost .button::before {
+    transition: opacity 0.3s;
+    transform: none;
+    opacity: 0;
   }
   .cta--ghost .button:hover::before,
-  .cta--ghost .button:focus-visible::before{ opacity:1; }
+  .cta--ghost .button:focus-visible::before {
+    opacity: 1;
+  }
 }
 
 /* ============================================
@@ -774,8 +796,8 @@ select {
 
   /* 3) タップ時の小さな沈み（既存を踏襲） */
   .cta--ghost .button:active {
-    transform: translateY(1px) scale(.98);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, .16);
+    transform: translateY(1px) scale(0.98);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
   }
 }
 
@@ -783,7 +805,143 @@ select {
 @media (hover: none) and (prefers-reduced-motion: reduce) {
   .cta--ghost .button::before,
   .cta--ghost.is-fade .button::before {
-    transform: none;   /* アニメしない */
-    opacity: 1;        /* ただし白塗りは見せる */
+    transform: none; /* アニメしない */
+    opacity: 1; /* ただし白塗りは見せる */
+  }
+}
+
+/* 子ページ共通 */
+.subhero {
+  position: relative;
+  height: 50vh;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-top: var(--header-h);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.subhero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    var(--subhero-overlay-from, rgba(0, 0, 0, 0.3)),
+    var(--subhero-overlay-to, rgba(0, 0, 0, 0.3))
+  );
+}
+.subhero__inner {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 20px;
+}
+.subhero__content {
+  animation: fadeInUp 0.8s ease-out;
+}
+.subhero__sub {
+  color: var(--c-white);
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+  opacity: 0.9;
+}
+.subhero__title {
+  color: var(--c-white);
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 900;
+  line-height: 1.2;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 既存 company__table を info-table にも適用（エイリアス） */
+.info-table__wrap .section__header {
+  text-align: start;
+  margin-bottom: 1.5rem;
+}
+
+.info-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.info-table__row {
+  transition: background 0.3s ease;
+}
+.info-table__label {
+  width: var(--info-label-width, 30%);
+  padding: 2rem 1.5rem;
+  background: var(--c-blue-dark);
+  color: #fff;
+  font-weight: 500;
+  font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+.info-table__data {
+  padding: 2rem 1.5rem;
+  background: var(--clr-gray-050);
+  font-size: clamp(0.9rem, 1.2vw, 1rem);
+  line-height: 1.6;
+  color: var(--f-black);
+  vertical-align: middle;
+  border-bottom: 1px solid var(--clr-gray-200);
+}
+.info-table__row:first-child .info-table__label {
+  border-top-left-radius: var(--radius-card);
+}
+.info-table__row:first-child .info-table__data {
+  border-top-right-radius: var(--radius-card);
+}
+.info-table__row:last-child .info-table__label {
+  border-bottom-left-radius: var(--radius-card);
+}
+.info-table__row:last-child .info-table__data {
+  border-bottom-right-radius: var(--radius-card);
+}
+
+@media (max-width: 768px) {
+  .info-table {
+    font-size: 0.9rem;
+  }
+  .info-table__label {
+    width: 35%;
+    padding: 1.5rem 1rem;
+    font-size: 0.9rem;
+  }
+  .info-table__data {
+    padding: 1.5rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+@media (max-width: 576px) {
+  .info-table__label {
+    width: 40%;
+    padding: 1.2rem 0.8rem;
+    font-size: 0.85rem;
+  }
+  .info-table__data {
+    padding: 1.2rem 0.8rem;
+    font-size: 0.85rem;
   }
 }
