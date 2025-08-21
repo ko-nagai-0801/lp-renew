@@ -1,5 +1,9 @@
-/* 子ページ共通 */
-/* subhero */
+/* =====
+sub-common.css
+TOPページ以外で共通のスタイル
+===== */
+
+/* ===== subhero ===== */
 .subhero {
   position: relative;
   height: 50vh;
