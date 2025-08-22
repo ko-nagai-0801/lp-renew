@@ -3,6 +3,58 @@ sub-common.css
 TOPページ以外で共通のスタイル
 ===== */
 
+/* ===============================================================
+   Breadcrumb (BEM)
+   ============================================================ */
+.breadcrumb {
+  --bc-gap: .5rem;
+  --bc-sep: "›";
+  background: transparent;
+  padding: .75rem 0;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.breadcrumb__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bc-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.breadcrumb__item {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.breadcrumb__item:not(:last-child)::after {
+  content: var(--bc-sep);
+  margin-left: var(--bc-gap);
+  margin-right: var(--bc-gap);
+  opacity: .5;
+}
+
+.breadcrumb__link {
+  color: inherit;
+  text-decoration: none;
+}
+.breadcrumb__link:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb__current {
+  color: #222;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
 /* ===== subhero ===== */
 .subhero {
   position: relative;
