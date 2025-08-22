@@ -88,7 +88,7 @@
                             <a href="<?php echo esc_url(home_url('/products-design/')); ?>">デザイン制作</a>
                         </li>
                         <li class="footer__service-nav-item">
-                            <a href="<?php echo esc_url(home_url('/products-movie/')); ?>">動画編集</a>
+                            <a href="<?php echo esc_url(home_url('/products-movie/')); ?>">SNS運用</a>
                         </li>
                         <li class="footer__service-nav-item">
                             <!-- TODO: スラッグ確定後に変更してください -->
