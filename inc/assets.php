@@ -95,6 +95,18 @@ function lp_enqueue_assets()
             $ver
         );
     }
+    
+    // 7) Access 専用CSS（サブページ共通のあと）
+    if (is_page_template('page-access.php') || is_page('access')) {
+        wp_enqueue_style(
+            'lp-access',
+            get_theme_file_uri('assets/css/access.css'),
+            ['lp-subcommon'], // ← サブページ共通に依存
+            $ver
+        );
+    }
+
+
 
     // ＊) Google Fonts
     wp_enqueue_style(
