@@ -1,5 +1,12 @@
 {
-    "require": {
-        "phpmailer/phpmailer": "^6.9"
+    "name": "linepark/lp-theme",
+    "description": "LP Theme (dev stubs for editor only)",
+    "type": "project",
+    "license": "proprietary",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require-dev": {
+        "php-stubs/wordpress-stubs": "^6.8",
+        "php-stubs/acf-pro-stubs": "^6.4"
     }
 }

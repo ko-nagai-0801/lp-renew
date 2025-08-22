@@ -1,0 +1,134 @@
+/* ===============================================================
+   Services-Index Page Styles (BEM)
+   assets/css/services-index.css
+   ============================================================ */
+
+/* ================================
+   Services-Index Page Hero
+   ================================ */
+.subhero--services-index {
+  /* サムネ/inline style が無い場合のフォールバック背景 */
+  background-image: url(../img/about-hero.webp);
+
+  /* 必要なら暗幕の濃さを上書き（なくてもOK：共通で .3/.3 が既定） */
+  /* --subhero-overlay-from: rgba(0, 0, 0, 0.30);
+     --subhero-overlay-to:   rgba(0, 0, 0, 0.30); */
+}
+
+/* ===== Services Index cards ===== */
+
+
+.services-index {
+  --gap: 20px;
+}
+
+.services-index__cards {
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: 1fr;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 768px) {
+  .services-index__cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1200px) {
+  .services-index__cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.services-index__card {
+  display: flex;
+}
+
+.services-index__link {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  width: 100%;
+  text-decoration: none;
+  background: #fff;
+  border-radius: var(--radius-card, 16px);
+  overflow: clip;
+  box-shadow: var(--shadow-sm, 0 2px 4px rgba(0, 0, 0, 0.08));
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.services-index__link:hover,
+.services-index__link:focus {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg, 0 12px 24px rgba(0, 0, 0, 0.12));
+}
+.services-index__link:focus-visible {
+  outline: 2px solid var(--c-blue, #009cdf);
+  outline-offset: 3px;
+}
+
+.services-index__media {
+  aspect-ratio: 16/9;
+  margin: 0;
+  overflow: hidden;
+}
+.services-index__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.02);
+  transition: transform 0.35s ease;
+}
+.services-index__link:hover .services-index__img {
+  transform: scale(1.06);
+}
+.services-index__ph {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  background: var(--clr-gray-100);
+  color: #9aa4b2;
+  font-size: 0.9rem;
+}
+
+.services-index__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem 1rem 1.125rem;
+}
+.services-index__title {
+  margin: 0;
+  font-weight: 700;
+  color: var(--f-black);
+  font-size: clamp(1.05rem, 1vw + 0.9rem, 1.25rem);
+  line-height: 1.35;
+}
+.services-index__text {
+  margin: 0;
+  color: var(--c-gray, #686f75);
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+
+.services-index__cta {
+  margin-top: auto;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--c-blue, #009cdf);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+.services-index__arrow {
+  display: inline-block;
+  transition: transform 0.25s ease;
+}
+.services-index__link:hover .services-index__arrow {
+  transform: translateX(4px);
+}
+
+.services-index__empty {
+  color: #666;
+}

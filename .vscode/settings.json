@@ -1,3 +1,8 @@
 {
-    "liveServer.settings.port": 5501
+  "liveServer.settings.port": 5501,
+  "intelephense.environment.includePaths": [
+    "vendor/php-stubs/wordpress-stubs",
+    "vendor/php-stubs/acf-pro-stubs"
+  ],
+  "intelephense.stubs": ["wordpress"]
 }
