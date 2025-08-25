@@ -125,6 +125,16 @@ function lp_enqueue_assets()
         );
     }
 
+    // X) News Index 専用CSS
+    if (is_page_template('page-news-index.php') || is_page('news')) {
+        wp_enqueue_style(
+            'lp-news-index',
+            get_theme_file_uri('assets/css/news-index.css'),
+            ['lp-subcommon'], // ← サブページ共通に依存
+            $ver
+        );
+    }
+
     // X) Associate Company 専用CSS
     if (is_page_template('page-associate-company.php') || is_page('associates')) {
         wp_enqueue_style(
