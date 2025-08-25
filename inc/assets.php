@@ -145,6 +145,17 @@ function lp_enqueue_assets()
         );
     }
 
+    // 404 Page 専用CSS
+    if (is_404()) {
+        wp_enqueue_style(
+            'lp-404',
+            get_theme_file_uri('assets/css/404.css'),
+            ['lp-subcommon'], // サブページ共通に依存
+            $ver
+        );
+    }
+
+
 
 
     // ＊) Google Fonts
@@ -169,3 +180,10 @@ function lp_enqueue_assets()
     }
 }
 add_action('wp_enqueue_scripts', 'lp_enqueue_assets');
+
+// 404ページは noindex を明示
+add_action('wp_head', function () {
+    if (is_404()) {
+        echo '<meta name="robots" content="noindex, nofollow">' . "\n";
+    }
+}, 1);
