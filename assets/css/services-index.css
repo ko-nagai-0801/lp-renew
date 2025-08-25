@@ -6,14 +6,14 @@
 /* ================================
    Services-Index Page Hero
    ================================ */
-.subhero--services-index {
+/* .subhero--services-index { */
   /* サムネ/inline style が無い場合のフォールバック背景 */
   /* background-image: url(../img/services-index-hero.webp); */
 
   /* 必要なら暗幕の濃さを上書き（なくてもOK：共通で .3/.3 が既定） */
   /* --subhero-overlay-from: rgba(0, 0, 0, 0.30);
      --subhero-overlay-to:   rgba(0, 0, 0, 0.30); */
-}
+/* } */
 
 /* ===== Services Index cards ===== */
 
