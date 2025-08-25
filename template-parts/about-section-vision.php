@@ -3,11 +3,20 @@
 $theme_uri = get_stylesheet_directory_uri(); ?>
 <section class="section vision">
   <div class="container">
-    <header class="section__header">
-      <p class="section__sub">Vision</p>
-      <h2 class="section__title">ビジョン</h2>
-    </header>
 
+    <?php
+    get_template_part(
+      'components/section-header',
+      null,
+      [
+        'id' => '', // 見出しID（任意）
+        'sub' => 'Vision', // 小見出し
+        'title' => 'ビジョン', // メイン見出し
+        'tag' => '', // h1〜h6（省略でh2）
+        'extra_class' => 'vision__header' // 追加クラス（任意）
+      ]
+    );
+    ?>
     <div class="vision__content">
       <div class="vision__bg"></div>
 

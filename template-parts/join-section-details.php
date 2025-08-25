@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) exit;
     get_template_part('components/info-table', null, [
       'sub'         => 'Join Us',
       'title'       => '利用者募集',
-      'variant'     => 'join',     // section-header の配色などに使用（必要に応じて）
+      'variant'     => 'join', // section-header の配色などに使用（必要に応じて）
       'header_tag'  => 'h2',
 
       // 必要に応じて独自のテーブルクラスを付与

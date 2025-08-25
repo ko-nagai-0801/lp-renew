@@ -20,10 +20,19 @@ $hours       = '受付時間：月〜金 9:00-17:00（土・日・祝日は閉�
 
 <section class="access section container" aria-labelledby="access-heading">
     <div class="access__inner">
-        <header class="section__header">
-            <p class="section__sub">Access</p>
-            <h2 id="access-heading" class="section__title">アクセス</h2>
-        </header>
+        <?php
+        get_template_part(
+            'components/section-header',
+            null,
+            [
+                'id' => '', // 見出しID（任意）
+                'sub' => 'Access', // 小見出し
+                'title' => 'アクセス', // メイン見出し
+                'tag' => 'h2', // h1〜h6（省略した場合h2）
+                'extra_class' => 'access__header' // 追加クラス（任意）
+            ]
+        );
+        ?>
 
         <div class="access__body">
             <!-- Map -->

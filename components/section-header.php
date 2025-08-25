@@ -22,7 +22,7 @@ $defaults = [
   'sub'         => '',
   'title'       => '',
   'tag'         => 'h2',
-  'variant'     => '',          // ★ 追加
+  'variant'     => '',
   'extra_class' => '',
 ];
 $args = wp_parse_args( $args ?? [], $defaults );
