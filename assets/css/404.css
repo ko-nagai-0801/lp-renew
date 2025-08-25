@@ -5,6 +5,7 @@
 
 .page--notfound {
   display: block;
+  margin-block: 3rem;
 }
 
 /* ================================
@@ -14,7 +15,7 @@
   /* ブルー系の基調色（HSL：h s% l%） */
   --nf-bg1: 210 88% 56%; /* 明るめブルー */
   --nf-bg2: 220 85% 54%; /* 中心ブルー */
-  --nf-bg3: 235 80% 58%; /* 少し紫寄りの濃いブルー */
+  --nf-bg3: 235 80% 58%; /* 濃いブルー */
 
   /* UIニュートラル */
   --nf-border: #dbe7ff;
@@ -32,7 +33,12 @@
 @supports not (overflow: clip) {
   .notfound {
     overflow-x: hidden;
-  } /* フォールバック */
+  }
+}
+
+/* 見出しは404内だけ中央寄せ */
+.notfound .section__header {
+  text-align: center;
 }
 
 /* 背景の柔らかいグラデーションぼかし（安全版） */
@@ -81,10 +87,10 @@
   display: flex;
   justify-content: center;
   gap: clamp(8px, 1.5vw, 16px);
-  margin-block: clamp(12px, 3vw, 24px) clamp(20px, 4vw, 40px);
+  margin-block: clamp(12px, 3vw, 24px) clamp(20px, 4vw, 32px);
 }
 .notfound__digit {
-  --size: clamp(64px, 14vw, 160px);
+  --size: clamp(56px, 14vw, 144px); /* モバイルで少し小さめに */
   display: inline-block;
   width: var(--size);
   height: var(--size);
@@ -122,19 +128,20 @@
 /* リード文 */
 .notfound__lead {
   text-align: center;
-  font-size: clamp(1rem, 0.9rem + 0.4vw, 1.125rem);
+  font-size: clamp(0.95rem, 0.9rem + 0.3vw, 1.0625rem);
   color: #334155;
-  margin: 0 auto 1.5rem;
+  margin: 0 auto 1.25rem;
   max-width: 42rem;
 }
 
-/* アクション（3ボタン想定：自動で気持ちよく並ぶ） */
+/* アクション（3ボタン：自動で気持ちよく並ぶ） */
 .notfound__actions {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* ★ 可変列 */
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* 可変列 */
   gap: var(--nf-gap);
-  margin: 0 auto clamp(20px, 4vw, 36px);
+  margin: 0 auto clamp(20px, 4vw, 32px);
   max-width: 48rem;
+  padding-bottom: env(safe-area-inset-bottom); /* iOS下部の安全域 */
 }
 
 .notfound__btn {
@@ -142,13 +149,14 @@
   place-items: center;
   text-decoration: none;
   border: 1px solid var(--nf-border);
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 0.9rem 1.1rem;
   font-weight: 700;
   color: #0f1c2e;
   background: #fff;
   transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease,
     border-color 0.18s ease, color 0.18s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 .notfound__btn:hover {
   transform: translateY(-2px);
@@ -172,6 +180,21 @@
   outline: 2px solid hsl(220 85% 45%);
   outline-offset: 3px;
   border-radius: 8px;
+}
+
+/* ===== Mobile fine tuning ===== */
+@media (max-width: 599.98px) {
+  .notfound::before,
+  .notfound::after {
+    height: 50%;
+    filter: blur(28px);
+  } /* GPU負荷/滲みを軽減 */
+  .notfound__actions {
+    gap: 0.75rem;
+  }
+  .notfound__btn {
+    padding: 0.85rem 1rem;
+  }
 }
 
 /* Reduced motion */
