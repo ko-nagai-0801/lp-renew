@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Associate Companyページ用テンプレート本体
  * template-parts/page-associate.php
@@ -10,12 +11,15 @@ if (!defined('ABSPATH')) exit;
 
 <main class="page page--associates" role="main">
   <?php
-    // サブヒーロー
-    get_template_part('template-parts/associates-section', 'hero');
+  // サブヒーロー
+  get_template_part('template-parts/associates-section', 'hero');
+
+  // 協力企業一覧
+  get_template_part('template-parts/associates-section', 'list');
 
 
-    // 共通CTA・ページトップ
-    get_template_part('template-parts/section', 'contact-cta');
-    get_template_part('includes/to-top');
+  // 共通CTA・ページトップ
+  get_template_part('template-parts/section', 'contact-cta');
+  get_template_part('includes/to-top');
   ?>
 </main>

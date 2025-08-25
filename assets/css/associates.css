@@ -1,0 +1,150 @@
+/* ===============================================================
+   Associates Page Styles (BEM only, no Bootstrap utilities)
+   File: assets/css/associates.css
+   Blocks:
+     - .subhero.subhero--associates
+     - .section （共通見出しブロックを想定）
+     - .associates（本セクションの固有ブロック）
+   Depends on:
+     - base.css（タイポ・カラーの基礎）
+     - header.css（--header-h などの変数がある場合）
+   ============================================================ */
+
+/* -----------------------------
+   Subhero (variant: associates)
+   ----------------------------- */
+/* .subhero.subhero--associates { */
+/* 背景画像は components/subhero 側で指定される想定。
+     必要ならここでデフォルト画像などを設定可能：
+     background: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)),
+                 url("../img/associates-hero.webp") center/cover no-repeat; */
+
+/* } */
+
+
+/* ================================
+   Associates (BEM)
+   ================================ */
+.associates {
+  /* セクション内で使うカスタムプロパティ */
+  --assoc-gap: 2rem;
+  --assoc-logo-min-w: 140px;
+  --assoc-logo-max-w: 240px;
+  --assoc-logo-max-h: 120px;
+  --assoc-focus: #0d6efd;
+  --assoc-note-color: #6c757d;
+}
+
+/* 見出しとの距離（section__headerを使う前提） */
+.associates .section__header {
+  margin-bottom: clamp(24px, 3vw, 40px);
+}
+
+/* ---- List Grid（要素数に応じて2〜n列） ---- */
+.associates__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* ★ 可変列 */
+  gap: var(--assoc-gap, 2rem);
+}
+
+@media (min-width: 768px) {
+  .associates__list {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* ★ タイルを拡げる */
+  }
+}
+@media (min-width: 1200px) {
+  .associates__list {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* ★ PCで余裕があれば更に */
+  }
+}
+
+/* ---- Logo サイズ（上限を拡大 & レスポンシブ） ---- */
+.associates {
+  --assoc-logo-min-w: 180px;  /* 140 → 180 */
+  --assoc-logo-max-w: 320px;  /* 240 → 320 */
+  --assoc-logo-max-h: 160px;  /* 120 → 160 */
+}
+
+@media (min-width: 992px) {
+  .associates {
+    --assoc-logo-max-w: 360px; /* PCで更に拡大 */
+    --assoc-logo-max-h: 200px;
+  }
+}
+
+/* ---- Logo 要素（block化＆拡大時の滑らかさ） ---- */
+.associates__logo {
+  display: block;
+  width: min(100%, var(--assoc-logo-max-w));
+  min-width: var(--assoc-logo-min-w);
+  max-height: var(--assoc-logo-max-h);
+  height: auto;
+  object-fit: contain;
+  transition: transform .2s ease;
+}
+.associates__link:hover .associates__logo { transform: translateY(-2px); }
+
+.associates__item { display: grid; place-items: center; text-align: center; }
+.associates__link { display: inline-grid; place-items: center; text-decoration: none; }
+
+/* （参考）Reduced motion対応 */
+@media (prefers-reduced-motion: reduce) {
+  .associates__logo,
+  .associates__link:hover .associates__logo { transition: none; transform: none; }
+}
+
+/* ロゴが無い場合のテキスト表示 */
+.associates__name-text {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.35;
+  color: inherit;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid currentColor;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+/* ---- Note ---- */
+.associates__note {
+  margin-top: 0.5rem;
+  color: var(--assoc-note-color);
+  text-align: right;
+  font-size: 0.9375rem;
+}
+
+/* ================================
+   Dark mode 調整（任意）
+   ================================ */
+@media (prefers-color-scheme: dark) {
+  .associates__note {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .associates__name-text {
+    border-color: rgba(255, 255, 255, 0.7);
+  }
+}
+
+/* ================================
+   Print
+   ================================ */
+@media print {
+  .subhero.subhero--associates {
+    display: none;
+  }
+  .associates__list {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .associates__logo {
+    filter: grayscale(100%);
+  }
+  .associates__note {
+    color: #000;
+  }
+}

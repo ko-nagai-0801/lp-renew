@@ -96,7 +96,7 @@ function lp_enqueue_assets()
         );
     }
 
-    // 7) Access 専用CSS（サブページ共通のあと）
+    // 7) Access 専用CSS
     if (is_page_template('page-access.php') || is_page('access')) {
         wp_enqueue_style(
             'lp-access',
@@ -106,7 +106,7 @@ function lp_enqueue_assets()
         );
     }
 
-    // 8) Services Index 専用CSS（サブページ共通のあと）
+    // 8) Services Index 専用CSS
     if (is_page_template('page-services-index.php') || is_page('services')) {
         wp_enqueue_style(
             'lp-services-index',
@@ -115,11 +115,21 @@ function lp_enqueue_assets()
             $ver
         );
     }
-    // 8) Services Index 専用CSS（サブページ共通のあと）
+    // 9) Services Web 専用CSS
     if (is_page_template('services-web.php') || is_page('web')) {
         wp_enqueue_style(
             'lp-services-web',
             get_theme_file_uri('assets/css/services-single.css'),
+            ['lp-subcommon'], // ← サブページ共通に依存
+            $ver
+        );
+    }
+
+    // X) Associate Company 専用CSS
+    if (is_page_template('page-associate-company.php') || is_page('associates')) {
+        wp_enqueue_style(
+            'lp-associates',
+            get_theme_file_uri('assets/css/associates.css'),
             ['lp-subcommon'], // ← サブページ共通に依存
             $ver
         );

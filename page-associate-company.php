@@ -1,6 +1,6 @@
 <?php
 /**
-* Template Name: Associate (協力企業)
+* Template Name: Associate Company（協力企業）
 * Template Post Type: page
 * @package LP_WP_Theme
 * @since 1.0.0
