@@ -3,34 +3,31 @@
    File: assets/css/associates.css
    Blocks:
      - .subhero.subhero--associates
-     - .section （共通見出しブロックを想定）
-     - .associates（本セクションの固有ブロック）
+     - .section
+     - .associates
    Depends on:
-     - base.css（タイポ・カラーの基礎）
-     - header.css（--header-h などの変数がある場合）
+     - base.css / header.css
    ============================================================ */
 
 /* -----------------------------
    Subhero (variant: associates)
    ----------------------------- */
-/* .subhero.subhero--associates { */
-/* 背景画像は components/subhero 側で指定される想定。
-     必要ならここでデフォルト画像などを設定可能：
-     background: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)),
-                 url("../img/associates-hero.webp") center/cover no-repeat; */
-
-/* } */
-
+/* 必要なら背景などをここでデフォルト指定可
+.subhero.subhero--associates {
+  background: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)),
+              url("../img/associates-hero.webp") center/cover no-repeat;
+}
+*/
 
 /* ================================
    Associates (BEM)
    ================================ */
 .associates {
-  /* セクション内で使うカスタムプロパティ */
+  /* 基本（デスクトップ基準） */
   --assoc-gap: 2rem;
-  --assoc-logo-min-w: 140px;
-  --assoc-logo-max-w: 240px;
-  --assoc-logo-max-h: 120px;
+  --assoc-logo-min-w: 180px;
+  --assoc-logo-max-w: 360px; /* ← 大きめ基準 */
+  --assoc-logo-max-h: 350px;
   --assoc-focus: #0d6efd;
   --assoc-note-color: #6c757d;
 }
@@ -40,43 +37,62 @@
   margin-bottom: clamp(24px, 3vw, 40px);
 }
 
-/* ---- List Grid（要素数に応じて2〜n列） ---- */
+/* ---- List Grid（デスクトップ基準 → 画面が狭くなるほど調整） ---- */
 .associates__list {
   list-style: none;
   margin: 0;
   padding: 0;
 
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* ★ 可変列 */
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(300px, 1fr)
+  ); /* base: 広い画面 */
   gap: var(--assoc-gap, 2rem);
 }
 
-@media (min-width: 768px) {
+/* ≤ 1200px: タイル最小幅を少し縮める */
+@media (max-width: 1200px) {
   .associates__list {
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* ★ タイルを拡げる */
-  }
-}
-@media (min-width: 1200px) {
-  .associates__list {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* ★ PCで余裕があれば更に */
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   }
 }
 
-/* ---- Logo サイズ（上限を拡大 & レスポンシブ） ---- */
-.associates {
-  --assoc-logo-min-w: 180px;  /* 140 → 180 */
-  --assoc-logo-max-w: 320px;  /* 240 → 320 */
-  --assoc-logo-max-h: 160px;  /* 120 → 160 */
+/* ≤ 768px: さらに縮める（モバイル寄り） */
+@media (max-width: 768px) {
+  .associates__list {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
 }
 
-@media (min-width: 992px) {
+/* ---- Logo サイズ（デスクトップ基準 → 狭い画面で上書き） ---- */
+/* ≤ 992px: ロゴの上限を抑える（高さも抑制） */
+@media (max-width: 992px) {
   .associates {
-    --assoc-logo-max-w: 360px; /* PCで更に拡大 */
-    --assoc-logo-max-h: 200px;
+    --assoc-logo-max-w: 320px;
+    --assoc-logo-max-h: 160px;
   }
 }
 
-/* ---- Logo 要素（block化＆拡大時の滑らかさ） ---- */
+/* ---- Logo 要素 ---- */
+.associates__item {
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+.associates__link {
+  display: inline-grid;
+  place-items: center;
+  text-decoration: none;
+  outline: none;
+}
+.associates__link:focus-visible {
+  outline: 2px solid var(--assoc-focus);
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
 .associates__logo {
   display: block;
   width: min(100%, var(--assoc-logo-max-w));
@@ -84,17 +100,20 @@
   max-height: var(--assoc-logo-max-h);
   height: auto;
   object-fit: contain;
-  transition: transform .2s ease;
+  transition: transform 0.2s ease, filter 0.2s ease;
+  will-change: transform;
 }
-.associates__link:hover .associates__logo { transform: translateY(-2px); }
+.associates__link:hover .associates__logo {
+  transform: translateY(-2px);
+}
 
-.associates__item { display: grid; place-items: center; text-align: center; }
-.associates__link { display: inline-grid; place-items: center; text-decoration: none; }
-
-/* （参考）Reduced motion対応 */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .associates__logo,
-  .associates__link:hover .associates__logo { transition: none; transform: none; }
+  .associates__link:hover .associates__logo {
+    transition: none;
+    transform: none;
+  }
 }
 
 /* ロゴが無い場合のテキスト表示 */
@@ -116,18 +135,6 @@
   color: var(--assoc-note-color);
   text-align: right;
   font-size: 0.9375rem;
-}
-
-/* ================================
-   Dark mode 調整（任意）
-   ================================ */
-@media (prefers-color-scheme: dark) {
-  .associates__note {
-    color: rgba(255, 255, 255, 0.7);
-  }
-  .associates__name-text {
-    border-color: rgba(255, 255, 255, 0.7);
-  }
 }
 
 /* ================================
