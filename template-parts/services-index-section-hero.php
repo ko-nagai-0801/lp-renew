@@ -7,9 +7,10 @@ if (!defined('ABSPATH')) exit;
 
 get_template_part('components/subhero', null, [
   'sub'        => 'Services',
-  'title'      => get_the_title(),
-  'variant'    => 'services-index',      // → .subhero--services-index
-  'tag'        => 'h1',
-  // 'image_url' => get_the_post_thumbnail_url(null, 'full'), // ページサムネがあれば自動で適用される仕様なので省略OK
-  'id'         => 'subhero-services',
+  'title'      => '事業内容',
+  'variant'    => 'services-index', // → .subhero--services-index
+  'image_url'      => get_theme_file_uri('assets/img/services-index-hero.webp'),
+  // パララックス設定
+  'parallax'       => true,
+  'parallax_speed' => 0.35,     // 0.25〜0.5で微調整
 ]);

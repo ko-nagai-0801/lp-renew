@@ -82,21 +82,19 @@
                     <a href="<?php echo esc_url(home_url('/services/')); ?>">事業内容</a>
                     <ul class="footer__service-nav-list">
                         <li class="footer__service-nav-item">
-                            <a href="<?php echo esc_url(home_url('/products-web/')); ?>">Web制作</a>
+                            <a href="<?php echo esc_url(home_url('/services/web/')); ?>">Web制作</a>
                         </li>
                         <li class="footer__service-nav-item">
-                            <a href="<?php echo esc_url(home_url('/products-design/')); ?>">デザイン制作</a>
+                            <a href="<?php echo esc_url(home_url('/services/design/')); ?>">デザイン制作</a>
                         </li>
                         <li class="footer__service-nav-item">
-                            <a href="<?php echo esc_url(home_url('/products-movie/')); ?>">SNS運用</a>
+                            <a href="<?php echo esc_url(home_url('/services/sns/')); ?>">SNS運用</a>
                         </li>
                         <li class="footer__service-nav-item">
-                            <!-- TODO: スラッグ確定後に変更してください -->
-                            <a href="<?php echo esc_url(home_url('/products-lightwork/')); ?>">軽作業</a>
+                            <a href="<?php echo esc_url(home_url('/services/lightwork/')); ?>">軽作業</a>
                         </li>
                         <li class="footer__service-nav-item">
-                            <!-- TODO: スラッグ確定後に変更してください -->
-                            <a href="<?php echo esc_url(home_url('/products-others/')); ?>">その他の業務</a>
+                            <a href="<?php echo esc_url(home_url('/services/others/')); ?>">その他の業務</a>
                         </li>
                     </ul>
                 </li>

@@ -6,10 +6,11 @@
 if (!defined('ABSPATH')) exit;
 
 get_template_part('components/subhero', null, [
-  'sub'        => 'Join Us',
-  'title'      => '利用者募集',
-  'variant'    => 'join',  // → .subhero--join が付与されます
-  'tag'        => 'h1',
-  // 'image_url' => get_the_post_thumbnail_url(null, 'full'), // 指定しなければ自動で投稿サムネを使用
-  'id'         => 'subhero-join',
+  'sub'            => 'Join Us',
+  'title'          => '利用者募集',
+  'variant'        => 'join',
+  'image_url'      => get_theme_file_uri('assets/img/join-hero.webp'),
+  // パララックス設定
+  'parallax'       => true,
+  'parallax_speed' => 0.35,     // 0.25〜0.5で微調整
 ]);

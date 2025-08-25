@@ -6,14 +6,15 @@
    -------------------------------------------------------- */
 /* 背景は components/subhero の inline style で設定済み。
    ここではオーバーレイ濃度などのトーンだけ調整します。 */
-.subhero--access {
-  /* オーバーレイ（sub-common.css の ::before が参照） */
-  --subhero-overlay-from: rgba(0, 0, 0, 0.35);
-  --subhero-overlay-to: rgba(0, 0, 0, 0.35);
+/* .subhero--access { */
+    /* フォールバック背景（image_url が無い場合の保険） */
+  /* background-image: url("../img/access-hero.webp"); */
 
-  /* フォールバック背景（image_url が無い場合の保険） */
-  background-image: url("../img/access-hero.webp");
-}
+  /* オーバーレイ（sub-common.css の ::before が参照） */
+  /* --subhero-overlay-from: rgba(0, 0, 0, 0.35);
+  --subhero-overlay-to: rgba(0, 0, 0, 0.35); */
+
+/* } */
 
 /* 1) Layout -------------------------------------------------- */
 

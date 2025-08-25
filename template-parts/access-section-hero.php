@@ -1,4 +1,5 @@
 <?php
+
 /**
  * template-parts/access-section-hero.php
  * Access サブヒーローは components/subhero を利用
@@ -12,8 +13,9 @@ $img = get_the_post_thumbnail_url(null, 'full') ?: $default_img;
 get_template_part('components/subhero', null, [
   'sub'       => 'Access',
   'title'     => 'アクセス',
-  'variant'   => 'access',       // -> .subhero--access が付与されます
-  'tag'       => 'h1',
-  'id'        => 'subhero-access',
-  'image_url' => $img,           // components/subhero 側で background-image に適用
+  'variant'   => 'access',
+  'image_url' => $img,
+  // パララックス設定
+  'parallax'       => true,
+  'parallax_speed' => 0.35,     // 0.25〜0.5で微調整
 ]);

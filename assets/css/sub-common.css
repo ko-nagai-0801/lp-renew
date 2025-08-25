@@ -55,7 +55,9 @@ TOPページ以外で共通のスタイル
 }
 
 
-/* ===== subhero ===== */
+/* ===============================================================
+   Sub-hero (BEM)
+   ============================================================ */
 .subhero {
   position: relative;
   height: 50vh;
@@ -69,7 +71,9 @@ TOPページ以外で共通のスタイル
   background-size: cover;
   background-repeat: no-repeat;
 }
-.subhero::before {
+
+/* オーバーレイ：.parallax が付いていない時のみ表示（共通の .parallax::before と重複させない） */
+.subhero:not(.parallax)::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -80,15 +84,18 @@ TOPページ以外で共通のスタイル
     var(--subhero-overlay-to, rgba(0, 0, 0, 0.3))
   );
 }
+
 .subhero__inner {
   position: relative;
   z-index: 2;
   text-align: center;
   padding: 0 20px;
 }
+
 .subhero__content {
   animation: fadeInUp 0.8s ease-out;
 }
+
 .subhero__sub {
   color: var(--c-white);
   font-size: clamp(1rem, 2vw, 1.5rem);
@@ -97,6 +104,7 @@ TOPページ以外で共通のスタイル
   margin-bottom: 0.5rem;
   opacity: 0.9;
 }
+
 .subhero__title {
   color: var(--c-white);
   font-size: clamp(2rem, 5vw, 4rem);
@@ -104,18 +112,17 @@ TOPページ以外で共通のスタイル
   line-height: 1.2;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
+
+/* in-view アニメ */
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ===== Shared: Info Table ===== */
+
+/* ===============================================================
+   Shared: Info Table
+   ============================================================ */
 
 .info-table__wrap .section__header {
   text-align: start;
@@ -144,7 +151,7 @@ TOPページ以外で共通のスタイル
   font-size: clamp(0.9rem, 1.2vw, 1.1rem);
   text-align: left;
   vertical-align: middle;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.25); /* 紺地で視認性UP */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .info-table__data {
