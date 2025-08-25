@@ -36,10 +36,6 @@
   }
 }
 
-/* 見出しは404内だけ中央寄せ */
-.notfound .section__header {
-  text-align: center;
-}
 
 /* 背景の柔らかいグラデーションぼかし（安全版） */
 .notfound::before,
