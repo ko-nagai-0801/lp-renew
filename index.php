@@ -1,13 +1,16 @@
 <?php
-// index.php（最終的なフォールバックテンプレート）
+/**
+ * index.php（最終的なフォールバックテンプレート） – BEM
+ * theme root /index.php
+ * 
+ * @package LP_WP_Theme
+ * @since 1.0.0
+ */
+if (!defined('ABSPATH')) exit;
 
-if (! defined('ABSPATH')) {
-	exit;
-}
-
-// ヘッダー部分を読み込む
 get_header();
 ?>
+
 
 <main class="site-main container">
 	<?php

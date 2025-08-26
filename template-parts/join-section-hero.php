@@ -1,7 +1,10 @@
 <?php
 /**
- * Join Us サブヒーロー（components 使用）
+ * Join Us サブヒーロー
  * template-parts/join-section-hero.php
+ * 
+ * @package LP_WP_Theme
+ * @since 1.0.0
  */
 if (!defined('ABSPATH')) exit;
 

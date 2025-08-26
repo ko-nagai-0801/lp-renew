@@ -1,7 +1,10 @@
 <?php
 /**
- * template-parts/page-access.php
  * アクセスページ本体（セクション分割）
+ * template-parts/page-access.php
+ * 
+ * @package LP_WP_Theme
+ * @since 1.0.0
  */
 if (!defined('ABSPATH')) exit;
 ?>

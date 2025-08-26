@@ -2,6 +2,7 @@
 /**
  * News Indexページ用テンプレート本体
  * template-parts/page-news-index.php
+ * 
  * @package LP_WP_Theme
  * @since 1.0.0
  */

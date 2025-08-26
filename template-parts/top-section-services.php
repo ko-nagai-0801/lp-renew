@@ -1,12 +1,12 @@
 <?php
-
 /**
- * services section – BEM
- * template-parts/section-services.php
+ * TOPページ Services セクション
+ * template-parts/top-section-services.php
+ * 
+ * @package LP_WP_Theme
+ * @since 1.0.0
  */
-if (! defined('ABSPATH')) {
-  exit;
-}
+if (! defined('ABSPATH')) { exit; }
 ?>
 
 <section id="services" class="services section section__card container" aria-labelledby="services__heading">

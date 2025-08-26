@@ -3,7 +3,11 @@
 /**
  * Footer – BEM
  * theme root /footer.php
+ * 
+ * @package LP_WP_Theme
+ * @since 1.0.0
  */
+if (!defined('ABSPATH')) exit;
 ?>
 <footer
     class="footer is-bright"

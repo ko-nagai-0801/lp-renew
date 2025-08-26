@@ -1,6 +1,6 @@
 <?php
 /**
- * フロントページ用テンプレート
+ * フロントページ用テンプレート本体
  * template-parts/front-page.php
  * 
  * @package LP_WP_Theme

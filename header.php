@@ -1,10 +1,14 @@
 <?php
-
 /**
  * Header  – BEM
  * theme root /header.php
+ * 
+ * @package LP_WP_Theme
+ * @since 1.0.0
  */
+if (!defined('ABSPATH')) exit;
 ?>
+
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 

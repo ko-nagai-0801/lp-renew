@@ -1,8 +1,11 @@
 <?php
 
 /**
+ * 協力企業 サブヒーロー
  * template-parts/associate-section-hero.php
- * components/subhero を利用
+ * 
+ * @package LP_WP_Theme
+ * @since 1.0.0
  */
 if (!defined('ABSPATH')) exit;
 

@@ -1,8 +1,9 @@
 <?php
 
 /**
- * Privacy Policy サブヒーロー（components 使用）
+ * Privacy Policy サブヒーロー
  * template-parts/privacy-section-hero.php
+ * 
  * @package LP_WP_Theme
  * @since 1.0.0
  */

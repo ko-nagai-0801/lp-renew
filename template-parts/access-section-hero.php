@@ -1,8 +1,11 @@
 <?php
 
 /**
+ * Access サブヒーロー
  * template-parts/access-section-hero.php
- * Access サブヒーローは components/subhero を利用
+ * 
+ * @package LP_WP_Theme
+ * @since 1.0.0
  */
 if (!defined('ABSPATH')) exit;
 

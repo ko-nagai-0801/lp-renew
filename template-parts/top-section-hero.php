@@ -1,12 +1,12 @@
 <?php
-
 /**
- * Hero section  (template-parts/section-hero.php)
- * BEM 命名
+ * TOPページヒーローセクション
+ * template-parts/top-section-hero.php
+ * 
+ * @package LP_WP_Theme
+ * @since 1.0.0
  */
-if (! defined('ABSPATH')) {
-  exit;
-}
+if (! defined('ABSPATH')) { exit; }
 ?>
 
 <section class="hero">

@@ -1,9 +1,10 @@
 <?php
-
 /**
  * Join Us 利用者募集（components 使用）
  * File: template-parts/join-section-details.php
+ * 
  * @package LP_WP_Theme
+ * @since 1.0.0
  */
 if (!defined('ABSPATH')) exit;
 ?>

@@ -1,7 +1,8 @@
 <?php
 /**
+ * Web制作 サービス詳細ページ
  * template-parts/services-web.php
- * Web制作 – サービス詳細ページ
+ * 
  * @package LP_WP_Theme
  * @since 1.0.0
  */

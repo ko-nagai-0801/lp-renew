@@ -2,7 +2,10 @@
 
 /**
  * Contact-CTA section  – BEM
- * /wp-content/themes/LP_WP_Theme/template-parts/section-contact-cta.php
+ * template-parts/section-contact-cta.php
+ * 
+  * @package LP_WP_Theme
+ * @since 1.0.0
  */
 if (! defined('ABSPATH')) {
   exit;

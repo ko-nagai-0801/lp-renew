@@ -1,8 +1,11 @@
 <?php
 
 /**
+ * Access 地図・住所・道順・連絡先 セクション
  * template-parts/access-section-body.php
- * 地図・住所・道順・連絡先
+ * 
+ * @package LP_WP_Theme
+ * @since 1.0.0
  */
 if (!defined('ABSPATH')) exit;
 

@@ -8,6 +8,9 @@
  *  - 無ければ post（カテゴリー 'news' があれば優先、無ければ全投稿）
  *  - ページネーション対応
  * BEMブロック: .news-index
+ * 
+ * @package LP_WP_Theme
+ * @since 1.0.0
  */
 if (!defined('ABSPATH')) exit;
 

@@ -1,7 +1,8 @@
 <?php
 /**
- * Join Usページ用テンプレート本体
+ * 利用者募集ページ用テンプレート本体
  * template-parts/page-join.php
+ * 
  * @package LP_WP_Theme
  * @since 1.0.0
  */

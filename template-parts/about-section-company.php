@@ -1,8 +1,9 @@
 <?php
 
 /**
- * About 会社概要（components 使用）
+ * About 会社概要セクション
  * template-parts/about-section-company.php
+ * 
  * @package LP_WP_Theme
  * @since 1.0.0
  */

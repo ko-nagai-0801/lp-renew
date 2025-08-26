@@ -1,7 +1,8 @@
 <?php
 /**
- * About Us Message
- * File: template-parts/about-section-message.php
+ * About 代表メッセージセクション
+ * template-parts/about-section-message.php
+ * 
  * @package LP_WP_Theme
  * @since 1.0.0
  */

@@ -5,7 +5,7 @@
  * @package LP_WP_Theme
  * @since 1.0.0
  * 
- * theme root /page-about.php
+ * theme root /page-privacy.php
  */
 if (!defined('ABSPATH')) exit;
 

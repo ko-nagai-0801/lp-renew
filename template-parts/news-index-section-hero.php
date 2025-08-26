@@ -2,6 +2,9 @@
 /**
  * News Index サブヒーロー
  * template-parts/news-index-section-hero.php
+ * 
+ * @package LP_WP_Theme
+ * @since 1.0.0
  */
 if (!defined('ABSPATH')) exit;
 

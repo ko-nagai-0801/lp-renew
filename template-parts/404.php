@@ -1,3 +1,14 @@
+<?php
+/**
+ * 404ページ本体
+ * template-parts/404.php
+ * 
+ * @package LP_WP_Theme
+ * @since 1.0.0
+ */
+if (!defined('ABSPATH')) exit;
+?>
+
 <main class="page page--notfound" role="main">
     <section class="section notfound" aria-labelledby="notfound-heading">
         <div class="container">

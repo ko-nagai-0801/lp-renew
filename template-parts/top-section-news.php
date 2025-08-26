@@ -1,9 +1,12 @@
 <?php
 /**
- * News section – BEM
- * template-parts/section-news.php
+ * TOPページNEWSセクション
+ * template-parts/top-section-news.php
+ * 
+ * @package LP_WP_Theme
+ * @since 1.0.0
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if (! defined('ABSPATH')) { exit; }
 ?>
 
 <section id="news" class="news section section__card container" tabindex="-1">

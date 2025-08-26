@@ -1,7 +1,10 @@
 <?php
 /**
+ * Services インデックス サブヒーロー
  * template-parts/services-index-section-hero.php
- * Services インデックス用サブヒーロー
+ * 
+ * @package LP_WP_Theme
+ * @since 1.0.0
  */
 if (!defined('ABSPATH')) exit;
 

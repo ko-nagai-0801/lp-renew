@@ -1,12 +1,14 @@
 <?php
-
 /**
+ * TOPページAboutセクション
  * template-parts/top-section-about.php
+ * 
+ * @package LP_WP_Theme
+ * @since 1.0.0
  */
-if (! defined('ABSPATH')) {
-    exit;
-}
+if (! defined('ABSPATH')) { exit; }
 ?>
+
 <section id="about" class="about section section__card container-fluid" aria-labelledby="about__heading">
     <p class="about__big-text" data-text="ABOUT US" aria-hidden="true"></p>
 

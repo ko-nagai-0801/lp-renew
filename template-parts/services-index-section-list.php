@@ -1,7 +1,8 @@
 <?php
 /**
- * Services Index – List Section
- * File: template-parts/services-index-section-list.php
+ * Services Index 一覧リストセクション
+ * template-parts/services-index-section-list.php
+ * 
  * @package LP_WP_Theme
  * @since 1.0.0
  *

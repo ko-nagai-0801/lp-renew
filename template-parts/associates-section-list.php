@@ -2,7 +2,7 @@
 
 /**
  * 協力企業一覧（本体・BEM記法／Bootstrapは container のみ）
- * File: template-parts/associates-section-list.php
+ * template-parts/associates-section-list.php
  *
  * 取得の優先順位：
  *  (1) ACFリピーター（推奨）
@@ -10,6 +10,9 @@
  *  (3) テーマ内フォールバック配列
  *
  * 並び順は kana（ふりがな）で50音順。
+ * 
+ * @package LP_WP_Theme
+ * @since 1.0.0
  */
 if (!defined('ABSPATH')) exit;
 

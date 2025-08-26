@@ -1,7 +1,10 @@
 <?php
 /**
- * 利用者募集セクション – BEM
- * template-parts/section-join.php
+ * TOPページ利用者募集セクション
+ * template-parts/top-section-join.php
+ * 
+ * @package LP_WP_Theme
+ * @since 1.0.0
  */
 if (! defined('ABSPATH')) { exit; }
 ?>

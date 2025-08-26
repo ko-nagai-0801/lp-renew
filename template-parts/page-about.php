@@ -1,6 +1,6 @@
 <?php
 /**
- * Aboutページ用テンプレート
+ * Aboutページ本体
  * template-parts/page-about.php
  * 
  * @package LP_WP_Theme

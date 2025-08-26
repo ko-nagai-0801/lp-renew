@@ -1,7 +1,8 @@
 <?php
 /**
- * Privacy Policyページ用テンプレート本体
+ * プライバシーポリシーページ用テンプレート本体
  * template-parts/page-privacy.php
+ * 
  * @package LP_WP_Theme
  * @since 1.0.0
  */

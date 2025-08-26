@@ -1,6 +1,14 @@
-<?php if (!defined('ABSPATH')) exit;
+<?php
+/**
+ * About ビジョンセクション
+ * template-parts/about-section-vision.php
+ * 
+ * @package LP_WP_Theme
+ * @since 1.0.0
+ */
+if (!defined('ABSPATH')) exit;
+?>
 
-$theme_uri = get_stylesheet_directory_uri(); ?>
 <section class="section vision">
   <div class="container">
 

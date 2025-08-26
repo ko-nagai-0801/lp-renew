@@ -1,9 +1,11 @@
 <?php
 /**
  * Template Name: Access（アクセス）
- * Description : アクセス案内ページ
+ * Template Post Type: page
  * @package LP_WP_Theme
  * @since 1.0.0
+ * 
+ * theme root /page-access.php
  */
 if (!defined('ABSPATH')) exit;
 

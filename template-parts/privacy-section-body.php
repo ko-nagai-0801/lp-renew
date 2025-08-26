@@ -1,7 +1,8 @@
 <?php
 /**
  * Privacy Policy 本文
- * File: template-parts/privacy-section-body.php
+ * template-parts/privacy-section-body.php
+ * 
  * @package LP_WP_Theme
  * @since 1.0.0
  */
