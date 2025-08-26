@@ -145,6 +145,16 @@ function lp_enqueue_assets()
         );
     }
 
+    // Privacy Policy専用CSS
+    if (is_page_template('page-privacy.php') || is_page('privacy')) {
+        wp_enqueue_style(
+            'lp-privacy',
+            get_theme_file_uri('assets/css/privacy.css'),
+            ['lp-subcommon'], // ← サブページ共通に依存
+            $ver
+        );
+    }
+
     // 404 Page 専用CSS
     if (is_404()) {
         wp_enqueue_style(

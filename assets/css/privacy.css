@@ -1,0 +1,150 @@
+/* ===============================================================
+   Privacy Policy Styles (BEM only)
+   File: assets/css/privacy.css
+   ============================================================ */
+
+/* -----------------------------
+   基本設定 / カラーバリアント
+   ----------------------------- */
+.privacy {
+  /* アクセントカラー（ブランドブルーに合わせて調整可） */
+  --pp-accent: #005b94;
+  --pp-text: #2b2f33;
+  --pp-muted: #6b7280;
+  --pp-border: #e6e8ec;
+}
+
+/* 見出し（components/section-header の privacy variant） */
+.section__header--privacy { margin-bottom: clamp(24px, 3vw, 40px); }
+.section__sub--privacy    { color: var(--pp-accent); }
+.section__title--privacy  { color: var(--pp-text); }
+
+/* -----------------------------
+   レイアウト
+   ----------------------------- */
+.privacy.section.container { padding-block: clamp(40px, 6vw, 88px); }
+
+.privacy__inner {
+  /* 読みやすい横幅に抑える（container 内で更に狭める） */
+  max-width: 920px;
+  margin-inline: auto;
+}
+
+/* 本文 */
+.privacy__content {
+  color: var(--pp-text);
+  line-height: 1.9;
+  font-size: 1rem;
+}
+
+/* 導入文・結文 */
+.privacy__intro,
+.privacy__closing {
+  margin: 0 0 1.25rem;
+  color: var(--pp-text);
+}
+
+/* セクション */
+.privacy__section {
+  margin: clamp(20px, 3vw, 28px) 0;
+  /* 固定ヘッダーに対するアンカー位置調整（必要に応じて調整） */
+  scroll-margin-top: var(--header-h, 84px);
+}
+
+/* セクション見出し */
+.privacy__heading {
+  position: relative;
+  margin: 0 0 .5rem;
+  padding-left: .85rem;
+  font-weight: 700;
+  line-height: 1.35;
+  font-size: clamp(1.125rem, 1rem + .6vw, 1.375rem);
+  color: var(--pp-text);
+}
+.privacy__heading::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .15em;
+  bottom: .15em;
+  width: .28rem;
+  border-radius: .28rem;
+  background: var(--pp-accent);
+}
+
+/* テキスト段落 */
+.privacy__text { margin: 0 0 .75rem; color: var(--pp-text); }
+
+/* 箇条書き */
+.privacy__list {
+  margin: .25rem 0 .75rem;
+  padding-left: 1.2em;
+  list-style: disc;
+}
+.privacy__list-item { margin: .25rem 0; }
+
+/* 連絡先（address + dl） */
+.privacy__contact {
+  font-style: normal;
+  margin-top: .5rem;
+}
+.privacy__contact-list {
+  margin: .5rem 0 0;
+  padding: 0;
+}
+
+/* 行（dt/ddを横並び→モバイルで縦） */
+.privacy__contact-row {
+  display: grid;
+  grid-template-columns: 12rem 1fr;
+  gap: .75rem 1rem;
+  padding: .75rem 0;
+  border-top: 1px solid var(--pp-border);
+}
+.privacy__contact-row:last-child { border-bottom: 1px solid var(--pp-border); }
+
+.privacy__contact-label {
+  margin: 0;
+  font-weight: 700;
+  color: var(--pp-text);
+}
+.privacy__contact-data {
+  margin: 0;
+  color: var(--pp-text);
+  word-break: break-word;
+}
+
+/* メールリンク */
+.privacy__contact-link {
+  color: var(--pp-accent);
+  text-decoration: underline;
+}
+.privacy__contact-link:hover { opacity: .85; }
+
+/* -----------------------------
+   細かい調整
+   ----------------------------- */
+/* 見出しの直後の段落の余白をやや詰める */
+.privacy__heading + .privacy__text { margin-top: .25rem; }
+
+/* 末尾の結びを少し余韻ある余白に */
+.privacy__closing { margin-top: 1rem; }
+
+/* -----------------------------
+   レスポンシブ（max-width 基準）
+   ----------------------------- */
+@media (max-width: 991.98px) {
+  .privacy__inner { max-width: 760px; }
+}
+
+@media (max-width: 767.98px) {
+  .privacy__content { font-size: .975rem; line-height: 1.85; }
+  .privacy__contact-row { grid-template-columns: 1fr; }
+  .privacy__contact-label { opacity: .9; }
+}
+
+@media (max-width: 575.98px) {
+  .privacy.section.container { padding-block: 32px 64px; }
+  .privacy__heading { padding-left: .7rem; }
+  .privacy__heading::before { width: .24rem; }
+}

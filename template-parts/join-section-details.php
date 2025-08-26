@@ -2,7 +2,8 @@
 
 /**
  * Join Us 利用者募集（components 使用）
- * template-parts/join-section-details.php
+ * File: template-parts/join-section-details.php
+ * @package LP_WP_Theme
  */
 if (!defined('ABSPATH')) exit;
 ?>

@@ -1,6 +1,13 @@
-<?php if (!defined('ABSPATH')) exit;
+<?php
+/**
+ * About Us Message
+ * File: template-parts/about-section-message.php
+ * @package LP_WP_Theme
+ * @since 1.0.0
+ */
+if (!defined('ABSPATH')) exit;
+?>
 
-$theme_uri = get_stylesheet_directory_uri(); ?>
 <section class="section message">
   <div class="container">
 
