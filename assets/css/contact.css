@@ -96,7 +96,7 @@
   display: inline-block;
   font-weight: 700;
   margin-bottom: var(--space-2);
-  font-size: var(--fs-1);
+  font-size: var(--fs-3);
 }
 .contact__legend {
   line-height: 1.5;
@@ -325,6 +325,31 @@ fieldset.contact__field {
 .confirm__pre {
   white-space: pre-wrap;
   margin: 0;
+}
+/* ==== Confirm 画面の長文折返し対策 ==== */
+.confirm__row dd {
+  min-width: 0; /* Grid子要素のはみ出し防止 */
+}
+.confirm__pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere; /* 長い連続文字も折返し */
+  word-break: break-word; /* 旧ブラウザ向け保険 */
+  max-width: 100%;
+}
+
+/* ==== Confirm 画面のボタンをカード幅に合わせる ==== */
+.confirm .contact__actions {
+  display: grid !important; /* inline styleを外せない時の保険で !important */
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: var(--space-6);
+}
+.confirm .contact__actions form {
+  width: 100%;
+}
+.confirm .contact__actions .contact__btn {
+  width: 100%;
+  min-width: 0; /* min-width:220px を無効化 */
 }
 
 @media (max-width: 575.98px) {

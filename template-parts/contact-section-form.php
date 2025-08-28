@@ -130,7 +130,7 @@ $types = ['お仕事のご相談', 'ご利用/ご見学のご相談', '協賛/�
           <!-- ふりがな -->
           <div class="contact__field">
             <label for="cf-kana" class="contact__label">
-              おなまえ（ふりがな） <span class="contact__req">必須</span>
+              ふりがな<span class="contact__req">必須</span>
             </label>
             <input
               id="cf-kana" name="name_kana" type="text" class="contact__input"
