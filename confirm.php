@@ -54,7 +54,7 @@ $site_key = apply_filters('lp_recaptcha_site_key', defined('RECAPTCHA_SITE_KEY')
       <div class="confirm__row"><dt>お問い合わせ内容</dt><dd><pre class="confirm__pre"><?php echo esc_html($d['message']); ?></pre></dd></div>
     </dl>
 
-    <div class="contact__actions">
+    <div class="confirm__actions contact__actions">
       <!-- 修正する -->
       <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
         <input type="hidden" name="action" value="lp_contact_edit">

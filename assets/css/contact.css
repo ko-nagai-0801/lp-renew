@@ -327,33 +327,145 @@ fieldset.contact__field {
   margin: 0;
 }
 /* ==== Confirm 画面の長文折返し対策 ==== */
-.confirm__row dd {
-  min-width: 0; /* Grid子要素のはみ出し防止 */
+.confirm__row dd { 
+  min-width: 0;              /* Grid子要素のはみ出し防止 */
 }
-.confirm__pre {
+.confirm__pre{
   white-space: pre-wrap;
-  overflow-wrap: anywhere; /* 長い連続文字も折返し */
-  word-break: break-word; /* 旧ブラウザ向け保険 */
+  overflow-wrap: anywhere;   /* 長い連続文字も折返し */
+  word-break: break-word;    /* 旧ブラウザ向け保険 */
   max-width: 100%;
 }
 
 /* ==== Confirm 画面のボタンをカード幅に合わせる ==== */
-.confirm .contact__actions {
-  display: grid !important; /* inline styleを外せない時の保険で !important */
+.confirm .contact__actions{
+  display: grid !important;  /* inline styleを外せない時の保険で !important */
   grid-template-columns: 1fr;
   gap: 12px;
   margin-top: var(--space-6);
 }
-.confirm .contact__actions form {
+.confirm .contact__actions form{
   width: 100%;
 }
-.confirm .contact__actions .contact__btn {
+.confirm .contact__actions .contact__btn{
   width: 100%;
-  min-width: 0; /* min-width:220px を無効化 */
+  min-width: 0;              /* min-width:220px を無効化 */
 }
+/* ============ Confirm: 長文の折返し＆ボタン幅そろえ ============ */
+
+/* 右端で見切れないように */
+.confirm__row dd { 
+  min-width: 0;                 /* Gridの子のはみ出し防止 */
+}
+.confirm__pre{
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;      /* 連続文字も折返し */
+  word-break: break-word;       /* 保険 */
+  max-width: 100%;
+}
+
+/* リストとボタンのカード幅を合わせる */
+.confirm__list { margin-bottom: var(--space-6); }
+
+.confirm__actions{
+  display: grid;
+  grid-template-columns: 1fr;   /* モバイルは縦並び */
+  gap: 12px;
+}
+.confirm__actions form{ width: 100%; }
+.confirm__actions .contact__btn{
+  width: 100%;
+  min-width: 0;                 /* 基本の min-width を無効化してカード幅に */
+}
+
+/* タブレット以上は2ボタンを横並び */
+@media (min-width: 768px){
+  .confirm__actions{ grid-template-columns: 1fr 1fr; }
+}
+
+/* ============ Thanks: おしゃれカード ============ */
+.thanks{ padding: clamp(24px, 4vw, 56px) 0; }
+
+.thanks__card{
+  position: relative;
+  max-width: 760px;
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: 18px;
+  box-shadow: var(--shadow-md);
+  padding: clamp(10px, 3.2vw, 44px);
+  overflow: hidden;
+}
+
+/* うっすらグラデの装飾 */
+.thanks__card::before,
+.thanks__card::after{
+  content:"";
+  position:absolute;
+  pointer-events:none;
+  inset: -40% -10% auto -10%;
+  height: 60%;
+  background: radial-gradient(600px 220px at left top, rgba(37,99,235,.10), transparent 60%);
+}
+.thanks__card::after{
+  inset: auto -20% -40% auto;
+  height: 70%;
+  background: radial-gradient(620px 240px at right bottom, rgba(29,78,216,.10), transparent 60%);
+}
+
+/* アイコン（丸背景+チェック） */
+.thanks__icon{
+  width: 64px; height: 64px;
+  border-radius: 9999px;
+  background: linear-gradient(120deg, #2563eb, #1d4ed8);
+  display: grid; place-items: center;
+  margin: 0 auto var(--space-4);
+  box-shadow: 0 8px 18px rgba(37,99,235,.25);
+}
+.thanks__icon svg{ width: 32px; height: 32px; display: block; }
+
+/* 見出し・本文 */
+.thanks__title{ 
+  text-align: center;
+  font-size: var(--fs-2);
+  margin: 0 0 var(--space-2);
+}
+.thanks__text,
+.thanks__note{
+  text-align: left;
+  font-size: var(--fs-1);
+  color: var(--c-muted);
+  margin: 0 0 var(--space-2);
+}
+.thanks__actions{ display: flex; justify-content: center; margin-top: var(--space-4); }
+.thanks__actions .contact__btn{ min-width: 240px; }
+
 
 @media (max-width: 575.98px) {
   .confirm__row {
     grid-template-columns: 1fr;
   }
+}
+
+/* === Fix: プライマリボタンの hover で文字色が黒になる問題を抑止 === */
+.contact__btn--primary,
+a.contact__btn--primary:link,
+a.contact__btn--primary:visited {
+  color: #fff;                  /* 通常/visited も白 */
+  text-decoration: none;
+}
+
+a.contact__btn--primary:hover,
+a.contact__btn--primary:focus,
+button.contact__btn--primary:hover,
+button.contact__btn--primary:focus {
+  color: #fff !important;       /* グローバル a:hover / button:hover を上書き */
+  text-decoration: none;
+}
+
+/* 念のため active も固定 */
+a.contact__btn--primary:active,
+button.contact__btn--primary:active {
+  color: #fff !important;
 }
