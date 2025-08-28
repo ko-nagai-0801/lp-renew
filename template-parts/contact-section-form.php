@@ -1,8 +1,9 @@
 <?php
+
 /**
- * Contact フォーム（表示）— admin-post で送信
+ * Contact フォーム（表示）— Step1: 確認へ進む
  * template-parts/contact-section-form.php
- * 
+ *
  * @package LP_WP_Theme
  * @since 1.0.0
  */
@@ -38,7 +39,7 @@ if ($errors) delete_transient($err_key);
 if ($old)    delete_transient($old_key);
 
 /** ラジオ選択肢（4つに固定） */
-$types = ['お仕事のご相談','ご利用/ご見学のご相談','協賛/ご支援','その他'];
+$types = ['お仕事のご相談', 'ご利用/ご見学のご相談', '協賛/ご支援など', 'その他'];
 ?>
 
 <section class="contact section" id="contact-form">
@@ -67,11 +68,11 @@ $types = ['お仕事のご相談','ご利用/ご見学のご相談','協賛/ご�
         </div>
       <?php endif; ?>
 
-      <!-- 送信先は admin-post.php -->
+      <!-- Step1: 確認へ。送信先は admin-post.php?action=lp_contact_confirm -->
       <form class="contact__form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" novalidate>
-        <input type="hidden" name="action" value="lp_contact_submit">
+        <input type="hidden" name="action" value="lp_contact_confirm">
         <input type="hidden" name="_redirect" value="<?php echo esc_url($CONTACT_PAGE_URL); ?>">
-        <?php wp_nonce_field('lp_contact_send', 'contact_nonce'); ?>
+        <?php wp_nonce_field('lp_contact_step1', 'contact_nonce'); ?>
 
         <!-- ハニーポット（実項目 company と衝突しない名称） -->
         <div class="contact__hp" aria-hidden="true">
@@ -80,25 +81,35 @@ $types = ['お仕事のご相談','ご利用/ご見学のご相談','協賛/ご�
         </div>
 
         <div class="contact__grid">
-
-          <!-- お問い合わせ種別（ラジオ 4択） -->
-          <fieldset class="contact__field contact__field--full">
+          <!-- ラジオ 4択 -->
+          <fieldset class="contact__field contact__field--full" aria-describedby="<?php echo isset($errors['type']) ? 'err-type' : ''; ?>">
             <legend class="contact__legend">お問い合わせ種別 <span class="contact__req">必須</span></legend>
+
             <div class="contact__radios">
-              <?php foreach ($types as $t) :
+              <?php foreach ($types as $i => $t) :
                 $id = 'cf-type-' . md5($t);
               ?>
                 <label class="contact__radio" for="<?php echo esc_attr($id); ?>">
-                  <input id="<?php echo esc_attr($id); ?>" type="radio" name="type" value="<?php echo esc_attr($t); ?>"
-                         <?php checked($old['type'], $t); ?> required>
+                  <input
+                    id="<?php echo esc_attr($id); ?>"
+                    type="radio"
+                    name="type"
+                    value="<?php echo esc_attr($t); ?>"
+                    <?php
+                    // required はグループに1つ付ければ十分（全部に付けなくてOK）
+                    if ($i === 0) echo 'required';
+                    checked($old['type'], $t);
+                    ?>>
                   <span><?php echo esc_html($t); ?></span>
                 </label>
               <?php endforeach; ?>
             </div>
+
             <?php if (isset($errors['type'])) : ?>
-              <p class="contact__error"><?php echo esc_html($errors['type']); ?></p>
+              <p id="err-type" class="contact__error" role="alert"><?php echo esc_html($errors['type']); ?></p>
             <?php endif; ?>
           </fieldset>
+
 
           <!-- お名前 -->
           <div class="contact__field">
@@ -161,7 +172,7 @@ $types = ['お仕事のご相談','ご利用/ご見学のご相談','協賛/ご�
             <label for="cf-email2" class="contact__label">メールアドレス（確認用） <span class="contact__req">必須</span></label>
             <input
               id="cf-email2" name="email_confirm" type="email" class="contact__input"
-              placeholder="確認用メールアドレスを入力してください（上記と同じメールアドレスを入力してください）"
+              placeholder="上記と同じメールアドレスを入力してください"
               value="<?php echo esc_attr($old['email_confirm']); ?>" required
               aria-invalid="<?php echo isset($errors['email_confirm']) ? 'true' : 'false'; ?>"
               aria-describedby="<?php echo isset($errors['email_confirm']) ? 'err-email2' : ''; ?>">
@@ -199,7 +210,7 @@ $types = ['お仕事のご相談','ご利用/ご見学のご相談','協賛/ご�
             <p class="contact__note contact__note--small">(500文字以内)</p>
           </div>
 
-          <!-- プライバシーポリシーへのリンク＋同意 -->
+          <!-- 同意 -->
           <div class="contact__field contact__field--full">
             <div class="contact__agree">
               <label class="contact__checkbox">
@@ -214,8 +225,7 @@ $types = ['お仕事のご相談','ご利用/ご見学のご相談','協賛/ご�
               <?php endif; ?>
             </div>
           </div>
-
-        </div><!-- /.contact__grid -->
+        </div>
 
         <?php if (isset($errors['send'])) : ?>
           <p class="contact__error contact__error--global"><?php echo esc_html($errors['send']); ?></p>

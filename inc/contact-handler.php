@@ -2,85 +2,56 @@
 /**
  * inc/contact-handler.php
  * 
- * Contact 送信ハンドラ（admin-post）
- * File: contact-handler.php
- *
- * - /wp-admin/admin-post.php?action=lp_contact_submit にPOSTされる
- * - 成否・入力値・エラーは Transient 経由でフォームへ戻す
+ * Step1: lp_contact_confirm（確認へ）
+ * Step2: lp_contact_send（送信）
+ * Edit : lp_contact_edit（修正）
  */
 if (!defined('ABSPATH')) exit;
 
-/** アクションフック登録 */
-add_action('admin_post_nopriv_lp_contact_submit', 'lp_handle_contact_submit');
-add_action('admin_post_lp_contact_submit',        'lp_handle_contact_submit');
+/* =======================
+   設定（フィルタで上書き可能）
+   ======================= */
+function lp_contact_config() {
+  return [
+    'to'              => apply_filters('lp_contact_to', 'info@linepark.co.jp'),
+    'subject_admin'   => apply_filters('lp_contact_subject', '【LPサイト】お問い合わせ'),
+    'subject_user'    => apply_filters('lp_contact_autoreply_subject', 'お問い合わせありがとうございます（自動返信）'),
+    'rate_seconds'    => (int) apply_filters('lp_contact_rate_limit', 60),
+    'pending_ttl'     => (int) apply_filters('lp_contact_pending_ttl', 15 * MINUTE_IN_SECONDS),
+    'recaptcha_site'  => apply_filters('lp_recaptcha_site_key', defined('RECAPTCHA_SITE_KEY') ? RECAPTCHA_SITE_KEY : ''),
+    'recaptcha_secret'=> apply_filters('lp_recaptcha_secret', defined('RECAPTCHA_SECRET_KEY') ? RECAPTCHA_SECRET_KEY : ''),
+    'recaptcha_score' => (float) apply_filters('lp_recaptcha_score', 0.5),
+  ];
+}
 
-function lp_handle_contact_submit() {
-
-  // =========================
-  // 設定（関数内でローカル定義）
-  // =========================
-  $CONTACT_TO         = apply_filters('lp_contact_to', 'info@linepark.co.jp');
-  $AUTOREPLY_SUBJECT  = apply_filters('lp_contact_autoreply_subject', 'お問い合わせありがとうございます（自動返信）');
-  $RATE_LIMIT_SECONDS = (int) apply_filters('lp_contact_rate_limit', 60);
-  $CONTACT_SUBJECT    = apply_filters('lp_contact_subject', '【LPサイト】お問い合わせ');
-
-  // リダイレクト先が無ければTOPへ
-  if (!isset($_POST['_redirect'])) {
-    wp_safe_redirect(home_url('/'));
-    exit;
-  }
-  $redirect = esc_url_raw(wp_unslash($_POST['_redirect']));
-
-  // Transient キー
+/* 共通：キー作成 */
+function lp_contact_keys() {
   $ip   = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
   $salt = defined('NONCE_SALT') ? NONCE_SALT : 'lp_contact_salt';
-  $ok_key  = 'lp_contact_ok_'  . md5($ip . $salt);
-  $err_key = 'lp_contact_err_' . md5($ip . $salt);
-  $old_key = 'lp_contact_old_' . md5($ip . $salt);
+  return [
+    'ok'   => 'lp_contact_ok_'  . md5($ip . $salt),
+    'err'  => 'lp_contact_err_' . md5($ip . $salt),
+    'old'  => 'lp_contact_old_' . md5($ip . $salt),
+    'rate' => 'lp_contact_rate_'. md5($ip),
+  ];
+}
 
-  $errors = [];
+/* 共通：検証・整形 */
+function lp_contact_collect_and_validate(array $src, array &$errors) {
+  $valid_types = ['お仕事のご相談','ご利用/ご見学のご相談','協賛/ご支援','その他'];
+
   $old = [
-    'type'          => '',
-    'name'          => '',
-    'name_kana'     => '',
-    'company'       => '',
-    'email'         => '',
-    'email_confirm' => '',
-    'phone'         => '',
-    'message'       => '',
-    'agree'         => '',
+    'type'          => isset($src['type'])          ? sanitize_text_field(wp_unslash($src['type']))     : '',
+    'name'          => isset($src['name'])          ? sanitize_text_field(wp_unslash($src['name']))     : '',
+    'name_kana'     => isset($src['name_kana'])     ? sanitize_text_field(wp_unslash($src['name_kana'])): '',
+    'company'       => isset($src['company'])       ? sanitize_text_field(wp_unslash($src['company']))  : '',
+    'email'         => isset($src['email'])         ? sanitize_email(wp_unslash($src['email']))         : '',
+    'email_confirm' => isset($src['email_confirm']) ? sanitize_email(wp_unslash($src['email_confirm'])) : '',
+    'phone'         => isset($src['phone'])         ? sanitize_text_field(wp_unslash($src['phone']))    : '',
+    'message'       => isset($src['message'])       ? sanitize_textarea_field(wp_unslash($src['message'])) : '',
+    'agree'         => isset($src['agree'])         ? '1' : '',
   ];
 
-  // CSRF
-  if (!isset($_POST['contact_nonce']) || !wp_verify_nonce($_POST['contact_nonce'], 'lp_contact_send')) {
-    $errors['nonce'] = '不正なリクエストです。';
-  }
-
-  // ハニーポット
-  $hp = isset($_POST['hp_company']) ? trim((string)$_POST['hp_company']) : '';
-  if ($hp !== '') {
-    $errors['spam'] = '不正な送信が検出されました。';
-  }
-
-  // レート制限
-  $rate_key = 'lp_contact_rate_' . md5($ip);
-  if (get_transient($rate_key)) {
-    $errors['rate'] = '短時間に複数回の送信はできません。しばらくしてからお試しください。';
-  }
-
-  // 入力取得・サニタイズ
-  $old['type']          = isset($_POST['type'])          ? sanitize_text_field(wp_unslash($_POST['type']))     : '';
-  $old['name']          = isset($_POST['name'])          ? sanitize_text_field(wp_unslash($_POST['name']))     : '';
-  $old['name_kana']     = isset($_POST['name_kana'])     ? sanitize_text_field(wp_unslash($_POST['name_kana'])): '';
-  $old['company']       = isset($_POST['company'])       ? sanitize_text_field(wp_unslash($_POST['company']))  : '';
-  $old['email']         = isset($_POST['email'])         ? sanitize_email(wp_unslash($_POST['email']))         : '';
-  $old['email_confirm'] = isset($_POST['email_confirm']) ? sanitize_email(wp_unslash($_POST['email_confirm'])) : '';
-  $old['phone']         = isset($_POST['phone'])         ? sanitize_text_field(wp_unslash($_POST['phone']))    : '';
-  $old['message']       = isset($_POST['message'])       ? sanitize_textarea_field(wp_unslash($_POST['message'])) : '';
-  $old['agree']         = isset($_POST['agree'])         ? '1' : '';
-
-  // バリデーション
-  $valid_types = ['お仕事のご相談','ご利用/ご見学のご相談','協賛/ご支援','その他'];
   if (!in_array($old['type'], $valid_types, true)) {
     $errors['type'] = 'お問い合わせ種別を選択してください。';
   }
@@ -105,78 +76,216 @@ function lp_handle_contact_submit() {
   if ($old['agree'] !== '1') {
     $errors['agree'] = 'プライバシーポリシーへの同意が必要です。';
   }
+  return $old;
+}
 
-  // 失敗時：戻す
-  if ($errors) {
-    set_transient($err_key, $errors, 60);
-    set_transient($old_key, $old,    60);
+/* =========================
+   Step1: 確認へ（検証 → pending保存）
+   ========================= */
+add_action('admin_post_nopriv_lp_contact_confirm', 'lp_handle_contact_confirm');
+add_action('admin_post_lp_contact_confirm',        'lp_handle_contact_confirm');
+
+function lp_handle_contact_confirm() {
+  $cfg = lp_contact_config();
+  $keys = lp_contact_keys();
+
+  // リダイレクト先（フォーム） ※無ければTOP
+  $redirect = isset($_POST['_redirect']) ? esc_url_raw(wp_unslash($_POST['_redirect'])) : home_url('/');
+
+  // CSRF
+  if (!isset($_POST['contact_nonce']) || !wp_verify_nonce($_POST['contact_nonce'], 'lp_contact_step1')) {
+    set_transient($keys['err'], ['nonce' => '不正なリクエストです。'], 60);
     wp_safe_redirect($redirect);
     exit;
   }
 
-  // 送信準備
+  // ハニーポット
+  $hp = isset($_POST['hp_company']) ? trim((string)$_POST['hp_company']) : '';
+  if ($hp !== '') {
+    set_transient($keys['err'], ['spam' => '不正な送信が検出されました。'], 60);
+    wp_safe_redirect($redirect);
+    exit;
+  }
+
+  // レート制限（短時間繰り返しの “確認” 抑止）
+  if (get_transient($keys['rate'])) {
+    set_transient($keys['err'], ['rate' => '短時間に複数回の操作はできません。しばらくしてからお試しください。'], 60);
+    wp_safe_redirect($redirect);
+    exit;
+  }
+
+  // 収集＋検証
+  $errors = [];
+  $old = lp_contact_collect_and_validate($_POST, $errors);
+
+  if ($errors) {
+    set_transient($keys['err'], $errors, 60);
+    set_transient($keys['old'], $old,    60);
+    wp_safe_redirect($redirect);
+    exit;
+  }
+
+  // pending 保存（UUID チケット）
+  $ticket = wp_generate_uuid4();
+  $pending = [
+    'data'     => $old,
+    'ip'       => $_SERVER['REMOTE_ADDR'] ?? 'unknown',
+    'created'  => time(),
+    'redirect' => $redirect, // 修正用・Thanks戻り先
+  ];
+  set_transient('lp_contact_pending_' . $ticket, $pending, $cfg['pending_ttl']);
+
+  // 軽いレート制限セット
+  set_transient($keys['rate'], 1, 10);
+
+  // 確認画面へ
+  $confirm_url = home_url('/confirm/') . '?t=' . rawurlencode($ticket);
+  wp_safe_redirect($confirm_url);
+  exit;
+}
+
+/* =========================
+   Edit: 修正（フォームへデータ復元）
+   ========================= */
+add_action('admin_post_nopriv_lp_contact_edit', 'lp_handle_contact_edit');
+add_action('admin_post_lp_contact_edit',        'lp_handle_contact_edit');
+
+function lp_handle_contact_edit() {
+  $keys = lp_contact_keys();
+  $ticket = isset($_POST['ticket']) ? sanitize_text_field(wp_unslash($_POST['ticket'])) : '';
+  $trans = $ticket ? get_transient('lp_contact_pending_' . $ticket) : false;
+
+  $redirect = ($trans && !empty($trans['redirect'])) ? $trans['redirect'] : home_url('/');
+
+  if (!$trans || empty($trans['data'])) {
+    set_transient($keys['err'], ['expired' => '確認データの有効期限が切れました。最初からやり直してください。'], 60);
+    wp_safe_redirect($redirect);
+    exit;
+  }
+
+  set_transient($keys['old'], $trans['data'], 60);
+  wp_safe_redirect($redirect);
+  exit;
+}
+
+/* =========================
+   Step2: 送信（reCAPTCHA→メール）
+   ========================= */
+add_action('admin_post_nopriv_lp_contact_send', 'lp_handle_contact_send');
+add_action('admin_post_lp_contact_send',        'lp_handle_contact_send');
+
+function lp_handle_contact_send() {
+  $cfg  = lp_contact_config();
+  $keys = lp_contact_keys();
+
+  // Nonce
+  if (!isset($_POST['contact_nonce']) || !wp_verify_nonce($_POST['contact_nonce'], 'lp_contact_send')) {
+    wp_safe_redirect(home_url('/'));
+    exit;
+  }
+
+  // 必須: ticket / back
+  $ticket = isset($_POST['ticket']) ? sanitize_text_field(wp_unslash($_POST['ticket'])) : '';
+  $back   = isset($_POST['_back'])  ? esc_url_raw(wp_unslash($_POST['_back'])) : home_url('/contact/');
+
+  $pending_key = 'lp_contact_pending_' . $ticket;
+  $trans = $ticket ? get_transient($pending_key) : false;
+
+  if (!$trans || empty($trans['data'])) {
+    set_transient($keys['err'], ['expired' => '確認データの有効期限が切れました。最初からやり直してください。'], 90);
+    wp_safe_redirect($back);
+    exit;
+  }
+
+  $data = $trans['data'];
+
+  // reCAPTCHA v3 検証（有効時のみ）
+  if ($cfg['recaptcha_site'] && $cfg['recaptcha_secret']) {
+    $token  = isset($_POST['g-recaptcha-response']) ? sanitize_text_field(wp_unslash($_POST['g-recaptcha-response'])) : '';
+    if (!$token) {
+      set_transient($keys['err'], ['recaptcha' => '認証に失敗しました（トークンなし）。時間を置いてお試しください。'], 90);
+      wp_safe_redirect($back);
+      exit;
+    }
+    $resp = wp_remote_post('https://www.google.com/recaptcha/api/siteverify', [
+      'timeout' => 8,
+      'body' => [
+        'secret'   => $cfg['recaptcha_secret'],
+        'response' => $token,
+        'remoteip' => $_SERVER['REMOTE_ADDR'] ?? '',
+      ],
+    ]);
+    $ok = false;
+    if (!is_wp_error($resp) && isset($resp['body'])) {
+      $json = json_decode($resp['body'], true);
+      $ok = !empty($json['success']) && (float)($json['score'] ?? 0) >= $cfg['recaptcha_score'];
+    }
+    if (!$ok) {
+      set_transient($keys['err'], ['recaptcha' => 'スパム判定の可能性があります。別の回線やブラウザでお試しください。'], 120);
+      wp_safe_redirect($back);
+      exit;
+    }
+  }
+
+  // メール送信
   $site_name = get_bloginfo('name');
   $host      = wp_parse_url(home_url(), PHP_URL_HOST);
   $from_addr = defined('SMTP_FROM') ? SMTP_FROM : ('noreply@' . $host);
 
-  // 管理者向け本文
+  $ip  = $trans['ip'] ?? ($_SERVER['REMOTE_ADDR'] ?? 'unknown');
+
   $body_admin = <<<TXT
 以下の内容でお問い合わせが届きました。
 
 ■ 種別
-{$old['type']}
+{$data['type']}
 
 ■ お名前
-{$old['name']}
+{$data['name']}
 
 ■ ふりがな
-{$old['name_kana']}
+{$data['name_kana']}
 
 ■ メールアドレス
-{$old['email']}
+{$data['email']}
 
 ■ 電話番号
-{$old['phone']}
+{$data['phone']}
 
 ■ 会社名
-{$old['company']}
+{$data['company']}
 
 ■ お問い合わせ内容
-{$old['message']}
+{$data['message']}
 
 送信元IP: {$ip}
-URL: {$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}
 送信日時: {current_time('Y-m-d H:i:s')}
 TXT;
 
   $headers_admin = [
     'Content-Type: text/plain; charset=UTF-8',
     'From: ' . $site_name . ' <' . $from_addr . '>',
-    'Reply-To: ' . $old['name'] . ' <' . $old['email'] . '>',
+    'Reply-To: ' . $data['name'] . ' <' . $data['email'] . '>',
   ];
 
-  // 件名に種別を付与
-  $subject_admin = $CONTACT_SUBJECT . ' [' . $old['type'] . ']';
+  $subject_admin = $cfg['subject_admin'] . ' [' . $data['type'] . ']';
+  $ok_admin = wp_mail($cfg['to'], $subject_admin, $body_admin, $headers_admin);
 
-  // 管理者送信
-  $ok_admin = wp_mail($CONTACT_TO, $subject_admin, $body_admin, $headers_admin);
-
-  // 自動返信（ユーザー）
   $body_user = <<<TXT
-{$old['name']} 様
+{$data['name']} 様
 
 この度はお問い合わせありがとうございます。
 以下の内容で受け付けいたしました。担当より折り返しご連絡いたします。
 
 ――――――――――――――――――――
-種別：{$old['type']}
-お名前：{$old['name']}
-ふりがな：{$old['name_kana']}
-メール：{$old['email']}
-電話：{$old['phone']}
-会社名：{$old['company']}
+種別：{$data['type']}
+お名前：{$data['name']}
+ふりがな：{$data['name_kana']}
+メール：{$data['email']}
+電話：{$data['phone']}
+会社名：{$data['company']}
 内容：
-{$old['message']}
+{$data['message']}
 ――――――――――――――――――――
 
 ※本メールは送信専用アドレスから送信しています。
@@ -188,18 +297,20 @@ TXT;
     'From: ' . $site_name . ' <' . $from_addr . '>',
     'Reply-To: ' . $site_name . ' <' . $from_addr . '>',
   ];
-  $ok_user = wp_mail($old['email'], $AUTOREPLY_SUBJECT, $body_user, $headers_user);
+  $ok_user = wp_mail($data['email'], $cfg['subject_user'], $body_user, $headers_user);
 
   if ($ok_admin) {
-    // レート制限セット
-    set_transient($rate_key, 1, $RATE_LIMIT_SECONDS);
-    // 成功フラグ
-    set_transient($ok_key, 1, 60);
-  } else {
-    set_transient($err_key, ['send' => '送信に失敗しました。時間を置いて再度お試しください。'], 60);
-    set_transient($old_key, $old, 60);
+    // 成功フラグ（フォーム側の完了表示に備え：任意）
+    set_transient($keys['ok'], 1, 60);
+    // pending 破棄
+    delete_transient($pending_key);
+    // Thanks へ（戻り先を付与）
+    $thanks = add_query_arg(['back' => rawurlencode($back)], home_url('/thanks/'));
+    wp_safe_redirect($thanks);
+    exit;
   }
 
-  wp_safe_redirect($redirect);
+  set_transient($keys['err'], ['send' => '送信に失敗しました。時間を置いて再度お試しください。'], 90);
+  wp_safe_redirect($back);
   exit;
 }

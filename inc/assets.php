@@ -155,8 +155,15 @@ function lp_enqueue_assets()
         );
     }
 
-    // Contact 専用CSS
-    if (is_page_template('page-contact.php') || is_page('contact')) {
+
+    // Contact / Confirm / Thanks で共通CSSを読み込む
+    $lp_is_contact_flow = (
+        is_page_template('page-contact.php') ||
+        is_page('contact') ||
+        (bool) get_query_var('lp_confirm') ||
+        (bool) get_query_var('lp_thanks')
+    );
+    if ($lp_is_contact_flow) {
         wp_enqueue_style(
             'lp-contact',
             get_theme_file_uri('assets/css/contact.css'),
@@ -164,6 +171,7 @@ function lp_enqueue_assets()
             $ver
         );
     }
+
 
     // 404 Page 専用CSS
     if (is_404()) {

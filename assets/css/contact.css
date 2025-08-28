@@ -1,10 +1,6 @@
 /* ===================================================================
    Contact Page Styles (BEM / container以外のBootstrap非使用)
    File: assets/css/contact.css
-   調整ポイント:
-     - フォーム要素のフォーカスやエラー可視化
-     - 必須/任意バッジ
-     - ラジオ群（種別）のスタイルを追加
    =================================================================== */
 
 /* ルート（配色・寸法トークン） */
@@ -28,16 +24,35 @@
   --shadow-md: 0 8px 18px rgba(0, 0, 0, 0.08);
 }
 
+/* ===== Fluid Type Scale ===== */
+:root {
+  --fs-0: clamp(0.875rem, 0.9vw, 1rem); /* 注釈・補足 */
+  --fs-1: clamp(1rem, 1.2vw, 1.125rem); /* 本文・入力・ボタン・ラベル */
+  --fs-2: clamp(1.125rem, 1.6vw, 1.25rem); /* 小見出し */
+  --fs-3: clamp(1.25rem, 2.2vw, 1.5rem); /* ブロック見出し */
+  --fs-4: clamp(1.5rem, 3vw, 2rem); /* セクション見出し（h2） */
+  --fs-5: clamp(1.875rem, 4vw, 2.5rem); /* 大見出し（必要時） */
+}
+
 /* セクションブロック */
 .contact {
   color: var(--c-text);
 }
-.contact .container {
-}
 
-/* 見出しの余白 */
+/* 見出し */
 .contact__header {
   margin-bottom: clamp(20px, 3vw, 32px);
+}
+
+/* 他ページと同じ見出しスケールに合わせる */
+.contact .section__text {
+  font-size: clamp(0.875rem, 1.2vw, 2rem);
+}
+.contact .section__sub {
+  font-size: clamp(1rem, 2vw, 3rem);
+}
+.contact .section__title {
+  font-size: clamp(1.5rem, 3vw, 5rem);
 }
 
 /* 成功/エラーの通知 */
@@ -63,32 +78,42 @@
   background: var(--c-bg);
 }
 
-/* グリッド（2列→SPで1列） */
+/* グリッド：常に1列（カテゴリも各入力も縦並び） */
 .contact__grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: var(--space-6);
 }
-@media (max-width: 767.98px) {
-  .contact__grid {
-    grid-template-columns: 1fr;
-  }
-}
 
-/* 一列使用 */
+/* 一列使用（互換維持） */
 .contact__field--full {
   grid-column: 1 / -1;
 }
 
-/* ラベル類 */
+/* ラベル・レジェンド */
 .contact__label,
 .contact__legend {
   display: inline-block;
   font-weight: 700;
   margin-bottom: var(--space-2);
+  font-size: var(--fs-1);
+}
+.contact__legend {
+  line-height: 1.5;
+  display: inline-flex; /* バッジとの縦ズレ防止 */
+  align-items: center;
+  gap: 0.5ch;
+  padding: 0;
+}
+/* fieldsetの既定ボーダー/余白をリセット */
+fieldset.contact__field {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-inline-size: auto;
 }
 
-/* 必須/任意バッジ */
+/* 必須/任意バッジ（必須=ブルー） */
 .contact__req,
 .contact__opt {
   display: inline-block;
@@ -98,9 +123,13 @@
   line-height: 1.8;
   border-radius: 0.35em;
 }
+.contact__legend .contact__req,
+.contact__legend .contact__opt {
+  margin-left: 0;
+} /* legend内はgapで管理 */
 .contact__req {
   color: #fff;
-  background: var(--c-danger);
+  background: var(--c-focus);
 }
 .contact__opt {
   color: #374151;
@@ -114,7 +143,7 @@
   border: 1px solid var(--c-border);
   border-radius: var(--radius);
   padding: 0.8rem 0.95rem;
-  font-size: 1rem;
+  font-size: var(--fs-1);
   background: #fff;
   transition: border-color 0.18s ease, box-shadow 0.18s ease;
 }
@@ -139,12 +168,12 @@
 /* 補足テキスト */
 .contact__note {
   margin: var(--space-1) 0 var(--space-2);
-  font-size: 0.92rem;
+  font-size: var(--fs-0);
   color: var(--c-muted);
 }
 .contact__note--small {
   margin-top: 0.35rem;
-  font-size: 0.85rem;
+  font-size: var(--fs-0);
   opacity: 0.9;
 }
 
@@ -153,7 +182,7 @@
   margin-top: var(--space-2);
   color: var(--c-danger);
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: var(--fs-1);
 }
 
 /* ハニーポット（視覚非表示） */
@@ -165,15 +194,32 @@
   overflow: hidden;
 }
 
-/* チェックボックス */
+/* チェックボックス（ズレ修正＆リンク強調） */
 .contact__checkbox {
   display: inline-flex;
-  gap: 0.5rem;
-  align-items: flex-start;
+  gap: 0.6rem;
+  align-items: center;
   user-select: none;
+  line-height: 1.6;
+  cursor: pointer;
+}
+.contact__checkbox input[type="checkbox"] {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin: 0;
+  accent-color: var(--c-focus);
+}
+.contact__agree a {
+  color: var(--c-focus);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  font-weight: 700;
+}
+.contact__agree a:hover {
+  opacity: 0.85;
 }
 
-/* 送信ボタン */
+/* 送信ボタン（配置は現状維持） */
 .contact__actions {
   margin-top: var(--space-6);
   grid-column: 1 / -1;
@@ -190,36 +236,35 @@
   font-weight: 700;
   text-decoration: none;
   box-shadow: var(--shadow-sm);
+  font-size: var(--fs-1);
   transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease,
     border-color 0.18s ease;
 }
-.contact__btn:hover {
+/* ベースのhoverは非プライマリにのみ適用（消える不具合対策） */
+.contact__btn:not(.contact__btn--primary):hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
   border-color: var(--c-border-strong);
   background: #f8fafc;
 }
+/* プライマリ */
 .contact__btn--primary {
   color: #fff;
   background: linear-gradient(120deg, #2563eb 0%, #1d4ed8 100%);
   border-color: transparent;
 }
 .contact__btn--primary:hover {
-  filter: brightness(0.98);
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
+  background: linear-gradient(120deg, #235be3 0%, #1b46c9 100%);
+  border-color: transparent;
 }
 
-/* ラジオ群（お問い合わせ種別） */
+/* ラジオ群（お問い合わせ種別）— 常に縦並び */
 .contact__radios {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.5rem 1rem;
-}
-@media (max-width: 575.98px) {
-  .contact__radios {
-    grid-template-columns: 1fr;
-  }
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
 }
 .contact__radio {
   display: flex;
@@ -228,7 +273,11 @@
   line-height: 1.6;
 }
 .contact__radio input {
-  transform: translateY(1px);
+  margin: 0;
+  accent-color: var(--c-focus);
+}
+.contact__radio span {
+  font-size: var(--fs-1);
 }
 
 /* フォーカスリング保険 */
@@ -245,5 +294,41 @@
 @media (max-width: 575.98px) {
   .contact__btn {
     width: 100%;
+  }
+}
+
+/* ===== Confirm (確認画面) ===== */
+.confirm__list {
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+}
+.confirm__row {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--c-border);
+}
+.confirm__row:last-child {
+  border-bottom: 0;
+}
+.confirm__row dt {
+  font-weight: 700;
+  color: var(--c-muted);
+  font-size: var(--fs-1);
+}
+.confirm__row dd {
+  font-size: var(--fs-1);
+}
+.confirm__pre {
+  white-space: pre-wrap;
+  margin: 0;
+}
+
+@media (max-width: 575.98px) {
+  .confirm__row {
+    grid-template-columns: 1fr;
   }
 }
