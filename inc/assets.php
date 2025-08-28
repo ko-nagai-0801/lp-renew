@@ -155,6 +155,16 @@ function lp_enqueue_assets()
         );
     }
 
+    // Contact 専用CSS
+    if (is_page_template('page-contact.php') || is_page('contact')) {
+        wp_enqueue_style(
+            'lp-contact',
+            get_theme_file_uri('assets/css/contact.css'),
+            ['lp-subcommon'], // サブページ共通に依存
+            $ver
+        );
+    }
+
     // 404 Page 専用CSS
     if (is_404()) {
         wp_enqueue_style(

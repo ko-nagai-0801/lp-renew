@@ -1,0 +1,249 @@
+/* ===================================================================
+   Contact Page Styles (BEM / container以外のBootstrap非使用)
+   File: assets/css/contact.css
+   調整ポイント:
+     - フォーム要素のフォーカスやエラー可視化
+     - 必須/任意バッジ
+     - ラジオ群（種別）のスタイルを追加
+   =================================================================== */
+
+/* ルート（配色・寸法トークン） */
+:root {
+  --c-text: #1f2937; /* text-gray-800 */
+  --c-muted: #6b7280; /* text-gray-500 */
+  --c-border: #d1d5db; /* gray-300 */
+  --c-border-strong: #94a3b8; /* slate-400 */
+  --c-focus: #2563eb; /* blue-600 */
+  --c-danger: #dc2626; /* red-600 */
+  --c-bg: #ffffff;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --radius: 0.5rem;
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* セクションブロック */
+.contact {
+  color: var(--c-text);
+}
+.contact .container {
+}
+
+/* 見出しの余白 */
+.contact__header {
+  margin-bottom: clamp(20px, 3vw, 32px);
+}
+
+/* 成功/エラーの通知 */
+.contact__notice {
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: var(--space-6);
+}
+.contact__notice--success {
+  border-color: #bfdbfe;
+  background: #eff6ff;
+}
+.contact__notice--error {
+  border-color: #fecaca;
+  background: #fef2f2;
+}
+
+/* フォーム全体 */
+.contact__form {
+  background: var(--c-bg);
+}
+
+/* グリッド（2列→SPで1列） */
+.contact__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-6);
+}
+@media (max-width: 767.98px) {
+  .contact__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 一列使用 */
+.contact__field--full {
+  grid-column: 1 / -1;
+}
+
+/* ラベル類 */
+.contact__label,
+.contact__legend {
+  display: inline-block;
+  font-weight: 700;
+  margin-bottom: var(--space-2);
+}
+
+/* 必須/任意バッジ */
+.contact__req,
+.contact__opt {
+  display: inline-block;
+  margin-left: 0.5ch;
+  padding: 0 0.5em;
+  font-size: 0.8em;
+  line-height: 1.8;
+  border-radius: 0.35em;
+}
+.contact__req {
+  color: #fff;
+  background: var(--c-danger);
+}
+.contact__opt {
+  color: #374151;
+  background: #e5e7eb;
+}
+
+/* 入力要素（テキスト・メール・TEL・テキストエリア） */
+.contact__input,
+.contact__textarea {
+  width: 100%;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  padding: 0.8rem 0.95rem;
+  font-size: 1rem;
+  background: #fff;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.contact__input::placeholder,
+.contact__textarea::placeholder {
+  color: #9ca3af;
+}
+.contact__input:focus,
+.contact__textarea:focus {
+  outline: 2px solid color-mix(in srgb, var(--c-focus) 70%, transparent);
+  outline-offset: 2px;
+  border-color: var(--c-focus);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* テキストエリア */
+.contact__textarea {
+  min-height: 180px;
+  resize: vertical;
+}
+
+/* 補足テキスト */
+.contact__note {
+  margin: var(--space-1) 0 var(--space-2);
+  font-size: 0.92rem;
+  color: var(--c-muted);
+}
+.contact__note--small {
+  margin-top: 0.35rem;
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+/* エラー表示 */
+.contact__error {
+  margin-top: var(--space-2);
+  color: var(--c-danger);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+/* ハニーポット（視覚非表示） */
+.contact__hp {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* チェックボックス */
+.contact__checkbox {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  user-select: none;
+}
+
+/* 送信ボタン */
+.contact__actions {
+  margin-top: var(--space-6);
+  grid-column: 1 / -1;
+}
+.contact__btn {
+  display: inline-grid;
+  place-items: center;
+  min-width: 220px;
+  padding: 0.9rem 1.25rem;
+  border-radius: 0.65rem;
+  border: 1px solid var(--c-border);
+  background: #fff;
+  color: #0f172a;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease,
+    border-color 0.18s ease;
+}
+.contact__btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--c-border-strong);
+  background: #f8fafc;
+}
+.contact__btn--primary {
+  color: #fff;
+  background: linear-gradient(120deg, #2563eb 0%, #1d4ed8 100%);
+  border-color: transparent;
+}
+.contact__btn--primary:hover {
+  filter: brightness(0.98);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ラジオ群（お問い合わせ種別） */
+.contact__radios {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem 1rem;
+}
+@media (max-width: 575.98px) {
+  .contact__radios {
+    grid-template-columns: 1fr;
+  }
+}
+.contact__radio {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  line-height: 1.6;
+}
+.contact__radio input {
+  transform: translateY(1px);
+}
+
+/* フォーカスリング保険 */
+.contact a:focus-visible,
+.contact button:focus-visible,
+.contact input:focus-visible,
+.contact textarea:focus-visible {
+  outline: 2px solid var(--c-focus);
+  outline-offset: 3px;
+  border-radius: 0.35rem;
+}
+
+/* モバイル微調整 */
+@media (max-width: 575.98px) {
+  .contact__btn {
+    width: 100%;
+  }
+}

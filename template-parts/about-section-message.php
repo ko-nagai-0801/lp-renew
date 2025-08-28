@@ -1,4 +1,5 @@
 <?php
+
 /**
  * About 代表メッセージセクション
  * template-parts/about-section-message.php
@@ -8,7 +9,16 @@
  */
 if (!defined('ABSPATH')) exit;
 ?>
-
+<?php
+/**
+ * About 代表メッセージセクション
+ * template-parts/about-section-message.php
+ * 
+ * @package LP_WP_Theme
+ * @since 1.0.0
+ */
+if (!defined('ABSPATH')) exit;
+?>
 <section class="section message">
   <div class="container">
 
@@ -53,7 +63,12 @@ if (!defined('ABSPATH')) exit;
       </div>
 
       <div class="message__signature">
-        <img src="<?php echo esc_url($theme_uri . '/assets/img/sign.svg'); ?>" alt="代表者サイン" class="message__sign">
+        <img
+          src="<?php echo esc_url( get_theme_file_uri('assets/img/sign.svg') ); ?>" 
+          alt="代表者サイン"
+          class="message__sign"
+          loading="lazy"
+          decoding="async">
         <div class="message__name">
           <p class="message__company">株式会社ＬｉＮＥ ＰＡＲＫ</p>
           <p class="message__ceo">代表取締役　大久保　和樹</p>
