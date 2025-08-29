@@ -146,6 +146,26 @@ function lp_enqueue_assets()
         );
     }
 
+    // 12) Services Lightwork 専用CSS
+    if (is_page_template('page-services-lightwork.php') || is_page('lightwork')) {
+        wp_enqueue_style(
+            'lp-services-lightwork',
+            get_theme_file_uri('assets/css/services-lightwork.css'),
+            ['lp-subcommon'],
+            $ver
+        );
+    }
+
+    // 13) Services Others 専用CSS
+    if (is_page_template('page-services-others.php') || is_page('others')) {
+        wp_enqueue_style(
+            'lp-services-others',
+            get_theme_file_uri('assets/css/services-others.css'),
+            ['lp-subcommon'],
+            $ver
+        );
+    }
+
 
 
 
