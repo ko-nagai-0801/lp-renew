@@ -1,0 +1,67 @@
+/* ===============================================================
+   Services Design – minimal
+   ============================================================ */
+
+/* ヒーロー（variant: .subhero--design） */
+.subhero--design {
+  min-height: clamp(360px, 48vh, 560px);
+}
+
+/* セクション見出しの下余白を詰める */
+.page--services-design .section__header { margin-bottom: 1rem; }
+
+/* 提供内容（リスト） */
+.design-points {
+  max-width: 880px;
+  margin-inline: auto;
+}
+
+.design-points__list {
+  display: grid;
+  gap: 0.9rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.design-points__item {
+  position: relative;
+  padding-block: .85rem;
+  padding-inline: 1rem;
+  padding-left: 2.5rem;                    /* ✔ のスペース確保 */
+  line-height: 1.8;
+  background: #fff;
+  border-radius: var(--radius-card, 14px);
+  box-shadow: var(--shadow-sm, 0 2px 4px rgba(0,0,0,.08));
+  font-size: clamp(.95rem, .3vw + .9rem, 1.05rem);
+}
+
+/* ✔ マーク（縦中央で重なり防止） */
+.design-points__item::before {
+  content: "✔";
+  position: absolute;
+  left: .9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.2rem; height: 1.2rem;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: .9rem;
+  color: var(--c-blue, #009cdf);
+}
+
+/* ホバーの軽い浮き上がり（PCのみ） */
+@media (hover:hover) {
+  .design-points__item { transition: transform .2s ease, box-shadow .2s ease; }
+  .design-points__item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,.10);
+  }
+}
+
+/* 下のCTAとの距離 */
+.page--services-design .section.container {
+  margin-block: clamp(28px, 4vw, 48px);
+}
+
+/* ダーク背景対策（必要なら） */
+.is-dark .design-points__item { background: rgba(255,255,255,.96); }

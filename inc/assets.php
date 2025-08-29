@@ -115,6 +115,7 @@ function lp_enqueue_assets()
             $ver
         );
     }
+
     // 9) Services Web 専用CSS（サブページ共通のあと）
     if (is_page_template('page-services-web.php') || is_page('web')) {
         wp_enqueue_style(
@@ -124,6 +125,28 @@ function lp_enqueue_assets()
             $ver
         );
     }
+
+    // 10) Services Design 専用CSS（サブページ共通のあと）
+    if (is_page_template('page-services-design.php') || is_page('design')) {
+        wp_enqueue_style(
+            'lp-services-design',
+            get_theme_file_uri('assets/css/services-design.css'),
+            ['lp-subcommon'], // サブページ共通に依存
+            $ver
+        );
+    }
+
+    // 11) Services SNS 専用CSS（サブページ共通のあと）
+    if (is_page_template('page-services-sns.php') || is_page('sns')) {
+        wp_enqueue_style(
+            'lp-services-sns',
+            get_theme_file_uri('assets/css/services-sns.css'),
+            ['lp-subcommon'], // サブページ共通に依存
+            $ver
+        );
+    }
+
+
 
 
     // X) News Index 専用CSS
