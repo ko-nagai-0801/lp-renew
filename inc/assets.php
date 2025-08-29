@@ -115,15 +115,16 @@ function lp_enqueue_assets()
             $ver
         );
     }
-    // 9) Services Web 専用CSS
-    if (is_page_template('services-web.php') || is_page('web')) {
+    // 9) Services Web 専用CSS（サブページ共通のあと）
+    if (is_page_template('page-services-web.php') || is_page('web')) {
         wp_enqueue_style(
             'lp-services-web',
-            get_theme_file_uri('assets/css/services-single.css'),
+            get_theme_file_uri('assets/css/services-web.css'),
             ['lp-subcommon'], // ← サブページ共通に依存
             $ver
         );
     }
+
 
     // X) News Index 専用CSS
     if (is_page_template('page-news-index.php') || is_page('news')) {

@@ -11,5 +11,5 @@ if (!defined('ABSPATH')) exit;
 
 
 get_header();
-get_template_part('template-parts/services-web');
+get_template_part('template-parts/services/web');
 get_footer();

@@ -1,0 +1,162 @@
+/* ===============================================================
+   Services Web – minimal
+   ファーストビューは Subhero（.subhero--web）を利用。
+   本ページ固有：.page--services-web / .web-points*
+   ============================================================ */
+
+/* ヒーロー（任意微調整） */
+.subhero--web {
+  /* 必要なら高さを調整（sub-common.cssの既定を上書き） */
+  min-height: clamp(360px, 48vh, 560px);
+}
+
+/* セクションヘッダ間の余白調整 */
+.page--services-web .section__header {
+  margin-bottom: 1rem;
+}
+
+/* ご提供内容（4項目） */
+.web-points {
+  max-width: 880px;
+  margin-inline: auto;
+}
+
+.web-points__list {
+  display: grid;
+  gap: 0.9rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.web-points__item {
+  position: relative;
+  line-height: 1.9;
+  padding-left: 1.6em;
+  background: #fff;
+  border-radius: var(--radius-card, 14px);
+  box-shadow: var(--shadow-sm, 0 2px 4px rgba(0, 0, 0, 0.08));
+  padding-block: 0.8rem;
+  padding-inline: 1rem 1rem;
+}
+
+.web-points__item::before {
+  content: "✔";
+  position: absolute;
+  left: 0.75rem;
+  top: 0.8rem;
+  font-weight: 800;
+  opacity: 0.9;
+  color: var(--c-blue, #009cdf);
+}
+
+/* 文字サイズの最小/最大を軽くガード */
+.web-points__item {
+  font-size: clamp(0.95rem, 0.3vw + 0.9rem, 1.05rem);
+}
+
+/* ホバーの微インタラクション（PCのみ） */
+@media (hover: hover) {
+  .web-points__item {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .web-points__item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* 余白バランス（下部CTAとの距離を確保） */
+.page--services-web .section.container {
+  margin-block: clamp(28px, 4vw, 48px);
+}
+
+/* ダーク背景でも読みやすいよう最低限の配慮（必要なら） */
+.is-dark .web-points__item {
+  background: rgba(255, 255, 255, 0.96);
+}
+/* ===============================================================
+   Services Web – minimal
+   ファーストビューは Subhero（.subhero--web）を利用。
+   本ページ固有：.page--services-web / .web-points*
+   ============================================================ */
+
+/* ヒーロー（任意微調整） */
+.subhero--web {
+  /* 必要なら高さを調整（sub-common.cssの既定を上書き） */
+  min-height: clamp(360px, 48vh, 560px);
+}
+
+/* セクションヘッダ間の余白調整 */
+.page--services-web .section__header {
+  margin-bottom: 1rem;
+}
+
+/* ご提供内容（4項目） */
+.web-points {
+  max-width: 880px;
+  margin-inline: auto;
+}
+
+.web-points__list {
+  display: grid;
+  gap: 0.9rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ご提供内容（4項目） – 重なり防止 */
+.web-points__item {
+  position: relative;
+  padding-block: .85rem;
+  padding-inline: 1rem;
+  padding-left: 2.5rem;          /* ← チェック分のスペースをしっかり確保 */
+  line-height: 1.8;              /* ← 行高に余裕を持たせる */
+}
+
+.web-points__item::before {
+  content: "✔";
+  position: absolute;
+  left: .9rem;                   /* ← テキストより内側に配置 */
+  top: 50%;                      /* ← 縦中央に固定 */
+  transform: translateY(-50%);   /* ← 縦中央に固定 */
+  width: 1.2rem;                 /* ← ボックスを確保（可読性UP） */
+  height: 1.2rem;
+  display: inline-flex;          /* ← 中央寄せ */
+  align-items: center;
+  justify-content: center;
+  font-size: .9rem;
+  font-weight: 800;
+  color: var(--c-blue, #009cdf);
+  /* お好みでバッジ風に：
+  background: color-mix(in srgb, var(--c-blue, #009cdf) 12%, transparent);
+  border-radius: 999px;
+  */
+}
+
+/* 文字サイズの最小/最大を軽くガード */
+.web-points__item {
+  font-size: clamp(0.95rem, 0.3vw + 0.9rem, 1.05rem);
+}
+
+/* ホバーの微インタラクション（PCのみ） */
+@media (hover: hover) {
+  .web-points__item {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .web-points__item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* 余白バランス（下部CTAとの距離を確保） */
+.page--services-web .section.container {
+  margin-block: clamp(28px, 4vw, 48px);
+}
+
+/* ダーク背景でも読みやすいよう最低限の配慮（必要なら） */
+.is-dark .web-points__item {
+  background: rgba(255, 255, 255, 0.96);
+}
