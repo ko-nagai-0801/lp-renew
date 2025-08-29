@@ -82,4 +82,8 @@ $tag = in_array($args['tag'], ['h1','h2','h3','h4','h5','h6'], true) ? $args['ta
   </div>
 </section>
 
-<?php get_template_part('components/breadcrumbs'); ?>
+<?php 
+// ここでパンくず（引数を受け渡し可能に）
+$bc_args = $args['breadcrumbs_args'] ?? [];
+get_template_part('components/breadcrumbs', null, $bc_args);
+?>

@@ -179,6 +179,17 @@ function lp_enqueue_assets()
         );
     }
 
+    // News Single 専用CSS
+    if (is_single() && get_post_type() === 'post') {
+        wp_enqueue_style(
+            'lp-news-single',
+            get_theme_file_uri('assets/css/news-single.css'),
+            ['lp-subcommon'], // サブページ共通のあと
+            $ver
+        );
+    }
+
+
     // X) Associate Company 専用CSS
     if (is_page_template('page-associate-company.php') || is_page('associates')) {
         wp_enqueue_style(

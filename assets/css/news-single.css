@@ -1,0 +1,63 @@
+/* 個別投稿（Single）— ベース */
+/* 固定ヘッダー分の押し下げが必要なら */
+.page--single { margin-top: var(--header-h); }
+
+/* 記事内画像のはみ出し防止（保険） */
+.page--single .entry__content img { max-width: 100%; height: auto; }
+
+.entry__header {
+  margin: 1rem 0 2rem;
+}
+.entry__meta {
+  margin-top: 0.5rem;
+  color: var(--f-gray);
+  font-size: 0.9rem;
+}
+.entry__thumb {
+  margin: 1.5rem 0 2rem;
+}
+.entry__img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+}
+.entry__content {
+  line-height: 1.9;
+}
+.entry__content img {
+  max-width: 100%;
+  height: auto;
+}
+.entry__content figure {
+  margin: 1.5rem 0;
+}
+.entry__content h2,
+.entry__content h3 {
+  margin-top: 2.25rem;
+}
+.entry__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  padding: 0;
+  margin: 2rem 0 0;
+}
+.entry__tags li {
+  list-style: none;
+}
+.entry__tags a {
+  color: var(--c-blue-dark);
+}
+.entry__nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 2.5rem 0 0;
+}
+.entry__nav a {
+  color: var(--c-navy);
+}
+.entry__back {
+  margin-top: 3rem;
+}

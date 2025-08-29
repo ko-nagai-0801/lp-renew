@@ -1,7 +1,7 @@
 <?php
 /**
  * Front Page TOPページ
- * File: theme root /front-page.php
+ * theme root /front-page.php
  * 
  * @package LP_WP_Theme
  * @since 1.0.0
