@@ -76,7 +76,7 @@ if (!defined('ABSPATH')) exit;
             <div class="entry__back c-cta mt-5">
                 <?php get_template_part('components/cta-gradient', null, [
                     'url' => home_url('/news/'),
-                    'label' => '一覧へ戻る',
+                    'label' => 'NEWS',
                     'variant' => 'primary',
                     'extra_class' => 'entry__back-cta'
                 ]); ?>
