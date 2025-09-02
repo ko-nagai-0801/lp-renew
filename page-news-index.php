@@ -3,6 +3,7 @@
  * Template Name: News Index（お知らせ一覧）
  * Template Post Type: page
  * @package LP_WP_Theme
+ * @since 1.0.0
  * 
  * theme root /page-news-index.php
  */

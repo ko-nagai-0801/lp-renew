@@ -6,9 +6,9 @@
  *
  * 使い方例：
  * get_template_part('components/breadcrumbs', null, [
- *   'blog_label'         => 'ニュース一覧',
+ *   'blog_label'         => 'お知らせ一覧',
  *   'posts_index_slug'   => 'news',   // /news/ を投稿一覧として扱う
- *   'show_post_category' => false,    // 投稿詳細でカテゴリを出さない
+ *   'show_post_category' => false,
  * ]);
  *
  * @package LP_WP_Theme
@@ -31,9 +31,7 @@ $args = wp_parse_args($args ?? [], [
 ]);
 
 // TOP では表示しない設定なら何も出さない
-if (is_front_page() && !$args['show_on_front']) {
-    return;
-}
+if (is_front_page() && !$args['show_on_front']) return;
 
 /** -----------------------------------------
  * 小さなユーティリティ
@@ -42,13 +40,14 @@ $push = function (&$items, $label, $url = null) {
     $items[] = ['label' => $label, 'url' => $url];
 };
 
-// 投稿一覧（「ニュース一覧」など）のURL/ラベルを決定
+// 投稿一覧（「お知らせ一覧」など）のURL/ラベル/ID を決定
 $get_posts_page = function () use ($args) {
     // 1) 明示ID
     if (!empty($args['posts_index_id'])) {
         $p = get_post((int) $args['posts_index_id']);
         if ($p && $p->post_status === 'publish') {
             return [
+                'id'    => (int) $p->ID,
                 'url'   => get_permalink($p),
                 'label' => ($args['blog_label'] ?? get_the_title($p)),
             ];
@@ -59,6 +58,7 @@ $get_posts_page = function () use ($args) {
         $p = get_page_by_path(sanitize_title($args['posts_index_slug']));
         if ($p && $p->post_status === 'publish') {
             return [
+                'id'    => (int) $p->ID,
                 'url'   => get_permalink($p),
                 'label' => ($args['blog_label'] ?? get_the_title($p)),
             ];
@@ -68,12 +68,14 @@ $get_posts_page = function () use ($args) {
     $id = (int) get_option('page_for_posts');
     if ($id) {
         return [
+            'id'    => $id,
             'url'   => get_permalink($id),
             'label' => ($args['blog_label'] ?? get_the_title($id)),
         ];
     }
     // 4) フォールバック：投稿タイプのアーカイブ or ホーム
     return [
+        'id'    => 0,
         'url'   => (get_post_type_archive_link('post') ?: home_url('/')),
         'label' => ($args['blog_label'] ?? 'ブログ'),
     ];
@@ -99,18 +101,32 @@ $get_primary_category = function ($post_id) {
 };
 
 /** -----------------------------------------
- * パンくず配列の構築
+ * 検出フラグ（/news/?q=... の検索結果かどうか）
  * -------------------------------------- */
 $items = [];
 
+$blog          = $get_posts_page(); // 一覧ページ情報（ID/URL/表示名）
+$q_param       = isset($_GET['q']) ? trim((string) wp_unslash($_GET['q'])) : '';
+$is_posts_home = (is_home() && !is_front_page());
+$is_posts_page = (is_singular('page') && !empty($blog['id']) && (int) get_queried_object_id() === (int) $blog['id']);
+
+$is_index_q_search = ($q_param !== '') && ($is_posts_home || $is_posts_page);
+
+/** -----------------------------------------
+ * パンくず配列の構築
+ * -------------------------------------- */
 // 1) HOME
 $push($items, $args['home_label'], home_url('/'));
 
 // 2) 各条件分岐で積む
-if (is_home() && !is_front_page()) {
-    // 投稿一覧（固定ページ割当 or 任意スラッグ）
-    $blog = $get_posts_page();
-    $push($items, $blog['label']); // 現在地
+if ($is_index_q_search) {
+    // ★ /news/?q=... など、一覧ページ上の検索結果
+    //   常に「一覧（リンク） ＞ 検索結果」にする（ページ2でも同じ）
+    $push($items, ($blog['label'] ?? '一覧'), ($blog['url'] ?? home_url('/')));
+    $push($items, '検索結果'); // 表示文言はお好みで変更可
+} elseif ($is_posts_home) {
+    // 投稿一覧（固定ページ割当の「投稿ページ」）
+    $push($items, $blog['label']); // 現在地（リンクなし）
 } elseif (is_singular('page')) {
     // 固定ページ：親を遡る
     $post_id   = get_queried_object_id();
@@ -126,21 +142,17 @@ if (is_home() && !is_front_page()) {
 
     if ($post_type === 'post') {
         // 投稿詳細：投稿一覧を挟む
-        $blog = $get_posts_page();
         $push($items, $blog['label'], $blog['url']);
 
         // カテゴリ（必要なら）
         if ($args['show_post_category']) {
             if ($term = $get_primary_category($post_id)) {
-                // “未分類” を省く設定
                 if (!($args['skip_uncategorized'] && $term->slug === 'uncategorized')) {
-                    // 親カテゴリを上から順に
                     $parents = array_reverse(get_ancestors($term->term_id, 'category'));
                     foreach ($parents as $pid) {
                         $t = get_term($pid, 'category');
                         if ($t && !is_wp_error($t)) $push($items, $t->name, get_term_link($t));
                     }
-                    // 当該カテゴリ
                     $push($items, $term->name, get_term_link($term));
                 }
             }
@@ -169,6 +181,7 @@ if (is_home() && !is_front_page()) {
     $obj = get_post_type_object(get_query_var('post_type'));
     $push($items, $obj ? $obj->labels->name : post_type_archive_title('', false));
 } elseif (is_search()) {
+    // WP標準の検索結果（/?s= の方）
     $push($items, '「' . esc_html(get_search_query()) . '」の検索結果');
 } elseif (is_author()) {
     $push($items, '投稿者: ' . esc_html(get_the_author_meta('display_name', get_query_var('author'))));
@@ -188,8 +201,9 @@ if (is_home() && !is_front_page()) {
 }
 
 // 3) ページ送り（2ページ目以降）
+// 検索結果（?q=）で一覧上にいるときは「ページ n」を付けない
 $paged = max((int) get_query_var('paged'), (int) get_query_var('page'));
-if ($paged > 1) {
+if ($paged > 1 && !$is_index_q_search) {
     $push($items, 'ページ ' . $paged);
 }
 

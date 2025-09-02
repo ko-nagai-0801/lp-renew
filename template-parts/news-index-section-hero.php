@@ -19,4 +19,9 @@ get_template_part('components/subhero', null, [
   'image_url' => $img,
   'parallax'       => true,
   'parallax_speed' => 0.35,
+    'breadcrumbs_args' => [
+    'blog_label'       => 'お知らせ一覧',
+    'posts_index_slug' => 'news',
+    'show_post_category' => false,
+  ],
 ]);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * components/subhero.php
  * 汎用サブヒーロー（common.css の .parallax ベース対応）
@@ -16,8 +17,10 @@ $defaults = [
   'overlay_to'     => 'rgba(0,0,0,.30)',
   'extra_class'    => '',
   'id'             => '',
-  'parallax'       => true,   // ← 有効化時は .parallax を付け、CSS変数で背景を渡す
+  'parallax'       => true,   // 有効化時は .parallax を付与し CSS変数で背景を渡す
   'parallax_speed' => 0.35,   // 0.25〜0.5 推奨
+  // そのまま子に渡すための箱（省略可）
+  'breadcrumbs_args' => [],
 ];
 $args = wp_parse_args($args ?? [], $defaults);
 
@@ -40,29 +43,28 @@ $style[] = "--subhero-overlay-from:{$args['overlay_from']}";
 $style[] = "--subhero-overlay-to:{$args['overlay_to']}";
 
 if (!empty($args['parallax'])) {
-  // ★ parallax: 背景は .parallax::before が描画するので、CSS変数に渡す
+  // parallax: 背景は .parallax::before が描画するので、CSS変数に渡す
   if (!empty($args['image_url'])) {
     $style[] = "--parallax-image:url('" . esc_url($args['image_url']) . "')";
   }
   $style[] = "--parallax-overlay:linear-gradient(var(--subhero-overlay-from), var(--subhero-overlay-to))";
 } else {
-  // 非 parallax: 従来どおり要素自身に背景を適用
+  // 非 parallax: 要素自身に背景を適用
   if (!empty($args['image_url'])) {
     $style[] = "background-image:url('" . esc_url($args['image_url']) . "')";
   }
 }
 $style_attr = esc_attr(implode(';', $style));
 
-$tag = in_array($args['tag'], ['h1','h2','h3','h4','h5','h6'], true) ? $args['tag'] : 'h1';
+$tag = in_array($args['tag'], ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'], true) ? $args['tag'] : 'h1';
 ?>
 <section
   <?php if ($args['id']) echo ' id="' . esc_attr($args['id']) . '"'; ?>
   class="<?php echo $class_attr; ?>"
   style="<?php echo $style_attr; ?>"
   <?php if (!empty($args['parallax'])) : ?>
-    data-parallax-speed="<?php echo esc_attr($args['parallax_speed']); ?>"
-  <?php endif; ?>
->
+  data-parallax-speed="<?php echo esc_attr($args['parallax_speed']); ?>"
+  <?php endif; ?>>
   <div class="subhero__inner">
     <div class="subhero__content">
       <?php if ($args['sub']) : ?>
@@ -72,9 +74,9 @@ $tag = in_array($args['tag'], ['h1','h2','h3','h4','h5','h6'], true) ? $args['ta
       <?php if ($args['title_html'] || $args['title']) : ?>
         <<?php echo $tag; ?> class="subhero__title">
           <?php
-            echo $args['title_html']
-              ? wp_kses_post($args['title_html'])
-              : esc_html($args['title']);
+          echo $args['title_html']
+            ? wp_kses_post($args['title_html'])
+            : esc_html($args['title']);
           ?>
         </<?php echo $tag; ?>>
       <?php endif; ?>
@@ -82,8 +84,7 @@ $tag = in_array($args['tag'], ['h1','h2','h3','h4','h5','h6'], true) ? $args['ta
   </div>
 </section>
 
-<?php 
-// ここでパンくず（引数を受け渡し可能に）
+<?php
+// パンくず（※呼び出しは1回だけ）
 $bc_args = $args['breadcrumbs_args'] ?? [];
 get_template_part('components/breadcrumbs', null, $bc_args);
-?>

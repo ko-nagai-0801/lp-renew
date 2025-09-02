@@ -66,12 +66,22 @@ function lp_enqueue_assets()
         wp_enqueue_style('lp-subcommon');
     }
 
+    // 3.6) NEWS 共通（TOP と Newsインデックスで使用）
+    if (is_front_page() || is_page_template('page-news-index.php') || is_page('news')) {
+        wp_enqueue_style(
+            'lp-news',
+            get_theme_file_uri('assets/css/news.css'),
+            ['lp-common'], // 共通CSSのあとに
+            $ver
+        );
+    }
+
     // 4) TOPページ 専用CSS
     if (is_front_page()) {
         wp_enqueue_style(
             'lp-front-page',
             "$theme_uri/assets/css/front-page.css",
-            ['lp-common'],    // 共通のあとに
+            ['lp-common', 'lp-news'],    // 共通のあとに
             $ver
         );
     }
@@ -166,15 +176,12 @@ function lp_enqueue_assets()
         );
     }
 
-
-
-
     // X) News Index 専用CSS
     if (is_page_template('page-news-index.php') || is_page('news')) {
         wp_enqueue_style(
             'lp-news-index',
             get_theme_file_uri('assets/css/news-index.css'),
-            ['lp-subcommon'], // ← サブページ共通に依存
+            ['lp-subcommon', 'lp-news'], // ← 依存に lp-news を追加
             $ver
         );
     }
