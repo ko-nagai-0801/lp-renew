@@ -809,3 +809,78 @@ select {
     opacity: 1; /* ただし白塗りは見せる */
   }
 }
+/* ===== ボタンのサイズ修飾子（ベースの大きさを上書き） ===== */
+.button.button--sm {
+  min-width: auto; /* ← baseの 200px を打ち消し */
+  width: auto; /* ← baseの 25vw を打ち消し */
+  padding: 0.55rem 0.95rem;
+  font-size: 1rem;
+  border-radius: 4px;
+}
+.button.button--md {
+  min-width: 180px;
+  width: auto;
+  padding: 0.8rem 1.2rem;
+  font-size: 1.125rem;
+}
+.button.button--lg {
+  min-width: 220px;
+  width: auto;
+  padding: 1rem 1.5rem;
+  font-size: 1.25rem;
+}
+
+/* ===== 左アイコン配置（Bootstrap Icons使用） ===== */
+.button--icon-left {
+  gap: 0.5em; /* 文字とアイコンの隙間 */
+  align-items: center;
+}
+.button--icon-left .btn-icon {
+  font-size: 1.1em; /* 文字とほぼ同じ高さ */
+  line-height: 1;
+  display: inline-block;
+  color: currentColor; /* 本体色に追従（hoverで白になる） */
+}
+
+/* ===== 黒ゴーストCTA（既出定義のまま。必要箇所のみ再掲） ===== */
+.cta--ghost-black {
+  --gb-border-w: 1px;
+  --gb-black: #333333;
+}
+.cta--ghost-black .button {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: none;
+  color: var(--gb-black);
+  border: var(--gb-border-w) solid var(--gb-black);
+  border-radius: 0;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+  transition: color 0.3s, box-shadow 0.3s, transform 0.2s, background 0s;
+}
+.cta--ghost-black .button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--gb-black);
+  z-index: 0;
+  pointer-events: none;
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s;
+}
+.cta--ghost-black .button .btn-text,
+.cta--ghost-black .button .btn-icon {
+  position: relative;
+  z-index: 1;
+}
+.cta--ghost-black .button:hover::before,
+.cta--ghost-black .button:focus-visible::before {
+  transform: scaleX(1);
+}
+.cta--ghost-black .button:hover,
+.cta--ghost-black .button:focus-visible {
+  color: #fff;
+  background: none;
+  outline: none;
+}

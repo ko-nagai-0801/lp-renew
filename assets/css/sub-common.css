@@ -1,6 +1,8 @@
 /* =====
 sub-common.css
 TOPページ以外で共通のスタイル
+
+assets / css / sub-common.css
 ===== */
 
 /* ===============================================================
@@ -202,5 +204,39 @@ TOPページ以外で共通のスタイル
   .info-table__data {
     padding: 1.2rem 0.8rem;
     font-size: 0.85rem;
+  }
+}
+
+
+/* ============================================================
+   Long title fix (sub-hero + entry title)
+   ========================================================== */
+
+/* サブヒーロー：components/subhero が .section__title を使うケースも想定して両対応 */
+.subhero .section__title,
+.subhero__title {
+  white-space: normal !important;   /* 共通の nowrap を打ち消す */
+  overflow-wrap: anywhere;          /* どこでも折返し（現代ブラウザ） */
+  word-break: break-word;           /* 古いブラウザ向けフォールバック */
+  hyphens: auto;                    /* 可能ならハイフネーション */
+  max-width: min(92vw, 1200px);
+}
+
+/* 本文の見出し（<h1 class="entry__title section__title">…） */
+.entry__title.section__title {
+  white-space: normal !important;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+/* モバイル時は少しだけサイズを抑える（任意） */
+@media (max-width: 480px) {
+  .subhero .section__title,
+  .subhero__title {
+    font-size: clamp(1.25rem, 7vw, 2rem);
+  }
+  .entry__title.section__title {
+    font-size: clamp(1.25rem, 6.2vw, 2rem);
   }
 }

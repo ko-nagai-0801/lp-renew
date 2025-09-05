@@ -1,151 +1,139 @@
 <?php
 
 /**
- * components/breadcrumbs.php
  * パンくず（schema.org BreadcrumbList 対応 / BEMクラス）
- *
- * 使い方例：
- * get_template_part('components/breadcrumbs', null, [
- *   'blog_label'         => 'お知らせ一覧',
- *   'posts_index_slug'   => 'news',   // /news/ を投稿一覧として扱う
- *   'show_post_category' => false,
- * ]);
+ * components/breadcrumbs.php
  *
  * @package LP_WP_Theme
+ * 更新履歴:
+ * - 1.3.1 (2025-09-03): タイトルが空のとき "No Title" を使用。
+ * - 1.3.0: from_page / from_q を解釈して「ページ N」リンクを挿入。
  */
 if (!defined('ABSPATH')) exit;
 
-/** -----------------------------------------
- * 引数（必要に応じて上書き可能）
- * -------------------------------------- */
 $args = wp_parse_args($args ?? [], [
-    'show_on_front'      => false,     // true なら TOP でも表示
-    'home_label'         => 'ホーム',
-    'blog_label'         => null,      // 未指定なら投稿一覧ページのタイトル or "ブログ"
-    'class'              => 'breadcrumb',
-    'container_class'    => 'container', // ラッパー（不要なら空文字）
-    'posts_index_id'     => 0,         // 投稿一覧として扱いたい固定ページID（任意）
-    'posts_index_slug'   => '',        // 同：スラッグ（例: 'news'）
-    'show_post_category' => true,      // 投稿詳細でカテゴリを出す/出さない
-    'skip_uncategorized' => true,      // “未分類” は省く
+    'show_on_front'               => false,
+    'home_label'                  => 'ホーム',
+    'blog_label'                  => null,
+    'class'                       => 'breadcrumb',
+    'container_class'             => 'container',
+    'posts_index_id'              => 0,
+    'posts_index_slug'            => '',
+    'show_post_category'          => true,
+    'skip_uncategorized'          => true,
+    'paged_index_label_clickable' => true,
+    'show_paged_suffix'           => true,
 ]);
 
-// TOP では表示しない設定なら何も出さない
 if (is_front_page() && !$args['show_on_front']) return;
 
-/** -----------------------------------------
- * 小さなユーティリティ
- * -------------------------------------- */
+// util
 $push = function (&$items, $label, $url = null) {
     $items[] = ['label' => $label, 'url' => $url];
 };
 
-// 投稿一覧（「お知らせ一覧」など）のURL/ラベル/ID を決定
+// ▼ 空タイトルに "No Title" を返すヘルパ
+$title_or = function ($post_id = null, $fallback = 'No Title') {
+    $t = trim(wp_strip_all_tags(get_the_title($post_id)));
+    return ($t === '') ? $fallback : $t;
+};
+
+// 一覧ページ情報
 $get_posts_page = function () use ($args) {
-    // 1) 明示ID
     if (!empty($args['posts_index_id'])) {
-        $p = get_post((int) $args['posts_index_id']);
+        $p = get_post((int)$args['posts_index_id']);
         if ($p && $p->post_status === 'publish') {
-            return [
-                'id'    => (int) $p->ID,
-                'url'   => get_permalink($p),
-                'label' => ($args['blog_label'] ?? get_the_title($p)),
-            ];
+            return ['id' => (int)$p->ID, 'url' => get_permalink($p), 'label' => ($args['blog_label'] ?? get_the_title($p))];
         }
     }
-    // 2) 明示スラッグ
     if (!empty($args['posts_index_slug'])) {
         $p = get_page_by_path(sanitize_title($args['posts_index_slug']));
         if ($p && $p->post_status === 'publish') {
-            return [
-                'id'    => (int) $p->ID,
-                'url'   => get_permalink($p),
-                'label' => ($args['blog_label'] ?? get_the_title($p)),
-            ];
+            return ['id' => (int)$p->ID, 'url' => get_permalink($p), 'label' => ($args['blog_label'] ?? get_the_title($p))];
         }
     }
-    // 3) 設定 > 表示設定 の「投稿ページ」
-    $id = (int) get_option('page_for_posts');
-    if ($id) {
-        return [
-            'id'    => $id,
-            'url'   => get_permalink($id),
-            'label' => ($args['blog_label'] ?? get_the_title($id)),
-        ];
-    }
-    // 4) フォールバック：投稿タイプのアーカイブ or ホーム
-    return [
-        'id'    => 0,
-        'url'   => (get_post_type_archive_link('post') ?: home_url('/')),
-        'label' => ($args['blog_label'] ?? 'ブログ'),
-    ];
+    $id = (int)get_option('page_for_posts');
+    if ($id) return ['id' => $id, 'url' => get_permalink($id), 'label' => ($args['blog_label'] ?? get_the_title($id))];
+    return ['id' => 0, 'url' => (get_post_type_archive_link('post') ?: home_url('/')), 'label' => ($args['blog_label'] ?? 'ブログ')];
 };
 
-// プライマリカテゴリ（Yoast/RankMath対応）→ なければ先頭カテゴリ
+// 指定ページ番号の一覧URL（#news-index付き）
+$build_blog_paged_url = function (int $n, string $base, string $q = ''): string {
+    $u = $base;
+    if ($n >= 2) {
+        $u = get_option('permalink_structure')
+            ? trailingslashit($base) . user_trailingslashit('page/' . $n, 'paged')
+            : add_query_arg('paged', $n, $base);
+    }
+    if ($q !== '') $u = add_query_arg('q', $q, $u);
+    return $u . '#news-index';
+};
+
+// プライマリカテゴリ
 $get_primary_category = function ($post_id) {
-    // Yoast
-    $yoast_id = (int) get_post_meta($post_id, '_yoast_wpseo_primary_category', true);
+    $yoast_id = (int)get_post_meta($post_id, '_yoast_wpseo_primary_category', true);
     if ($yoast_id) {
         $t = get_term($yoast_id, 'category');
         if ($t && !is_wp_error($t)) return $t;
     }
-    // Rank Math
-    $rm_id = (int) get_post_meta($post_id, 'rank_math_primary_category', true);
+    $rm_id = (int)get_post_meta($post_id, 'rank_math_primary_category', true);
     if ($rm_id) {
         $t = get_term($rm_id, 'category');
         if ($t && !is_wp_error($t)) return $t;
     }
-    // フォールバック
     $cats = get_the_category($post_id);
     return $cats ? $cats[0] : null;
 };
 
-/** -----------------------------------------
- * 検出フラグ（/news/?q=... の検索結果かどうか）
- * -------------------------------------- */
-$items = [];
-
-$blog          = $get_posts_page(); // 一覧ページ情報（ID/URL/表示名）
-$q_param       = isset($_GET['q']) ? trim((string) wp_unslash($_GET['q'])) : '';
+// 状態判定
+$items         = [];
+$blog          = $get_posts_page();
+$q_param       = isset($_GET['q']) ? trim((string)wp_unslash($_GET['q'])) : '';
 $is_posts_home = (is_home() && !is_front_page());
-$is_posts_page = (is_singular('page') && !empty($blog['id']) && (int) get_queried_object_id() === (int) $blog['id']);
-
+$is_posts_page = (is_singular('page') && !empty($blog['id']) && (int)get_queried_object_id() === (int)$blog['id']);
 $is_index_q_search = ($q_param !== '') && ($is_posts_home || $is_posts_page);
+$paged = max((int)get_query_var('paged'), (int)get_query_var('page'));
 
-/** -----------------------------------------
- * パンくず配列の構築
- * -------------------------------------- */
-// 1) HOME
+// シングルからの戻り情報
+$from_page = isset($_GET['from_page']) ? max(0, (int)$_GET['from_page']) : 0;
+$from_q    = isset($_GET['from_q'])    ? sanitize_text_field(wp_unslash($_GET['from_q'])) : '';
+
+// パンくず構築
 $push($items, $args['home_label'], home_url('/'));
 
-// 2) 各条件分岐で積む
 if ($is_index_q_search) {
-    // ★ /news/?q=... など、一覧ページ上の検索結果
-    //   常に「一覧（リンク） ＞ 検索結果」にする（ページ2でも同じ）
     $push($items, ($blog['label'] ?? '一覧'), ($blog['url'] ?? home_url('/')));
-    $push($items, '検索結果'); // 表示文言はお好みで変更可
+    $push($items, '検索結果');
 } elseif ($is_posts_home) {
-    // 投稿一覧（固定ページ割当の「投稿ページ」）
-    $push($items, $blog['label']); // 現在地（リンクなし）
+    if ($paged > 1) {
+        $push($items, ($blog['label'] ?? '一覧'), !empty($args['paged_index_label_clickable']) ? ($blog['url'] ?? home_url('/')) : null);
+        if (!empty($args['show_paged_suffix'])) $push($items, 'ページ ' . $paged);
+    } else {
+        $push($items, ($blog['label'] ?? '一覧'));
+    }
+} elseif ($is_posts_page) {
+    if ($paged > 1) {
+        $push($items, ($blog['label'] ?? '一覧'), !empty($args['paged_index_label_clickable']) ? ($blog['url'] ?? home_url('/')) : null);
+        if (!empty($args['show_paged_suffix'])) $push($items, 'ページ ' . $paged);
+    } else {
+        $push($items, ($blog['label'] ?? '一覧'));
+    }
 } elseif (is_singular('page')) {
-    // 固定ページ：親を遡る
     $post_id   = get_queried_object_id();
     $ancestors = array_reverse(get_post_ancestors($post_id));
-    foreach ($ancestors as $aid) {
-        $push($items, get_the_title($aid), get_permalink($aid));
-    }
-    $push($items, get_the_title($post_id)); // 現在地
+    foreach ($ancestors as $aid)  $push($items, $title_or($aid), get_permalink($aid));  // ← フォールバック使用
+    $push($items, $title_or($post_id));                                                 // ← フォールバック使用
 } elseif (is_singular()) {
-    // 投稿 or カスタム投稿
     $post_id   = get_queried_object_id();
     $post_type = get_post_type($post_id);
 
     if ($post_type === 'post') {
-        // 投稿詳細：投稿一覧を挟む
-        $push($items, $blog['label'], $blog['url']);
-
-        // カテゴリ（必要なら）
-        if ($args['show_post_category']) {
+        $push($items, ($blog['label'] ?? '一覧'), ($blog['url'] ?? home_url('/')));
+        if ($from_page >= 2) {
+            $page_url = $build_blog_paged_url($from_page, ($blog['url'] ?? home_url('/')), $from_q);
+            $push($items, 'ページ ' . $from_page, $page_url);
+        }
+        if (!empty($args['show_post_category'])) {
             if ($term = $get_primary_category($post_id)) {
                 if (!($args['skip_uncategorized'] && $term->slug === 'uncategorized')) {
                     $parents = array_reverse(get_ancestors($term->term_id, 'category'));
@@ -158,16 +146,13 @@ if ($is_index_q_search) {
             }
         }
     } else {
-        // CPT：アーカイブを挟む（ある場合）
         $obj = get_post_type_object($post_type);
-        if ($obj && !empty($obj->has_archive)) {
-            $push($items, $obj->labels->name, get_post_type_archive_link($post_type));
-        }
+        if ($obj && !empty($obj->has_archive)) $push($items, $obj->labels->name, get_post_type_archive_link($post_type));
     }
-    // 現在の記事タイトル
-    $push($items, get_the_title($post_id));
+
+    // 現在地（タイトルはフォールバック）
+    $push($items, $title_or($post_id));
 } elseif (is_category() || is_tag() || is_tax()) {
-    // タームアーカイブ：親を遡る
     $term = get_queried_object();
     if ($term && $term->parent) {
         $parents = array_reverse(get_ancestors($term->term_id, $term->taxonomy));
@@ -176,12 +161,11 @@ if ($is_index_q_search) {
             if ($t && !is_wp_error($t)) $push($items, $t->name, get_term_link($t));
         }
     }
-    $push($items, single_term_title('', false)); // 現在地
+    $push($items, single_term_title('', false));
 } elseif (is_post_type_archive()) {
     $obj = get_post_type_object(get_query_var('post_type'));
     $push($items, $obj ? $obj->labels->name : post_type_archive_title('', false));
 } elseif (is_search()) {
-    // WP標準の検索結果（/?s= の方）
     $push($items, '「' . esc_html(get_search_query()) . '」の検索結果');
 } elseif (is_author()) {
     $push($items, '投稿者: ' . esc_html(get_the_author_meta('display_name', get_query_var('author'))));
@@ -200,16 +184,12 @@ if ($is_index_q_search) {
     $push($items, 'ページが見つかりません');
 }
 
-// 3) ページ送り（2ページ目以降）
-// 検索結果（?q=）で一覧上にいるときは「ページ n」を付けない
-$paged = max((int) get_query_var('paged'), (int) get_query_var('page'));
-if ($paged > 1 && !$is_index_q_search) {
+// 末尾「ページ n」付与（一覧ページは各分岐で処理済み）
+if ($paged > 1 && !$is_index_q_search && !$is_posts_home && !$is_posts_page && !empty($args['show_paged_suffix'])) {
     $push($items, 'ページ ' . $paged);
 }
 
-/** -----------------------------------------
- * 出力（BEM + microdata）
- * -------------------------------------- */
+// 出力
 $wrapper_open  = $args['container_class'] ? '<div class="' . esc_attr($args['container_class']) . '">' : '';
 $wrapper_close = $args['container_class'] ? '</div>' : '';
 

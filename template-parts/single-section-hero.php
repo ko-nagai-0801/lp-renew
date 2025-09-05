@@ -15,11 +15,15 @@ $img = get_the_post_thumbnail_url(null, 'full') ?: $default_img;
 $cats = get_the_category();
 $sub  = !empty($cats) ? $cats[0]->name : 'NEWS';
 
+// ▼ タイトルが空なら "No Title" にフォールバック
+$title = trim( wp_strip_all_tags( get_the_title() ) );
+if ($title === '') $title = 'No Title';
+
 get_template_part('components/subhero', null, [
   'sub'            => 'NEWS',
-  'title'          => get_the_title(),
+  'title'          => $title,            // ← フォールバック済み
   'variant'        => 'news',
-  'tag' => 'h2',
+  'tag'            => 'h2',
   'image_url'      => $img,
   'parallax'       => true,
   'parallax_speed' => 0.30,

@@ -19,6 +19,7 @@ foreach ([
   'contact-handler',
   'contact-config',
   'news-functions',
+  // 'theme-filters',
 ] as $file) {
   $file_path = get_theme_file_path("inc/{$file}.php");
   if (file_exists($file_path)) {
