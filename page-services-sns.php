@@ -10,5 +10,5 @@
 if (!defined('ABSPATH')) exit;
 
 get_header();
-get_template_part('template-parts/services/sns'); // 本文
+get_template_part('template-parts/services/sns');
 get_footer();

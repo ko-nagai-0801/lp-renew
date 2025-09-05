@@ -17,8 +17,7 @@ if (!defined('ABSPATH')) exit;
     // 一覧
     get_template_part('template-parts/news-index-section', 'list');
 
-    // 共通 CTA / ページトップ（任意）
+    // 共通 CTA 
     get_template_part('template-parts/section', 'contact-cta');
-    get_template_part('components/to-top');
   ?>
 </main>

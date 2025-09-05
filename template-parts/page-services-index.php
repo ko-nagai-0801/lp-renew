@@ -25,8 +25,7 @@ if (!defined('ABSPATH')) exit;
         'empty_text' => '公開中のサービスはありません。', // 空時メッセージ
     ]);
 
-    // 共通CTA・ページトップ
+    // 共通CTA
     get_template_part('template-parts/section', 'contact-cta');
-    get_template_part('components/to-top');
     ?>
 </main>

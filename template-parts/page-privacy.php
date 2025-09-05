@@ -17,8 +17,7 @@ if (!defined('ABSPATH')) exit;
     // 本文
     get_template_part('template-parts/privacy-section', 'body');
 
-    // 共通CTA・ページトップ
+    // 共通CTA
     get_template_part('template-parts/section', 'contact-cta');
-    get_template_part('components/to-top');
   ?>
 </main>

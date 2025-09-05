@@ -19,6 +19,5 @@ if (!defined('ABSPATH')) exit;
 
     // 共通CTA・ページトップ
     get_template_part('template-parts/section', 'contact-cta');
-    get_template_part('components/to-top');
   ?>
 </main>

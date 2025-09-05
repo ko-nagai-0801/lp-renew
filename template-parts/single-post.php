@@ -197,8 +197,7 @@ function lp_build_back_to_news_url(): string
     </section>
 
     <?php
-    // 共通の問い合わせCTA / トップへ戻る
+    // 共通の問い合わせCTA
     get_template_part('template-parts/section', 'contact-cta');
-    get_template_part('components/to-top');
     ?>
 </main>

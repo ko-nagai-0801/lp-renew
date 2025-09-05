@@ -9,6 +9,12 @@
  */
 if (!defined('ABSPATH')) exit;
 ?>
+
+<?php
+// to-top コンポーネント読み込み
+get_template_part('components/to-top');
+?>
+
 <footer
     class="footer is-bright"
     style="

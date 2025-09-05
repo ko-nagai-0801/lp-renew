@@ -7,6 +7,5 @@ if (!defined('ABSPATH')) exit;
   get_template_part('template-parts/services/others-section', 'hero');
   get_template_part('template-parts/services/others-section', 'points');
   get_template_part('template-parts/section', 'contact-cta');
-  get_template_part('components/to-top');
   ?>
 </main>

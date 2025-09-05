@@ -20,7 +20,6 @@ if (!defined('ABSPATH')) exit;
   get_template_part('template-parts/services/web-section', 'hero');
   get_template_part('template-parts/services/web-section', 'points');
   get_template_part('template-parts/section', 'contact-cta'); // 共通CTA
-  get_template_part('components/to-top');  // ページトップへ
   ?>
 </main>
 
