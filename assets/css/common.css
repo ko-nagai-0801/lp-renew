@@ -129,16 +129,11 @@ select {
 }
 @media (max-width: 768px) {
   .container {
-    /* max-width: 1300px; */
+    /* max-width: 750px; */
     padding: 0 25px;
   }
 }
-@media (max-width: 768px) {
-  .container {
-    /* max-width: 1300px; */
-    padding: 0 25px;
-  }
-}
+
 
 /* =============================================================
    Page-top button

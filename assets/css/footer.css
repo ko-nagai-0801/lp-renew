@@ -1,20 +1,37 @@
+/**
+ * フッター スタイル（BEM／ナビ下線アニメ）
+ * assets/css/footer.css
+ *
+ * @package LP_WP_Theme
+ * @since 1.0.0
+ *
+ * 更新履歴:
+ * - 1.1.3 (2025-09-05): 下線アニメの共通化（疑似要素を一括定義＆CSS変数で微調整）。重複記述を削除。
+ * - 1.1.2 (2025-09-05): 下線アニメを width 方式に統一。フォントサイズ指定削除・整理。
+ * - 1.1.1 (2025-09-05): transform→width 方式へ変更。
+ * - 1.1.0 (2025-09-05): .footer__nav-title / .footer__nav-link のホバー下線アニメ追加。
+ */
+
 /* =============================================================
-   0.  背景イメージと基礎レイアウト
+   0. 背景イメージと基礎レイアウト
    ========================================================== */
 .footer {
   position: relative;
   padding-bottom: 50px;
   color: var(--f-white);
 
-  /* ▼デフォルト値（PHPの inline style で上書き可） */
-  --footer-image: url("../img/footer-bg.webp"); /* 画像パス */
-  --footer-pos: center bottom; /* 位置 */
-  --mask-angle: to top; /* マスク方向 */
-  --mask-0: 0.68; /* 下端（濃い） */
-  --mask-1: 0.45; /* 中間 */
-  --mask-2: 0.1; /* 上端（薄い） */
+  /* 背景のデフォルト（PHPの inline style で上書き可） */
+  --footer-image: url("../img/footer-bg.webp");
+  --footer-pos: center bottom;
+  --mask-angle: to top;
+  --mask-0: 0.68;
+  --mask-1: 0.45;
+  --mask-2: 0.1;
 
-  /* 画像 + マスク（多層背景） */
+  /* 下線アニメ用のスコープ変数（高さ/オフセット） */
+  --ul-h: 2px;
+  --ul-offset: -2px;
+
   background: linear-gradient(
       var(--mask-angle),
       rgba(0, 0, 0, var(--mask-0)) 0%,
@@ -24,16 +41,16 @@
     var(--footer-image) no-repeat var(--footer-pos) / cover;
 }
 
-/* 明るい写真用の“強めマスク”プリセット（任意） */
+/* 明るい写真用の強めマスク */
 .footer.is-bright {
   --mask-0: 0.78;
   --mask-1: 0.55;
   --mask-2: 0.2;
 }
 
-/* ======================================
-   1.  インナーラッパー
-   =================================== */
+/* =============================================================
+   1. インナーラッパー
+   ========================================================== */
 .footer__inner {
   display: flex;
   flex-direction: row;
@@ -44,11 +61,11 @@
 @media (max-width: 991px) {
   .footer__inner {
     flex-direction: column;
-    /* justify-content: space-between; */
   }
 }
+
 /* =============================================================
-   2.  住所・ロゴ・SNS
+   2. 住所・ロゴ・SNS
    ========================================================== */
 .footer__company {
   display: flex;
@@ -56,47 +73,37 @@
   align-items: flex-start;
   padding-inline: 1.5rem;
 }
-/* --- ロゴ --- */
+
+/* ロゴ */
 .footer__logo {
   width: 250px;
   height: auto;
   margin: 0 auto;
 }
-/* @media (max-width: 991px) {
-  .footer__logo {
-    width: 242px;
-  }
-}
-@media (max-width: 576px) {
-  .footer__logo {
-    margin: 0;
-  }
-} */
 .footer__logo img {
   max-width: 100%;
   height: auto;
   vertical-align: bottom;
 }
 
-/* ラッパーのデフォルトは左揃え（PC時） */
+/* 住所ラッパー */
 .footer__company-group {
   display: grid;
   row-gap: 0.25rem;
 }
-/* 縦並びになる幅では中央寄せ（margin で管理） */
 @media (max-width: 991px) {
   .footer__company-group {
     margin: 0 auto;
-    width: fit-content; /* full幅だと中央寄せにならないため */
+    width: fit-content;
     max-width: 100%;
-    align-self: center; /* flex親の影響を受ける場合の保険 */
+    align-self: center;
   }
   .footer__company-group .footer__company-item {
     text-align: left;
   }
 }
 
-/* --- テキスト住所 --- */
+/* 住所テキスト */
 .footer__address {
   margin: 0;
   padding: 1rem 0;
@@ -115,20 +122,14 @@
   color: var(--f-white);
   text-decoration: none;
 }
+
 /* 受付時間 */
 .footer__time {
   margin: 0;
   font-feature-settings: "palt";
 }
-/* @media (max-width: 991px) {
-  .footer__time {
-    margin-bottom: 10px;
-    padding-bottom: 0;
-    border-bottom: none;
-  }
-} */
 
-/* --- SNS --- */
+/* SNS */
 .footer__company-item-sns {
   margin: 0 auto;
 }
@@ -141,23 +142,14 @@
   padding-inline: 0;
   list-style: none;
 }
-
 .footer__sns-item img {
   width: 5vw;
   min-width: 48px;
   max-width: 56px;
 }
-/* @media (max-width: 991px) {
-  .footer__sns {
-    padding-top: 0;
-  }
-  .footer__sns-list {
-    justify-content: flex-start;
-  }
-} */
 
 /* =============================================================
-   3.  ナビゲーション
+   3. ナビゲーション
    ========================================================== */
 .footer__nav {
   width: 65%;
@@ -186,6 +178,7 @@
 .footer__nav-item a {
   color: var(--f-white);
 }
+
 @media (max-width: 576px) {
   .footer__nav-list {
     flex-direction: column;
@@ -205,61 +198,6 @@
   padding-block: 0.25rem;
 }
 
-/* --- タイトルリンク --- */
-.footer__nav-title {
-  color: #fff;
-  font-size: 13px;
-  width: max-content;
-  position: relative;
-}
-.footer__nav-title::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -2px;
-  width: 100%;
-  height: 1px;
-  background: #fff;
-  transform: scaleX(0);
-  transform-origin: left top;
-  transition: transform 0.4s;
-}
-.footer__nav-title:hover::after {
-  transform: scaleX(1);
-}
-@media (min-width: 768px) {
-  .footer__nav-title {
-    font-size: 16px;
-  }
-}
-/* 子リンク */
-.footer__nav-link {
-  font-size: 14px;
-  line-height: 30px;
-  color: #fff;
-  position: relative;
-  width: max-content;
-}
-.footer__nav-link::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -2px;
-  width: 100%;
-  height: 1px;
-  background: #fff;
-  transform: scaleX(0);
-  transform-origin: left top;
-  transition: transform 0.4s;
-}
-.footer__nav-link:hover::after {
-  transform: scaleX(1);
-}
-@media (max-width: 640px) {
-  .footer__nav-link {
-    font-size: 11px;
-  }
-}
 .footer__nav-link:first-of-type {
   margin-bottom: 16px;
 }
@@ -268,7 +206,7 @@
 }
 
 /* =============================================================
-   4.  コピーライト
+   4. コピーライト
    ========================================================== */
 .footer__copyright {
   width: 100%;
@@ -281,4 +219,61 @@
   bottom: 0;
   left: 0;
   z-index: 2;
+}
+
+/* =============================================================
+   A. Underline Animations (共通ベース)
+   ========================================================== */
+
+/* 1) 下線アニメのベース（nav・子nav・mail・phone すべて共通） */
+.footer__nav-title,
+.footer__nav-link,
+.footer__mail a,
+.footer__phone a {
+  position: relative;
+  display: inline-block; /* 擬似要素の幅計測 */
+  text-decoration: none;
+}
+.footer__nav-title::after,
+.footer__nav-link::after,
+.footer__mail a::after,
+.footer__phone a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: var(--ul-offset); /* 既定は -2px（.footer で定義） */
+  height: var(--ul-h); /* 既定は 2px（.footer で定義） */
+  width: 0; /* 0 → 100% に伸ばす */
+  background: currentColor; /* 文字色に追従 */
+  transition: width 0.35s ease;
+}
+.footer__nav-title:hover::after,
+.footer__nav-title:focus-visible::after,
+.footer__nav-title:active::after,
+.footer__nav-link:hover::after,
+.footer__nav-link:focus-visible::after,
+.footer__nav-link:active::after,
+.footer__mail a:hover::after,
+.footer__mail a:focus-visible::after,
+.footer__mail a:active::after,
+.footer__phone a:hover::after,
+.footer__phone a:focus-visible::after,
+.footer__phone a:active::after {
+  width: 100%;
+}
+
+/* 2) mail / phone はベースライン合わせでオフセットを上書き */
+.footer__mail a,
+.footer__phone a {
+  --ul-offset: 0px;
+}
+
+/* 3) ユーザー設定（低モーション・タッチ考慮） */
+@media (prefers-reduced-motion: reduce) {
+  .footer__nav-title::after,
+  .footer__nav-link::after,
+  .footer__mail a::after,
+  .footer__phone a::after {
+    transition: none;
+  }
 }
