@@ -19,6 +19,6 @@ if (!defined('ABSPATH')) exit;
     // フォーム
     get_template_part('template-parts/contact-section', 'form');
 
-    get_template_part('includes/to-top');
+    get_template_part('components/to-top');
     ?>
 </main>

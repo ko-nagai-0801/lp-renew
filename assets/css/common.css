@@ -168,6 +168,17 @@ select {
     right: 15px;
   }
 }
+/* Page-top button — icon size & reduce-motion */
+.page-top-link .bi {
+  font-size: 1.5rem;
+  color: #fff; /* 背景が濃色なので白で視認性UP */
+}
+@media (max-width: 991px) {
+  .page-top-link .bi { font-size: 1.25rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-top-link { transition: none; }
+}
 
 /* ================================
    セクション汎用

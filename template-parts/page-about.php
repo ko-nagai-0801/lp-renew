@@ -16,6 +16,6 @@ if (!defined('ABSPATH')) exit;
     get_template_part('template-parts/about-section', 'vision');
     get_template_part('template-parts/about-section', 'company');
     get_template_part('template-parts/section', 'contact-cta'); // 共通CTA
-    get_template_part('includes/to-top');      // ページトップへ
+    get_template_part('components/to-top');      // ページトップへ
     ?>
 </main>

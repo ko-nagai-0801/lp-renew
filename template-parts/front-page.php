@@ -19,6 +19,7 @@ if (! defined('ABSPATH')) {
     get_template_part('template-parts/top-section', 'office');
     get_template_part('template-parts/top-section', 'news');
     get_template_part('template-parts/section', 'contact-cta');
+    get_template_part('components/to-top');
     ?>
 </main>
 
