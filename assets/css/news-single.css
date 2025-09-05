@@ -1,9 +1,23 @@
-/* 個別投稿（Single）— ベース */
-/* 固定ヘッダー分の押し下げが必要なら */
-.page--single { margin-top: var(--header-h); }
+/**
+ * 個別投稿（Single）スタイル — ゴーストボタン導入
+ * assets/css/single.css
+ *
+ * @package LP_WP_Theme
+ * @since 1.0.0
+ *
+ * 更新履歴:
+ * - 1.1.0 (2025-09-05): .c-ghost-btn（青系）を追加。前後リンクに適用。
+ * - 1.0.0: 初版
+ */
 
-/* 記事内画像のはみ出し防止（保険） */
-.page--single .entry__content img { max-width: 100%; height: auto; }
+/* 個別投稿（Single）— ベース */
+.page--single {
+  margin-top: var(--header-h);
+} /* 固定ヘッダー分の押し下げ（必要なら） */
+.page--single .entry__content img {
+  max-width: 100%;
+  height: auto;
+} /* はみ出し保険 */
 
 .entry__header {
   margin: 1rem 0 2rem;
@@ -25,10 +39,6 @@
 .entry__content {
   line-height: 1.9;
 }
-.entry__content img {
-  max-width: 100%;
-  height: auto;
-}
 .entry__content figure {
   margin: 1.5rem 0;
 }
@@ -49,15 +59,96 @@
 .entry__tags a {
   color: var(--c-blue-dark);
 }
+
+/* 前後ナビ（左右に配置） */
 .entry__nav {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
   margin: 2.5rem 0 0;
 }
-.entry__nav a {
-  color: var(--c-navy);
+
+/* ===== ゴーストボタン（青系・スライド塗り） ================= */
+.c-ghost-btn {
+  --ghost-color: var(--c-blue, #1e66f5);
+  --ghost-color-hover: var(--c-blue-dark, #1554c0);
+  --wipe-delay: 0.06s; /* 文字色切替の遅延で視認性UP */
+  position: relative;
+  isolation: isolate; /* 擬似要素のレイヤーを独立 */
+  overflow: hidden; /* はみ出し隠す */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid var(--ghost-color);
+  color: var(--ghost-color);
+  background: transparent; /* 本体は透明のまま */
+  padding: 0.5rem 0.85rem;
+  border-radius: 999px;
+  text-decoration: none;
+  line-height: 1;
+  transition: border-color 0.25s ease, color 0.2s ease var(--wipe-delay);
+  will-change: transform;
 }
-.entry__back {
-  margin-top: 3rem;
+.c-ghost-btn > * {
+  position: relative;
+  z-index: 1;
+} /* テキスト/アイコンを前面に */
+
+/* スライドする塗りつぶし帯 */
+.c-ghost-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--ghost-color);
+  z-index: 0; /* テキストの背面 */
+  transform: translateX(-100%); /* 既定は左からの帯が外側へ（非表示） */
+  transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* 方向指定：左→右（次の記事） */
+.c-ghost-btn--wipe-ltr::before {
+  transform: translateX(-100%);
+}
+.c-ghost-btn--wipe-ltr:hover::before,
+.c-ghost-btn--wipe-ltr:focus-visible::before {
+  transform: translateX(0);
+}
+
+/* 方向指定：右→左（前の記事） */
+.c-ghost-btn--wipe-rtl::before {
+  transform: translateX(100%);
+}
+.c-ghost-btn--wipe-rtl:hover::before,
+.c-ghost-btn--wipe-rtl:focus-visible::before {
+  transform: translateX(0);
+}
+
+/* ホバー時：枠は同色、文字は遅延して白へ（帯が被り始めてから白に変わる） */
+.c-ghost-btn:hover,
+.c-ghost-btn:focus-visible {
+  color: #fff;
+  border-color: var(--ghost-color);
+  text-decoration: none;
+  box-shadow: 0 0 0 0.2rem
+    color-mix(in srgb, var(--ghost-color) 20%, transparent);
+}
+.c-ghost-btn:active {
+  border-color: var(--ghost-color-hover);
+}
+.c-ghost-btn--sm {
+  padding: 0.45rem 0.8rem;
+  font-size: 0.95rem;
+}
+
+/* 既存の干渉を抑える保険 */
+.entry__nav a.c-ghost-btn {
+  color: var(--ghost-color);
+}
+.entry__nav a.c-ghost-btn:hover {
+  color: var(--f-white);
+}
+
+/* アイコン微調整（任意） */
+.c-ghost-btn .bi {
+  line-height: 1;
 }

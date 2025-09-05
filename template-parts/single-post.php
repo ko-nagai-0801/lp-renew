@@ -1,15 +1,15 @@
 <?php
 
 /**
- * 個別投稿 本体（“戻る”ボタン対応）
+ * 個別投稿 本体（“戻る”ボタン + 前後リンクをゴースト化）
  * template-parts/single-post.php
  *
  * @package LP_WP_Theme
  * @since 1.0.0
  *
  * 更新履歴:
+ * - 1.3.0 (2025-09-05): 「前の記事」「次の記事」を青系ゴーストボタンに変更（.c-ghost-btn）。
  * - 1.2.0 (2025-09-03): from_page / from_q を解釈して「← 一覧に戻る」ボタンを追加。
- *                       戻り先は /news/page/N/（もしくは ?paged=N）+ 必要なら ?q=… ＋ #news-index。
  * - 1.1.0: 日付表示を「更新日：yyyy.mm.dd（投稿日：yyyy.mm.dd）」に変更。
  * - 1.0.0: 初版
  */
@@ -29,7 +29,9 @@ function lp_get_news_base_url(): string
     return (get_post_type_archive_link('post') ?: home_url('/'));
 }
 
-// from_page / from_q から “戻るURL” を生成（#news-indexへ）
+/**
+ * from_page / from_q から “戻るURL” を生成（#news-indexへ）
+ */
 function lp_build_back_to_news_url(): string
 {
     $base      = lp_get_news_base_url();
@@ -61,17 +63,15 @@ function lp_build_back_to_news_url(): string
     <section class="section">
         <div class="container">
 
-
-
             <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
                     <?php
                     /* =========================================================
-         * 日付・カテゴリ等の基礎データ
-         * ---------------------------------------------------------
-         * - “有意な更新”の定義は inc/news-functions.php の
-         *   lp_news_has_significant_update() に従う（ε=60秒など）。
-         * - 同関数が未定義の場合は「公開時刻と更新時刻が異なる」で代替。
-         * ======================================================= */
+                 * 日付・カテゴリ等の基礎データ
+                 * ---------------------------------------------------------
+                 * - “有意な更新”の定義は inc/news-functions.php の
+                 *   lp_news_has_significant_update() に従う（ε=60秒など）。
+                 * - 同関数が未定義の場合は「公開時刻と更新時刻が異なる」で代替。
+                 * ======================================================= */
                     $pub_machine = get_the_date('c');     // 例: 2025-09-02T12:34:56+09:00
                     $pub_human   = get_the_date('Y.m.d'); // 例: 2025.09.02
                     $mod_machine = get_the_modified_date('c');
@@ -114,19 +114,6 @@ function lp_build_back_to_news_url(): string
                             </div>
                         </header>
 
-                        <!-- アイキャッチ -->
-                        <?php if (has_post_thumbnail()): ?>
-                            <figure class="entry__thumb">
-                                <?php
-                                // 遅延読み込みでLCPを抑制（必要に応じて 'decoding' => 'async' など調整）
-                                the_post_thumbnail('large', [
-                                    'class'   => 'entry__img',
-                                    'loading' => 'lazy',
-                                ]);
-                                ?>
-                            </figure>
-                        <?php endif; ?>
-
                         <!-- 本文 -->
                         <div class="entry__content section__text">
                             <?php
@@ -151,12 +138,35 @@ function lp_build_back_to_news_url(): string
                             </footer>
                         <?php endif; ?>
 
+                        <?php
+                        /* ---------------------------------------------------------
+                     * 前後ナビを“ゴーストボタン（青系）”で表示
+                     * - get_adjacent_post() 経由で取得し、存在時のみ出力
+                     * - 矢印は Bootstrap Icons を使用（bi-chevron-◀/▶）
+                     * ------------------------------------------------------ */
+                        $prev_post = get_adjacent_post(false, '', true);
+                        $next_post = get_adjacent_post(false, '', false);
+                        ?>
 
-
-                        <!-- 前後ナビ -->
                         <nav class="entry__nav" aria-label="前後の記事">
-                            <div class="entry__nav-prev"><?php previous_post_link('%link', '← 前の記事'); ?></div>
-                            <div class="entry__nav-next"><?php next_post_link('%link', '次の記事 →'); ?></div>
+                            <div class="entry__nav-prev">
+                                <?php if ($prev_post): ?>
+                                    <a class="c-ghost-btn c-ghost-btn--blue c-ghost-btn--sm c-ghost-btn--wipe-rtl" rel="prev"
+                                        href="<?php echo esc_url(get_permalink($prev_post)); ?>">
+                                        <i class="bi bi-chevron-left" aria-hidden="true"></i>
+                                        <span>前の記事</span>
+                                    </a>
+                                <?php endif; ?>
+                            </div>
+                            <div class="entry__nav-next">
+                                <?php if ($next_post): ?>
+                                    <a class="c-ghost-btn c-ghost-btn--blue c-ghost-btn--sm c-ghost-btn--wipe-ltr" rel="next"
+                                        href="<?php echo esc_url(get_permalink($next_post)); ?>">
+                                        <span>次の記事</span>
+                                        <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                                    </a>
+                                <?php endif; ?>
+                            </div>
                         </nav>
 
                     </article>
@@ -170,28 +180,16 @@ function lp_build_back_to_news_url(): string
             <div class="entry__backline my-4">
                 <?php
                 get_template_part('components/cta-ghost-black', null, [
-                    'url'       => $back_url,
-                    'label'     => '一覧へ戻る',
-                    'with_icon' => true,                 // 左アイコンON
-                    'icon'      => 'chevron-double-left', // ← これが「<<」
-                    'size'      => 'sm',                 // 小さめ
-                    'border_w'  => '1px',
-                    'extra_class' => 'entry__backlink',  // 既存クラスを残すなら
+                    'url'         => $back_url,
+                    'label'       => '一覧へ戻る',
+                    'with_icon'   => true, // 左アイコンON
+                    'icon'        => 'chevron-double-left', // 「<<」
+                    'size'        => 'sm',
+                    'border_w'    => '1px',
+                    'extra_class' => 'entry__backlink',
                 ]);
                 ?>
             </div>
-
-            <!-- 既存の NEWS CTA は一覧トップへ（そのままでもOK） -->
-            <!-- <div class="entry__back c-cta mt-5">
-                <?php
-                get_template_part('components/cta-gradient', null, [
-                    'url'         => lp_get_news_base_url(), // 一覧トップ
-                    'label'       => 'NEWS',
-                    'variant'     => 'primary',
-                    'extra_class' => 'entry__back-cta',
-                ]);
-                ?>
-            </div> -->
 
         </div><!-- /.container -->
     </section>
