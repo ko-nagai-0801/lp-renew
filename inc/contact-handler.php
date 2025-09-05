@@ -16,8 +16,8 @@ function lp_contact_config()
 {
     return [
         'to'              => apply_filters('lp_contact_to', 'info@linepark.co.jp'),
-        'subject_admin'   => apply_filters('lp_contact_subject', '【LPサイト】お問い合わせ'),
-        'subject_user'    => apply_filters('lp_contact_autoreply_subject', 'お問い合わせありがとうございます（自動返信）'),
+        'subject_admin'   => apply_filters('lp_contact_subject', '【ＬｉＮＥ ＰＡＲＫ HP】お問い合わせ'),
+        'subject_user'    => apply_filters('lp_contact_autoreply_subject', '【ＬｉＮＥ ＰＡＲＫ】お問い合わせありがとうございます（自動返信）'),
         'rate_seconds'    => (int) apply_filters('lp_contact_rate_limit', 60),
         'pending_ttl'     => (int) apply_filters('lp_contact_pending_ttl', 15 * MINUTE_IN_SECONDS),
         'recaptcha_site'  => apply_filters('lp_recaptcha_site_key', defined('RECAPTCHA_SITE_KEY') ? RECAPTCHA_SITE_KEY : ''),
