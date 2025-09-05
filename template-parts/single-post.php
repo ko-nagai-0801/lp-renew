@@ -128,7 +128,7 @@ function lp_build_back_to_news_url(): string
                         <?php endif; ?>
 
                         <!-- 本文 -->
-                        <div class="entry__content">
+                        <div class="entry__content section__text">
                             <?php
                             the_content();
 
