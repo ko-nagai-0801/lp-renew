@@ -5,12 +5,10 @@
 if (!defined('ABSPATH')) exit;
 
 $default_points = [
-  '商品の梱包・袋詰め',
-  'シール貼り・ラベル貼付',
-  'DM／チラシの封入・封緘',
-  '検品・仕分け',
-  'セット組み・内職作業',
-  '簡易清掃・整頓',
+  'チラシの折り込み・封入',
+  '商品の組み立て・袋入れ',
+  '商品へのシール貼り・ラベル貼付',
+  '検品作業・仕分けなど',
 ];
 
 $points = (function_exists('get_field') && get_field('lightwork_points'))
