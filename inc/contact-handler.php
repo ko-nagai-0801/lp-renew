@@ -1,12 +1,17 @@
 <?php
 
 /**
+ * お問い合わせハンドラ（確認→送信／編集復帰・reCAPTCHA・レート制限）
  * inc/contact-handler.php
- * 
- * Step1: lp_contact_confirm（確認へ）
- * Step2: lp_contact_send（送信）
- * Edit : lp_contact_edit（修正）
+ *
+ * @package LP_WP_Theme
+ * @since 1.0.0
+ *
+ * 更新履歴:
+ * - 1.1.0 (2025-09-08): 送信日時が `{current_time(...)}` のまま表示される不具合を修正（wp_date()で生成→変数展開に変更）。
+ * - 1.0.0: 初版
  */
+
 if (!defined('ABSPATH')) exit;
 
 /* =======================
@@ -15,14 +20,14 @@ if (!defined('ABSPATH')) exit;
 function lp_contact_config()
 {
     return [
-        'to'              => apply_filters('lp_contact_to', 'info@linepark.co.jp'),
-        'subject_admin'   => apply_filters('lp_contact_subject', '【ＬｉＮＥ ＰＡＲＫ HP】お問い合わせ'),
-        'subject_user'    => apply_filters('lp_contact_autoreply_subject', '【ＬｉＮＥ ＰＡＲＫ】お問い合わせありがとうございます（自動返信）'),
-        'rate_seconds'    => (int) apply_filters('lp_contact_rate_limit', 60),
-        'pending_ttl'     => (int) apply_filters('lp_contact_pending_ttl', 15 * MINUTE_IN_SECONDS),
-        'recaptcha_site'  => apply_filters('lp_recaptcha_site_key', defined('RECAPTCHA_SITE_KEY') ? RECAPTCHA_SITE_KEY : ''),
+        'to'               => apply_filters('lp_contact_to', 'info@linepark.co.jp'),
+        'subject_admin'    => apply_filters('lp_contact_subject', '【ＬｉＮＥ ＰＡＲＫ】お問い合わせを受け付けました'),
+        'subject_user'     => apply_filters('lp_contact_autoreply_subject', '【ＬｉＮＥ ＰＡＲＫ】お問い合わせ受付完了のお知らせ'),
+        'rate_seconds'     => (int) apply_filters('lp_contact_rate_limit', 60),
+        'pending_ttl'      => (int) apply_filters('lp_contact_pending_ttl', 15 * MINUTE_IN_SECONDS),
+        'recaptcha_site'   => apply_filters('lp_recaptcha_site_key', defined('RECAPTCHA_SITE_KEY') ? RECAPTCHA_SITE_KEY : ''),
         'recaptcha_secret' => apply_filters('lp_recaptcha_secret', defined('RECAPTCHA_SECRET_KEY') ? RECAPTCHA_SECRET_KEY : ''),
-        'recaptcha_score' => (float) apply_filters('lp_recaptcha_score', 0.5),
+        'recaptcha_score'  => (float) apply_filters('lp_recaptcha_score', 0.5),
     ];
 }
 
@@ -39,10 +44,10 @@ function lp_contact_keys()
     ];
 }
 
-/* 共通：検証・整形 */
+/* 共通：収集・検証・整形 */
 function lp_contact_collect_and_validate(array $src, array &$errors)
 {
-    // ▼ここを置き換え：固定配列→フィルタ参照
+    // ▼固定配列→フィルタで差し替え可能に
     $valid_types = apply_filters('lp_contact_types', [
         'お仕事のご相談',
         'ご利用/ご見学のご相談',
@@ -51,13 +56,13 @@ function lp_contact_collect_and_validate(array $src, array &$errors)
     ]);
 
     $old = [
-        'type'          => isset($src['type'])          ? sanitize_text_field(wp_unslash($src['type']))     : '',
-        'name'          => isset($src['name'])          ? sanitize_text_field(wp_unslash($src['name']))     : '',
-        'name_kana'     => isset($src['name_kana'])     ? sanitize_text_field(wp_unslash($src['name_kana'])) : '',
-        'company'       => isset($src['company'])       ? sanitize_text_field(wp_unslash($src['company']))  : '',
-        'email'         => isset($src['email'])         ? sanitize_email(wp_unslash($src['email']))         : '',
-        'email_confirm' => isset($src['email_confirm']) ? sanitize_email(wp_unslash($src['email_confirm'])) : '',
-        'phone'         => isset($src['phone'])         ? sanitize_text_field(wp_unslash($src['phone']))    : '',
+        'type'          => isset($src['type'])          ? sanitize_text_field(wp_unslash($src['type']))       : '',
+        'name'          => isset($src['name'])          ? sanitize_text_field(wp_unslash($src['name']))       : '',
+        'name_kana'     => isset($src['name_kana'])     ? sanitize_text_field(wp_unslash($src['name_kana']))  : '',
+        'company'       => isset($src['company'])       ? sanitize_text_field(wp_unslash($src['company']))    : '',
+        'email'         => isset($src['email'])         ? sanitize_email(wp_unslash($src['email']))           : '',
+        'email_confirm' => isset($src['email_confirm']) ? sanitize_email(wp_unslash($src['email_confirm']))   : '',
+        'phone'         => isset($src['phone'])         ? sanitize_text_field(wp_unslash($src['phone']))      : '',
         'message'       => isset($src['message'])       ? sanitize_textarea_field(wp_unslash($src['message'])) : '',
         'agree'         => isset($src['agree'])         ? '1' : '',
     ];
@@ -97,7 +102,7 @@ add_action('admin_post_lp_contact_confirm',        'lp_handle_contact_confirm');
 
 function lp_handle_contact_confirm()
 {
-    $cfg = lp_contact_config();
+    $cfg  = lp_contact_config();
     $keys = lp_contact_keys();
 
     // リダイレクト先（フォーム） ※無ければTOP
@@ -127,7 +132,7 @@ function lp_handle_contact_confirm()
 
     // 収集＋検証
     $errors = [];
-    $old = lp_contact_collect_and_validate($_POST, $errors);
+    $old    = lp_contact_collect_and_validate($_POST, $errors);
 
     if ($errors) {
         set_transient($keys['err'], $errors, 60);
@@ -137,7 +142,7 @@ function lp_handle_contact_confirm()
     }
 
     // pending 保存（UUID チケット）
-    $ticket = wp_generate_uuid4();
+    $ticket  = wp_generate_uuid4();
     $pending = [
         'data'     => $old,
         'ip'       => $_SERVER['REMOTE_ADDR'] ?? 'unknown',
@@ -163,9 +168,9 @@ add_action('admin_post_lp_contact_edit',        'lp_handle_contact_edit');
 
 function lp_handle_contact_edit()
 {
-    $keys = lp_contact_keys();
+    $keys   = lp_contact_keys();
     $ticket = isset($_POST['ticket']) ? sanitize_text_field(wp_unslash($_POST['ticket'])) : '';
-    $trans = $ticket ? get_transient('lp_contact_pending_' . $ticket) : false;
+    $trans  = $ticket ? get_transient('lp_contact_pending_' . $ticket) : false;
 
     $redirect = ($trans && !empty($trans['redirect'])) ? $trans['redirect'] : home_url('/');
 
@@ -202,7 +207,7 @@ function lp_handle_contact_send()
     $back   = isset($_POST['_back'])  ? esc_url_raw(wp_unslash($_POST['_back'])) : home_url('/contact/');
 
     $pending_key = 'lp_contact_pending_' . $ticket;
-    $trans = $ticket ? get_transient($pending_key) : false;
+    $trans       = $ticket ? get_transient($pending_key) : false;
 
     if (!$trans || empty($trans['data'])) {
         set_transient($keys['err'], ['expired' => '確認データの有効期限が切れました。最初からやり直してください。'], 90);
@@ -214,7 +219,7 @@ function lp_handle_contact_send()
 
     // reCAPTCHA v3 検証（有効時のみ）
     if ($cfg['recaptcha_site'] && $cfg['recaptcha_secret']) {
-        $token  = isset($_POST['g-recaptcha-response']) ? sanitize_text_field(wp_unslash($_POST['g-recaptcha-response'])) : '';
+        $token = isset($_POST['g-recaptcha-response']) ? sanitize_text_field(wp_unslash($_POST['g-recaptcha-response'])) : '';
         if (!$token) {
             set_transient($keys['err'], ['recaptcha' => '認証に失敗しました（トークンなし）。時間を置いてお試しください。'], 90);
             wp_safe_redirect($back);
@@ -231,7 +236,7 @@ function lp_handle_contact_send()
         $ok = false;
         if (!is_wp_error($resp) && isset($resp['body'])) {
             $json = json_decode($resp['body'], true);
-            $ok = !empty($json['success']) && (float)($json['score'] ?? 0) >= $cfg['recaptcha_score'];
+            $ok   = !empty($json['success']) && (float)($json['score'] ?? 0) >= $cfg['recaptcha_score'];
         }
         if (!$ok) {
             set_transient($keys['err'], ['recaptcha' => 'スパム判定の可能性があります。別の回線やブラウザでお試しください。'], 120);
@@ -240,17 +245,22 @@ function lp_handle_contact_send()
         }
     }
 
-    // メール送信
+    // 送信日時（WPのタイムゾーンに従う）
+    // heredoc では関数呼び出しが展開されないため、先に文字列化して変数を埋め込む
+    $sent_at = function_exists('wp_date') ? wp_date('Y-m-d H:i:s') : date_i18n('Y-m-d H:i:s');
+
+    // メールヘッダ共通
     $site_name = get_bloginfo('name');
     $host      = wp_parse_url(home_url(), PHP_URL_HOST);
     $from_addr = defined('SMTP_FROM') ? SMTP_FROM : ('noreply@' . $host);
+    $ip        = $trans['ip'] ?? ($_SERVER['REMOTE_ADDR'] ?? 'unknown');
 
-    $ip  = $trans['ip'] ?? ($_SERVER['REMOTE_ADDR'] ?? 'unknown');
-
+    /* 運営向け本文（プレーンテキスト） */
     $body_admin = <<<TXT
-以下の内容でお問い合わせが届きました。
+ＬｉＮＥ ＰＡＲＫホームページより、
+以下の内容でお問い合わせを受け付けました。
 
-■ 種別
+■ お問い合わせ種別
 {$data['type']}
 
 ■ お名前
@@ -259,20 +269,20 @@ function lp_handle_contact_send()
 ■ ふりがな
 {$data['name_kana']}
 
-■ メールアドレス
-{$data['email']}
+■ 会社名
+{$data['company']}
 
 ■ 電話番号
 {$data['phone']}
 
-■ 会社名
-{$data['company']}
+■ メールアドレス
+{$data['email']}
 
 ■ お問い合わせ内容
 {$data['message']}
 
 送信元IP: {$ip}
-送信日時: {current_time('Y-m-d H:i:s')}
+送信日時: {$sent_at}
 TXT;
 
     $headers_admin = [
@@ -280,29 +290,41 @@ TXT;
         'From: ' . $site_name . ' <' . $from_addr . '>',
         'Reply-To: ' . $data['name'] . ' <' . $data['email'] . '>',
     ];
-
     $subject_admin = $cfg['subject_admin'] . ' [' . $data['type'] . ']';
-    $ok_admin = wp_mail($cfg['to'], $subject_admin, $body_admin, $headers_admin);
+    $ok_admin      = wp_mail($cfg['to'], $subject_admin, $body_admin, $headers_admin);
 
+    /* ユーザー向け自動返信（プレーンテキスト） */
     $body_user = <<<TXT
+※このメールはシステムからの自動返信です
+
 {$data['name']} 様
 
-この度はお問い合わせありがとうございます。
-以下の内容で受け付けいたしました。担当より折り返しご連絡いたします。
+お世話になっております。
+ＬｉＮＥ ＰＡＲＫへのお問い合わせありがとうございました。
 
-――――――――――――――――――――
-種別：{$data['type']}
+以下の内容でお問い合わせを受け付けました。
+改めて、担当よりご連絡をさせていただきますので、
+今しばらくお待ちくださいませ。
+
+━━━━━━□■□　お問い合わせ内容　□■□━━━━━━
+お問い合わせ種別：{$data['type']}
 お名前：{$data['name']}
 ふりがな：{$data['name_kana']}
-メール：{$data['email']}
-電話：{$data['phone']}
+E-Mail：{$data['email']}
+電話番号：{$data['phone']}
 会社名：{$data['company']}
-内容：
+お問い合わせ内容：
 {$data['message']}
-――――――――――――――――――――
+━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-※本メールは送信専用アドレスから送信しています。
-{$site_name}
+———————————————————————
+株式会社ＬｉＮＥ ＰＡＲＫ
+【会社情報】
+住所：〒120-0005　東京都足立区綾瀬 2-27-4 D1 AYASE 2F
+電話番号：03-4400-5584
+営業時間：平日 9時～17時
+メール：info@linepark.co.jp
+———————————————————————
 TXT;
 
     $headers_user = [
