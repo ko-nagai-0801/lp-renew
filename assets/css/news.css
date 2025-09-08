@@ -6,6 +6,7 @@
  * @since 1.0.0
  *
  * 更新履歴:
+ * - 1.2.7 (2025-09-08): タイトル/抜粋に line-clamp を導入（既定2行）。一致箇所リストは既定で非表示。誤記(line高さ)を修正。
  * - 1.2.6 (2025-09-05): 320px以下の崩れ対策（メタ2段化/矢印余白さらに縮小/タイトル最小幅で2行許可）。
  * - 1.2.5 (2025-09-05): ルール整理・重複削除・特異性統一・SPブレークポイントを 576px に統一。
  * - 1.2.4 (2025-09-05): ページャ2系統の切替が効かない問題を修正（重複定義削除・特異性調整・切替を末尾に）。
@@ -52,7 +53,6 @@
     --news-arrow-size: 14px;
   }
 }
-/* さらに狭い端末（iPhone SE 等） */
 @media (max-width: 360px) {
   :root {
     --news-arrow-space: 36px;
@@ -159,7 +159,7 @@
   }
 }
 
-/* a11yを考慮し最小でも ~10px 程度は確保 */
+/* a11y配慮 */
 .news__label,
 .news__badge {
   height: auto !important;
@@ -174,7 +174,7 @@
   border: var(--badge-border) solid currentColor;
   line-height: 1;
   font-weight: 700;
-  font-size: clamp(0.6rem, 0.85vw, 0.82rem); /* ← 最小を0.6remに戻す */
+  font-size: clamp(0.6rem, 0.85vw, 0.82rem);
   vertical-align: middle;
   min-height: calc(1em + (var(--badge-pad-y) * 2) + (var(--badge-border) * 2));
 }
@@ -201,7 +201,7 @@
   }
 }
 
-/* 極小幅ではメタを2段にして詰まりを回避（1段目=日付、2段目=ラベル/バッジ） */
+/* 極小幅ではメタを2段に */
 @media (max-width: 360px) {
   .news__date {
     display: block;
@@ -214,13 +214,18 @@
   }
 }
 
-/* ========== タイトル/抜粋 ========== */
+/* ========== タイトル/抜粋（行数クランプ） ========== */
+.news__content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
 .news__text {
   font-size: clamp(0.875rem, 1.2vw, 2rem);
   margin-bottom: 0;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
+  -webkit-line-clamp: 2; /* ★タイトルは既定2行 */
   overflow: hidden;
   overflow-wrap: anywhere;
   word-break: break-word;
@@ -229,16 +234,11 @@
 .news__link:hover .news__text {
   color: #0084ad;
 }
-.news__content {
-  flex: 1 1 auto;
-  min-width: 0;
-}
 
-/* 最小幅ではタイトルを2行まで許容して可読性を担保 */
 @media (max-width: 320px) {
   .news__text {
     -webkit-line-clamp: 2;
-  }
+  } /* 最小幅でも2行維持 */
 }
 
 .news__excerpt {
@@ -246,6 +246,10 @@
   font-size: clamp(0.8rem, 1vw, 1rem);
   line-height: 1.6;
   color: var(--f-gray);
+  display: -webkit-box; /* ★抜粋もクランプ */
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* 2行に省略 */
+  overflow: hidden;
   overflow-wrap: anywhere;
   word-break: break-word;
   hyphens: auto;
@@ -308,7 +312,7 @@
 .news__pager .page-numbers {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center; /* PCは中央寄せ */
+  justify-content: center;
   gap: 0.375rem;
   list-style: none;
   padding: 0;
@@ -436,13 +440,12 @@
 
 /* ========== 細部（一致箇所/空表示/戻る） ========== */
 .news__matches {
-  margin: 0.25rem 0 0;
-  padding-left: 1.25rem;
-}
+  display: none;
+} /* ★既定で非表示（必要なら @media で開ける） */
 .news__match {
   font-size: clamp(0.78rem, 1vw, 0.95rem);
   color: var(--f-gray);
-  line高さ: 1.6;
+  line-height: 1.6; /* ← 誤記修正 */
   overflow-wrap: anywhere;
   word-break: break-word;
   hyphens: auto;
