@@ -52,7 +52,7 @@ get_template_part('components/to-top');
                     <p class="footer__phone">
                         <i class="bi bi-telephone-fill"></i>
                         <a href="tel:03-4400-5584">03-4400-5584</a><br>
-                        <span class="footer__time">受付：月-金&nbsp;9:00-17:00（土・日・祝日は閉所）</span>
+                        <span class="footer__time">受付時間：平日&nbsp;9:00-17:00</span>
                     </p>
                 </div>
             </div>

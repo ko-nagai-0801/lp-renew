@@ -18,7 +18,7 @@ $address_lines = [
 
 $tel_display = '03-4400-5584';
 $tel_link    = '0344005584';
-$hours       = '受付時間：月〜金 9:00-17:00（土・日・祝日は閉所）';
+$hours       = '受付時間：平日 9:00-17:00';
 ?>
 
 <section class="access section container" aria-labelledby="access-heading">
