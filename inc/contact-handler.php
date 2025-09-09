@@ -1,17 +1,17 @@
 <?php
 
 /**
- * お問い合わせハンドラ（確認→送信／編集復帰・reCAPTCHA・レート制限）
+ * お問い合わせハンドラ（確認→送信／編集復帰・reCAPTCHA・レート制限・長さ上限検証）
  * inc/contact-handler.php
  *
  * @package LP_WP_Theme
  * @since 1.0.0
  *
  * 更新履歴:
- * - 1.1.0 (2025-09-08): 送信日時が `{current_time(...)}` のまま表示される不具合を修正（wp_date()で生成→変数展開に変更）。
+ * - 1.2.0 (2025-09-09): 主要フィールドにサーバ側の最大文字数チェックを追加（name 64 / kana 64 / company 200 / email 254 / phone 20 / message 10〜1000）
+ * - 1.1.0 (2025-09-08): 送信日時が `{current_time(...)}` のまま表示される不具合を修正（wp_date()で生成→変数展開に変更）
  * - 1.0.0: 初版
  */
-
 if (!defined('ABSPATH')) exit;
 
 /* =======================
@@ -44,7 +44,7 @@ function lp_contact_keys()
     ];
 }
 
-/* 共通：収集・検証・整形 */
+/* 共通：収集・検証・整形（★長さ上限チェックを追加） */
 function lp_contact_collect_and_validate(array $src, array &$errors)
 {
     // ▼固定配列→フィルタで差し替え可能に
@@ -55,18 +55,29 @@ function lp_contact_collect_and_validate(array $src, array &$errors)
         'その他',
     ]);
 
+    // サーバ側の長さ上限（必要ならフィルタで調整可）
+    $max_name    = (int) apply_filters('lp_contact_max_name', 64);
+    $max_kana    = (int) apply_filters('lp_contact_max_kana', 64);
+    $max_company = (int) apply_filters('lp_contact_max_company', 200);
+    $max_email   = (int) apply_filters('lp_contact_max_email', 254);
+    $max_phone   = (int) apply_filters('lp_contact_max_phone', 20);
+    $min_msg     = (int) apply_filters('lp_contact_min_message', 10);
+    $max_msg     = (int) apply_filters('lp_contact_max_message', 1000);
+
+    // 収集（サニタイズ）
     $old = [
-        'type'          => isset($src['type'])          ? sanitize_text_field(wp_unslash($src['type']))       : '',
-        'name'          => isset($src['name'])          ? sanitize_text_field(wp_unslash($src['name']))       : '',
-        'name_kana'     => isset($src['name_kana'])     ? sanitize_text_field(wp_unslash($src['name_kana']))  : '',
-        'company'       => isset($src['company'])       ? sanitize_text_field(wp_unslash($src['company']))    : '',
-        'email'         => isset($src['email'])         ? sanitize_email(wp_unslash($src['email']))           : '',
-        'email_confirm' => isset($src['email_confirm']) ? sanitize_email(wp_unslash($src['email_confirm']))   : '',
-        'phone'         => isset($src['phone'])         ? sanitize_text_field(wp_unslash($src['phone']))      : '',
-        'message'       => isset($src['message'])       ? sanitize_textarea_field(wp_unslash($src['message'])) : '',
+        'type'          => isset($src['type'])          ? sanitize_text_field(wp_unslash($src['type']))         : '',
+        'name'          => isset($src['name'])          ? sanitize_text_field(wp_unslash($src['name']))         : '',
+        'name_kana'     => isset($src['name_kana'])     ? sanitize_text_field(wp_unslash($src['name_kana']))    : '',
+        'company'       => isset($src['company'])       ? sanitize_text_field(wp_unslash($src['company']))      : '',
+        'email'         => isset($src['email'])         ? sanitize_email(wp_unslash($src['email']))             : '',
+        'email_confirm' => isset($src['email_confirm']) ? sanitize_email(wp_unslash($src['email_confirm']))     : '',
+        'phone'         => isset($src['phone'])         ? sanitize_text_field(wp_unslash($src['phone']))        : '',
+        'message'       => isset($src['message'])       ? sanitize_textarea_field(wp_unslash($src['message']))  : '',
         'agree'         => isset($src['agree'])         ? '1' : '',
     ];
 
+    /* ===== 基本妥当性 ===== */
     if (!in_array($old['type'], $valid_types, true)) {
         $errors['type'] = 'お問い合わせ種別を選択してください。';
     }
@@ -85,12 +96,33 @@ function lp_contact_collect_and_validate(array $src, array &$errors)
     if ($old['phone'] !== '' && !preg_match('/^[0-9+\-\s()]{6,20}$/u', $old['phone'])) {
         $errors['phone'] = '電話番号の形式が正しくありません。';
     }
-    if ($old['message'] === '' || mb_strlen($old['message']) < 10 || mb_strlen($old['message']) > 500) {
-        $errors['message'] = 'お問い合わせ内容は10〜500文字で入力してください。';
+    if ($old['message'] === '' || mb_strlen($old['message']) < $min_msg || mb_strlen($old['message']) > $max_msg) {
+        $errors['message'] = "お問い合わせ内容は{$min_msg}〜{$max_msg}文字で入力してください。";
     }
     if ($old['agree'] !== '1') {
-        $errors['agree'] = 'プライバシーポリシーへの同意が必要です。';
+        $errors['agree'] = 'プライバシーポリシーへの同意をお願いします。';
     }
+
+    /* ===== 長さ上限（過大POSTやログ汚染の抑止） ===== */
+    if ($old['name'] !== '' && mb_strlen($old['name']) > $max_name) {
+        $errors['name'] = "お名前は{$max_name}文字以内で入力してください。";
+    }
+    if ($old['name_kana'] !== '' && mb_strlen($old['name_kana']) > $max_kana) {
+        $errors['name_kana'] = "ふりがなは{$max_kana}文字以内で入力してください。";
+    }
+    if ($old['company'] !== '' && mb_strlen($old['company']) > $max_company) {
+        $errors['company'] = "会社名は{$max_company}文字以内で入力してください。";
+    }
+    if ($old['email'] !== '' && mb_strlen($old['email']) > $max_email) {
+        $errors['email'] = "メールアドレスは{$max_email}文字以内で入力してください。";
+    }
+    if ($old['email_confirm'] !== '' && mb_strlen($old['email_confirm']) > $max_email) {
+        $errors['email_confirm'] = "メールアドレス（確認用）は{$max_email}文字以内で入力してください。";
+    }
+    if ($old['phone'] !== '' && mb_strlen($old['phone']) > $max_phone) {
+        $errors['phone'] = "電話番号は{$max_phone}文字以内で入力してください。";
+    }
+
     return $old;
 }
 
@@ -246,7 +278,6 @@ function lp_handle_contact_send()
     }
 
     // 送信日時（WPのタイムゾーンに従う）
-    // heredoc では関数呼び出しが展開されないため、先に文字列化して変数を埋め込む
     $sent_at = function_exists('wp_date') ? wp_date('Y-m-d H:i:s') : date_i18n('Y-m-d H:i:s');
 
     // メールヘッダ共通

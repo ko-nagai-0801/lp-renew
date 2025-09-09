@@ -116,10 +116,9 @@ $types = ['お仕事のご相談', 'ご利用/ご見学のご相談', '協賛/�
             <label for="cf-name" class="contact__label">
               お名前 <span class="contact__req">必須</span>
             </label>
-            <input
-              id="cf-name" name="name" type="text" class="contact__input"
-              placeholder="例）山田 太郎"
-              value="<?php echo esc_attr($old['name']); ?>" required
+            <input id="cf-name" name="name" type="text" class="contact__input"
+              placeholder="例）山田 太郎" value="<?php echo esc_attr($old['name']); ?>"
+              required maxlength="64" autocomplete="name"
               aria-invalid="<?php echo isset($errors['name']) ? 'true' : 'false'; ?>"
               aria-describedby="<?php echo isset($errors['name']) ? 'err-name' : ''; ?>">
             <?php if (isset($errors['name'])) : ?>
@@ -132,10 +131,9 @@ $types = ['お仕事のご相談', 'ご利用/ご見学のご相談', '協賛/�
             <label for="cf-kana" class="contact__label">
               ふりがな<span class="contact__req">必須</span>
             </label>
-            <input
-              id="cf-kana" name="name_kana" type="text" class="contact__input"
-              placeholder="例）やまだ たろう"
-              value="<?php echo esc_attr($old['name_kana']); ?>" required
+            <input id="cf-kana" name="name_kana" type="text" class="contact__input"
+              placeholder="例）やまだ たろう" value="<?php echo esc_attr($old['name_kana']); ?>"
+              required maxlength="64" autocomplete="additional-name"
               aria-invalid="<?php echo isset($errors['name_kana']) ? 'true' : 'false'; ?>"
               aria-describedby="<?php echo isset($errors['name_kana']) ? 'err-kana' : ''; ?>">
             <?php if (isset($errors['name_kana'])) : ?>
@@ -146,20 +144,17 @@ $types = ['お仕事のご相談', 'ご利用/ご見学のご相談', '協賛/�
           <!-- 会社名（任意） -->
           <div class="contact__field contact__field--full">
             <label for="cf-company" class="contact__label">会社名 <span class="contact__opt">任意</span></label>
-            <input
-              id="cf-company" name="company" type="text" class="contact__input"
-              placeholder="会社名を入力してください"
-              value="<?php echo esc_attr($old['company']); ?>"
-              aria-invalid="false">
+            <input id="cf-company" name="company" type="text" class="contact__input"
+              placeholder="会社名を入力してください" value="<?php echo esc_attr($old['company']); ?>"
+              maxlength="200" autocomplete="organization" aria-invalid="false">
           </div>
 
           <!-- メール -->
           <div class="contact__field">
             <label for="cf-email" class="contact__label">メールアドレス <span class="contact__req">必須</span></label>
-            <input
-              id="cf-email" name="email" type="email" class="contact__input"
-              placeholder="メールアドレスを入力してください"
-              value="<?php echo esc_attr($old['email']); ?>" required
+            <input id="cf-email" name="email" type="email" class="contact__input"
+              placeholder="メールアドレスを入力してください" value="<?php echo esc_attr($old['email']); ?>"
+              required maxlength="254" autocomplete="email"
               aria-invalid="<?php echo isset($errors['email']) ? 'true' : 'false'; ?>"
               aria-describedby="<?php echo isset($errors['email']) ? 'err-email' : ''; ?>">
             <?php if (isset($errors['email'])) : ?>
@@ -170,10 +165,9 @@ $types = ['お仕事のご相談', 'ご利用/ご見学のご相談', '協賛/�
           <!-- メール（確認） -->
           <div class="contact__field">
             <label for="cf-email2" class="contact__label">メールアドレス（確認用） <span class="contact__req">必須</span></label>
-            <input
-              id="cf-email2" name="email_confirm" type="email" class="contact__input"
-              placeholder="上記と同じメールアドレスを入力してください"
-              value="<?php echo esc_attr($old['email_confirm']); ?>" required
+            <input id="cf-email2" name="email_confirm" type="email" class="contact__input"
+              placeholder="上記と同じメールアドレスを入力してください" value="<?php echo esc_attr($old['email_confirm']); ?>"
+              required maxlength="254" autocomplete="email"
               aria-invalid="<?php echo isset($errors['email_confirm']) ? 'true' : 'false'; ?>"
               aria-describedby="<?php echo isset($errors['email_confirm']) ? 'err-email2' : ''; ?>">
             <?php if (isset($errors['email_confirm'])) : ?>
@@ -184,13 +178,11 @@ $types = ['お仕事のご相談', 'ご利用/ご見学のご相談', '協賛/�
           <!-- 電話番号（任意） -->
           <div class="contact__field contact__field--full">
             <label for="cf-phone" class="contact__label">電話番号 <span class="contact__opt">任意</span></label>
-            <input
-              id="cf-phone" name="phone" type="tel" class="contact__input"
-              placeholder="電話番号を入力してください"
-              value="<?php echo esc_attr($old['phone']); ?>"
+            <input id="cf-phone" name="phone" type="tel" class="contact__input"
+              placeholder="電話番号を入力してください" value="<?php echo esc_attr($old['phone']); ?>"
+              maxlength="20" inputmode="tel" autocomplete="tel-national"
               aria-invalid="<?php echo isset($errors['phone']) ? 'true' : 'false'; ?>"
-              aria-describedby="<?php echo isset($errors['phone']) ? 'err-phone' : ''; ?>"
-              inputmode="tel">
+              aria-describedby="<?php echo isset($errors['phone']) ? 'err-phone' : ''; ?>">
             <?php if (isset($errors['phone'])) : ?>
               <p id="err-phone" class="contact__error"><?php echo esc_html($errors['phone']); ?></p>
             <?php endif; ?>
@@ -200,14 +192,14 @@ $types = ['お仕事のご相談', 'ご利用/ご見学のご相談', '協賛/�
           <div class="contact__field contact__field--full">
             <label for="cf-message" class="contact__label">お問合せ内容 <span class="contact__req">必須</span></label>
             <textarea
-              id="cf-message" name="message" class="contact__textarea" rows="8" required maxlength="500"
+              id="cf-message" name="message" class="contact__textarea" rows="8" required maxlength="4000"
               placeholder="お問い合わせ内容を入力してください"
               aria-invalid="<?php echo isset($errors['message']) ? 'true' : 'false'; ?>"
               aria-describedby="<?php echo isset($errors['message']) ? 'err-message' : ''; ?>"><?php echo esc_textarea($old['message']); ?></textarea>
             <?php if (isset($errors['message'])) : ?>
               <p id="err-message" class="contact__error"><?php echo esc_html($errors['message']); ?></p>
             <?php endif; ?>
-            <p class="contact__note contact__note--small">(500文字以内)</p>
+            <p class="contact__note contact__note--small">(1000文字以内)</p>
           </div>
 
           <!-- 同意 -->

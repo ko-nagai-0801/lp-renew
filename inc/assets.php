@@ -268,6 +268,23 @@ function lp_enqueue_assets()
     if (is_front_page()) {
         wp_enqueue_script('front-page', "$theme_uri/assets/js/front-page.js", ['main'], $ver, true);
     }
+
+    /* ★ 追加: Contact/Confirm/Thanks だけで contact.js を読み込み */
+    $lp_is_contact_flow = (
+        is_page_template('page-contact.php') ||
+        is_page('contact') ||
+        (bool) get_query_var('lp_confirm') ||
+        (bool) get_query_var('lp_thanks')
+    );
+    if ($lp_is_contact_flow) {
+        wp_enqueue_script(
+            'lp-contact',
+            "$theme_uri/assets/js/contact.js",
+            ['main'],
+            $ver,
+            true
+        );
+    }
 }
 add_action('wp_enqueue_scripts', 'lp_enqueue_assets');
 

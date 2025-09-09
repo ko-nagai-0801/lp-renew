@@ -1,18 +1,24 @@
+/**
+ * Contact ページ共通スタイル（UI拡張対応版：カウンタ/フラッシュ/シェイク/ラベル赤字オフ）
+ * assets/css/contact.css
+ * @package LP_WP_Theme
+ *
+ * 更新履歴
+ * - 1.1.0 (2025-09-09): 文字数カウンタ色/invalid枠強調/フラッシュ/フォーム全体シェイク/ラベル赤字オフを追加
+ * - 1.0.0: 初版
+ */
+
 /* ===================================================================
-   Contact Page Styles (BEM / container以外のBootstrap非使用)
-   File: assets/css/contact.css
+   基本トークン
    =================================================================== */
-
-/* ルート（配色・寸法トークン） */
 :root {
-  --c-text: #1f2937; /* text-gray-800 */
-  --c-muted: #6b7280; /* text-gray-500 */
-  --c-border: #d1d5db; /* gray-300 */
-  --c-border-strong: #94a3b8; /* slate-400 */
-  --c-focus: #2563eb; /* blue-600 */
-  --c-danger: #dc2626; /* red-600 */
-  --c-bg: #ffffff;
-
+  --c-text: #1f2937;
+  --c-muted: #6b7280;
+  --c-border: #d1d5db;
+  --c-border-strong: #94a3b8;
+  --c-focus: #2563eb;
+  --c-danger: #dc2626;
+  --c-bg: #fff;
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -23,28 +29,25 @@
   --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.06);
   --shadow-md: 0 8px 18px rgba(0, 0, 0, 0.08);
 }
-
-/* ===== Fluid Type Scale ===== */
+/* Fluid Type */
 :root {
-  --fs-0: clamp(0.875rem, 0.9vw, 1rem); /* 注釈・補足 */
-  --fs-1: clamp(1rem, 1.2vw, 1.125rem); /* 本文・入力・ボタン・ラベル */
-  --fs-2: clamp(1.125rem, 1.6vw, 1.25rem); /* 小見出し */
-  --fs-3: clamp(1.25rem, 2.2vw, 1.5rem); /* ブロック見出し */
-  --fs-4: clamp(1.5rem, 3vw, 2rem); /* セクション見出し（h2） */
-  --fs-5: clamp(1.875rem, 4vw, 2.5rem); /* 大見出し（必要時） */
+  --fs-0: clamp(0.875rem, 0.9vw, 1rem);
+  --fs-1: clamp(1rem, 1.2vw, 1.125rem);
+  --fs-2: clamp(1.125rem, 1.6vw, 1.25rem);
+  --fs-3: clamp(1.25rem, 2.2vw, 1.5rem);
+  --fs-4: clamp(1.5rem, 3vw, 2rem);
+  --fs-5: clamp(1.875rem, 4vw, 2.5rem);
 }
 
-/* セクションブロック */
+/* ===================================================================
+   セクション/ヘッダ
+   =================================================================== */
 .contact {
   color: var(--c-text);
 }
-
-/* 見出し */
 .contact__header {
   margin-bottom: clamp(20px, 3vw, 32px);
 }
-
-/* 他ページと同じ見出しスケールに合わせる */
 .contact .section__text {
   font-size: clamp(0.875rem, 1.2vw, 2rem);
 }
@@ -55,7 +58,7 @@
   font-size: clamp(1.5rem, 3vw, 5rem);
 }
 
-/* 成功/エラーの通知 */
+/* 通知 */
 .contact__notice {
   border: 1px solid var(--c-border);
   border-radius: var(--radius);
@@ -73,24 +76,20 @@
   background: #fef2f2;
 }
 
-/* フォーム全体 */
+/* フォーム */
 .contact__form {
   background: var(--c-bg);
 }
-
-/* グリッド：常に1列（カテゴリも各入力も縦並び） */
 .contact__grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-6);
 }
-
-/* 一列使用（互換維持） */
 .contact__field--full {
   grid-column: 1 / -1;
 }
 
-/* ラベル・レジェンド */
+/* ラベル/レジェンド */
 .contact__label,
 .contact__legend {
   display: inline-block;
@@ -100,12 +99,12 @@
 }
 .contact__legend {
   line-height: 1.5;
-  display: inline-flex; /* バッジとの縦ズレ防止 */
+  display: inline-flex;
   align-items: center;
   gap: 0.5ch;
   padding: 0;
 }
-/* fieldsetの既定ボーダー/余白をリセット */
+/* fieldset reset */
 fieldset.contact__field {
   border: 0;
   padding: 0;
@@ -113,7 +112,7 @@ fieldset.contact__field {
   min-inline-size: auto;
 }
 
-/* 必須/任意バッジ（必須=ブルー） */
+/* 必須/任意バッジ */
 .contact__req,
 .contact__opt {
   display: inline-block;
@@ -126,7 +125,7 @@ fieldset.contact__field {
 .contact__legend .contact__req,
 .contact__legend .contact__opt {
   margin-left: 0;
-} /* legend内はgapで管理 */
+}
 .contact__req {
   color: #fff;
   background: var(--c-focus);
@@ -136,7 +135,7 @@ fieldset.contact__field {
   background: #e5e7eb;
 }
 
-/* 入力要素（テキスト・メール・TEL・テキストエリア） */
+/* 入力 */
 .contact__input,
 .contact__textarea {
   width: 100%;
@@ -158,14 +157,12 @@ fieldset.contact__field {
   border-color: var(--c-focus);
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
-
-/* テキストエリア */
 .contact__textarea {
   min-height: 180px;
   resize: vertical;
 }
 
-/* 補足テキスト */
+/* 補足/エラー */
 .contact__note {
   margin: var(--space-1) 0 var(--space-2);
   font-size: var(--fs-0);
@@ -176,8 +173,6 @@ fieldset.contact__field {
   font-size: var(--fs-0);
   opacity: 0.9;
 }
-
-/* エラー表示 */
 .contact__error {
   margin-top: var(--space-2);
   color: var(--c-danger);
@@ -185,7 +180,13 @@ fieldset.contact__field {
   font-size: var(--fs-1);
 }
 
-/* ハニーポット（視覚非表示） */
+/* ラベル赤字オフ（invalidでも文字色は変えない） */
+.contact__field.is-invalid .contact__label,
+.contact__field.is-invalid .contact__legend {
+  color: inherit !important;
+}
+
+/* ハニーポット */
 .contact__hp {
   position: absolute;
   left: -10000px;
@@ -194,7 +195,7 @@ fieldset.contact__field {
   overflow: hidden;
 }
 
-/* チェックボックス（ズレ修正＆リンク強調） */
+/* 同意チェック */
 .contact__checkbox {
   display: inline-flex;
   gap: 0.6rem;
@@ -219,7 +220,7 @@ fieldset.contact__field {
   opacity: 0.85;
 }
 
-/* 送信ボタン（配置は現状維持） */
+/* 送信ボタン */
 .contact__actions {
   margin-top: var(--space-6);
   grid-column: 1 / -1;
@@ -240,14 +241,12 @@ fieldset.contact__field {
   transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease,
     border-color 0.18s ease;
 }
-/* ベースのhoverは非プライマリにのみ適用（消える不具合対策） */
 .contact__btn:not(.contact__btn--primary):hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
   border-color: var(--c-border-strong);
   background: #f8fafc;
 }
-/* プライマリ */
 .contact__btn--primary {
   color: #fff;
   background: linear-gradient(120deg, #2563eb 0%, #1d4ed8 100%);
@@ -260,7 +259,7 @@ fieldset.contact__field {
   border-color: transparent;
 }
 
-/* ラジオ群（お問い合わせ種別）— 常に縦並び */
+/* ラジオ群 */
 .contact__radios {
   display: grid;
   grid-template-columns: 1fr;
@@ -280,7 +279,7 @@ fieldset.contact__field {
   font-size: var(--fs-1);
 }
 
-/* フォーカスリング保険 */
+/* フォーカス可視化 */
 .contact a:focus-visible,
 .contact button:focus-visible,
 .contact input:focus-visible,
@@ -297,12 +296,15 @@ fieldset.contact__field {
   }
 }
 
-/* ===== Confirm (確認画面) ===== */
+/* ===================================================================
+   Confirm（確認画面）
+   =================================================================== */
 .confirm__list {
   border: 1px solid var(--c-border);
   border-radius: var(--radius);
   background: #fff;
   box-shadow: var(--shadow-sm);
+  margin-bottom: var(--space-6);
 }
 .confirm__row {
   display: grid;
@@ -321,72 +323,50 @@ fieldset.contact__field {
 }
 .confirm__row dd {
   font-size: var(--fs-1);
+  min-width: 0;
 }
 .confirm__pre {
   white-space: pre-wrap;
   margin: 0;
-}
-/* ==== Confirm 画面の長文折返し対策 ==== */
-.confirm__row dd { 
-  min-width: 0;              /* Grid子要素のはみ出し防止 */
-}
-.confirm__pre{
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;   /* 長い連続文字も折返し */
-  word-break: break-word;    /* 旧ブラウザ向け保険 */
+  overflow-wrap: anywhere;
+  word-break: break-word;
   max-width: 100%;
 }
 
-/* ==== Confirm 画面のボタンをカード幅に合わせる ==== */
-.confirm .contact__actions{
-  display: grid !important;  /* inline styleを外せない時の保険で !important */
+.confirm .contact__actions {
+  display: grid !important;
   grid-template-columns: 1fr;
   gap: 12px;
   margin-top: var(--space-6);
 }
-.confirm .contact__actions form{
+.confirm .contact__actions form {
   width: 100%;
 }
-.confirm .contact__actions .contact__btn{
+.confirm .contact__actions .contact__btn {
   width: 100%;
-  min-width: 0;              /* min-width:220px を無効化 */
-}
-/* ============ Confirm: 長文の折返し＆ボタン幅そろえ ============ */
-
-/* 右端で見切れないように */
-.confirm__row dd { 
-  min-width: 0;                 /* Gridの子のはみ出し防止 */
-}
-.confirm__pre{
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;      /* 連続文字も折返し */
-  word-break: break-word;       /* 保険 */
-  max-width: 100%;
+  min-width: 0;
 }
 
-/* リストとボタンのカード幅を合わせる */
-.confirm__list { margin-bottom: var(--space-6); }
-
-.confirm__actions{
-  display: grid;
-  grid-template-columns: 1fr;   /* モバイルは縦並び */
-  gap: 12px;
+@media (min-width: 768px) {
+  .confirm__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
 }
-.confirm__actions form{ width: 100%; }
-.confirm__actions .contact__btn{
-  width: 100%;
-  min-width: 0;                 /* 基本の min-width を無効化してカード幅に */
-}
-
-/* タブレット以上は2ボタンを横並び */
-@media (min-width: 768px){
-  .confirm__actions{ grid-template-columns: 1fr 1fr; }
+@media (max-width: 575.98px) {
+  .confirm__row {
+    grid-template-columns: 1fr;
+  }
 }
 
-/* ============ Thanks: おしゃれカード ============ */
-.thanks{ padding: clamp(24px, 4vw, 56px) 0; }
-
-.thanks__card{
+/* ===================================================================
+   Thanks
+   =================================================================== */
+.thanks {
+  padding: clamp(24px, 4vw, 56px) 0;
+}
+.thanks__card {
   position: relative;
   max-width: 760px;
   margin: 0 auto;
@@ -397,75 +377,150 @@ fieldset.contact__field {
   padding: clamp(10px, 3.2vw, 44px);
   overflow: hidden;
 }
-
-/* うっすらグラデの装飾 */
 .thanks__card::before,
-.thanks__card::after{
-  content:"";
-  position:absolute;
-  pointer-events:none;
+.thanks__card::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
   inset: -40% -10% auto -10%;
   height: 60%;
-  background: radial-gradient(600px 220px at left top, rgba(37,99,235,.10), transparent 60%);
+  background: radial-gradient(
+    600px 220px at left top,
+    rgba(37, 99, 235, 0.1),
+    transparent 60%
+  );
 }
-.thanks__card::after{
+.thanks__card::after {
   inset: auto -20% -40% auto;
   height: 70%;
-  background: radial-gradient(620px 240px at right bottom, rgba(29,78,216,.10), transparent 60%);
+  background: radial-gradient(
+    620px 240px at right bottom,
+    rgba(29, 78, 216, 0.1),
+    transparent 60%
+  );
 }
-
-/* アイコン（丸背景+チェック） */
-.thanks__icon{
-  width: 64px; height: 64px;
+.thanks__icon {
+  width: 64px;
+  height: 64px;
   border-radius: 9999px;
   background: linear-gradient(120deg, #2563eb, #1d4ed8);
-  display: grid; place-items: center;
+  display: grid;
+  place-items: center;
   margin: 0 auto var(--space-4);
-  box-shadow: 0 8px 18px rgba(37,99,235,.25);
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.25);
 }
-.thanks__icon svg{ width: 32px; height: 32px; display: block; }
-
-/* 見出し・本文 */
-.thanks__title{ 
+.thanks__icon svg {
+  width: 32px;
+  height: 32px;
+  display: block;
+}
+.thanks__title {
   text-align: center;
   font-size: var(--fs-2);
   margin: 0 0 var(--space-2);
 }
 .thanks__text,
-.thanks__note{
+.thanks__note {
   text-align: left;
   font-size: var(--fs-1);
   color: var(--c-muted);
   margin: 0 0 var(--space-2);
 }
-.thanks__actions{ display: flex; justify-content: center; margin-top: var(--space-4); }
-.thanks__actions .contact__btn{ min-width: 240px; }
+.thanks__actions {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-4);
+}
+.thanks__actions .contact__btn {
+  min-width: 240px;
+}
 
+/* ===================================================================
+   振る舞い用（JS連携）
+   =================================================================== */
+/* 文字数カウンタ（残り10/超過 ＝ 赤） */
+.contact__counter {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  transition: color 0.18s ease;
+}
+.contact__counter.is-warning,
+.contact__counter.is-over {
+  color: var(--c-danger);
+}
 
-@media (max-width: 575.98px) {
-  .confirm__row {
-    grid-template-columns: 1fr;
+/* invalid枠の強調（枠+薄赤グロー） */
+.contact__input.is-invalid,
+.contact__textarea.is-invalid {
+  border-color: var(--c-danger);
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12);
+}
+
+/* フラッシュ（軽い背景点滅） */
+@keyframes lpFieldFlash {
+  0% {
+    background-color: transparent;
+  }
+  30% {
+    background-color: rgba(220, 38, 38, 0.06);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+.contact__field.is-flash {
+  animation: lpFieldFlash 0.4s ease;
+}
+
+/* 同意未チェックなど：フォーム全体を軽くシェイク */
+@keyframes lpShake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  15% {
+    transform: translateX(-6px);
+  }
+  30% {
+    transform: translateX(6px);
+  }
+  45% {
+    transform: translateX(-4px);
+  }
+  60% {
+    transform: translateX(4px);
+  }
+  75% {
+    transform: translateX(-2px);
+  }
+  90% {
+    transform: translateX(2px);
+  }
+}
+.contact__form.is-shake {
+  animation: lpShake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+@media (prefers-reduced-motion: reduce) {
+  .contact__form.is-shake {
+    animation: none;
   }
 }
 
-/* === Fix: プライマリボタンの hover で文字色が黒になる問題を抑止 === */
+/* === Primaryボタンのテキスト色固定（テーマの汎用a:hoverを上書き） === */
 .contact__btn--primary,
 a.contact__btn--primary:link,
 a.contact__btn--primary:visited {
-  color: #fff;                  /* 通常/visited も白 */
+  color: #fff;
   text-decoration: none;
 }
-
 a.contact__btn--primary:hover,
 a.contact__btn--primary:focus,
 button.contact__btn--primary:hover,
-button.contact__btn--primary:focus {
-  color: #fff !important;       /* グローバル a:hover / button:hover を上書き */
-  text-decoration: none;
-}
-
-/* 念のため active も固定 */
+button.contact__btn--primary:focus,
 a.contact__btn--primary:active,
 button.contact__btn--primary:active {
   color: #fff !important;
+  text-decoration: none;
 }
