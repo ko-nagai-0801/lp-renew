@@ -1,10 +1,15 @@
 <?php
+
 /**
- * Privacy Policy 本文
+ * プライバシーポリシー 本文（条文本体）
  * template-parts/privacy-section-body.php
- * 
+ *
  * @package LP_WP_Theme
  * @since 1.0.0
+ *
+ * 更新履歴:
+ * - 1.1.0 (2025-09-09): 「第8条（Cookieその他の技術の利用）」を追加。以降の条番号を繰上げ。
+ * - 1.0.0: 初版
  */
 if (!defined('ABSPATH')) exit;
 ?>
@@ -13,7 +18,7 @@ if (!defined('ABSPATH')) exit;
   <div class="privacy__inner">
 
     <?php
-    // 見出し（section-header を外側で使用）
+    // セクション見出し（共通コンポーネント）
     get_template_part('components/section-header', null, [
       'id'          => 'privacy-heading',
       'sub'         => 'Privacy Policy',
@@ -29,6 +34,7 @@ if (!defined('ABSPATH')) exit;
         株式会社ＬｉＮＥ ＰＡＲＫ（以下「当社」といいます。）は、当社が運営するウェブサイト（以下「本サービス」といいます。）において、ユーザーの個人情報を以下のプライバシーポリシー（以下「本ポリシー」といいます。）に基づいて取り扱います。
       </p>
 
+      <!-- 第1条 -->
       <section class="privacy__section" id="pp-1">
         <h3 class="privacy__heading">第1条（個人情報の定義）</h3>
         <p class="privacy__text">
@@ -36,6 +42,7 @@ if (!defined('ABSPATH')) exit;
         </p>
       </section>
 
+      <!-- 第2条 -->
       <section class="privacy__section" id="pp-2">
         <h3 class="privacy__heading">第2条（個人情報の収集方法）</h3>
         <p class="privacy__text">
@@ -43,6 +50,7 @@ if (!defined('ABSPATH')) exit;
         </p>
       </section>
 
+      <!-- 第3条 -->
       <section class="privacy__section" id="pp-3">
         <h3 class="privacy__heading">第3条（個人情報の利用目的）</h3>
         <p class="privacy__text">当社が個人情報を収集・利用する目的は以下の通りです。</p>
@@ -56,6 +64,7 @@ if (!defined('ABSPATH')) exit;
         </ul>
       </section>
 
+      <!-- 第4条 -->
       <section class="privacy__section" id="pp-4">
         <h3 class="privacy__heading">第4条（利用目的の変更）</h3>
         <p class="privacy__text">
@@ -63,6 +72,7 @@ if (!defined('ABSPATH')) exit;
         </p>
       </section>
 
+      <!-- 第5条 -->
       <section class="privacy__section" id="pp-5">
         <h3 class="privacy__heading">第5条（個人情報の第三者提供）</h3>
         <p class="privacy__text">
@@ -70,6 +80,7 @@ if (!defined('ABSPATH')) exit;
         </p>
       </section>
 
+      <!-- 第6条 -->
       <section class="privacy__section" id="pp-6">
         <h3 class="privacy__heading">第6条（個人情報の開示）</h3>
         <p class="privacy__text">
@@ -77,6 +88,7 @@ if (!defined('ABSPATH')) exit;
         </p>
       </section>
 
+      <!-- 第7条 -->
       <section class="privacy__section" id="pp-7">
         <h3 class="privacy__heading">第7条（個人情報の訂正および削除）</h3>
         <p class="privacy__text">
@@ -84,15 +96,51 @@ if (!defined('ABSPATH')) exit;
         </p>
       </section>
 
+      <!-- ★ 追加：第8条 Cookieその他の技術の利用 -->
       <section class="privacy__section" id="pp-8">
-        <h3 class="privacy__heading">第8条（プライバシーポリシーの変更）</h3>
+        <h3 class="privacy__heading">第8条（Cookie（クッキー）その他の技術の利用）</h3>
+        <p class="privacy__text">
+          当社は、本サービスにおいて Cookie（クッキー）やローカルストレージ等の類似技術を利用します。これらは、（1）サイトの安全な動作と利便性の向上、（2）閲覧状況の把握によるコンテンツ改善、（3）不正利用の防止のために用いられます。
+        </p>
+        <p class="privacy__text">
+          本サービスでは、Google LLC が提供するアクセス解析ツール「Google アナリティクス（GA4）」を利用しています。Google アナリティクスは Cookie を用いてトラフィックデータ（閲覧したページ、滞在時間、参照元等）を収集します。当社が取得するデータには、個人を直接特定する情報は含まれません。収集・利用・保管は Google の規約およびプライバシーポリシーに従い取り扱われます。詳細は以下をご覧ください。
+        </p>
+        <ul class="privacy__list">
+          <li class="privacy__list-item"><a href="https://marketingplatform.google.com/about/analytics/terms/jp/" target="_blank" rel="noopener noreferrer">Google アナリティクス サービス利用規約</a></li>
+          <li class="privacy__list-item"><a href="https://policies.google.com/technologies/partner-sites?hl=ja" target="_blank" rel="noopener noreferrer">Google によるデータの使用（パートナーサイト）</a></li>
+          <li class="privacy__list-item"><a href="https://policies.google.com/?hl=ja" target="_blank" rel="noopener noreferrer">Google ポリシーと規約</a></li>
+        </ul>
+
+        <?php
+        // ★ ここから“再選択”の文（ショートコードがあればボタン/リンク、無ければ直リンク）
+        $reset_link = '<a href="' . esc_url(add_query_arg('consent', 'reset')) . '" ' .
+          'class="link-underline" ' .
+          'onclick="if(window.lpConsent){window.lpConsent.reset();return false;}">Cookie設定をやり直す</a>';
+        ?>
+        <p class="privacy__text">
+          Cookie を利用したくない場合は、ブラウザ設定で無効化できます。無効化または同意しないを選択した場合、Cookie を用いない最小限の計測（cookieless）が行われることがあります。
+          なお、本サービス上での同意の再選択は
+          <?php if (function_exists('shortcode_exists') && shortcode_exists('lp_consent_reset')): ?>
+            <?php echo do_shortcode('[lp_consent_reset text="Cookie設定をやり直す" class="link-underline"]'); ?>
+          <?php else: ?>
+            <?php echo $reset_link; ?>
+          <?php endif; ?>
+          からいつでも行えます。
+        </p>
+      </section>
+
+
+      <!-- 以降の条番号を繰上げ：第9条 -->
+      <section class="privacy__section" id="pp-9">
+        <h3 class="privacy__heading">第9条（プライバシーポリシーの変更）</h3>
         <p class="privacy__text">
           本ポリシーの内容は、法令の変更またはその他の理由により変更されることがあります。変更後のポリシーは、本ウェブサイトに掲載された時点で効力を発生します。
         </p>
       </section>
 
-      <section class="privacy__section" id="pp-9">
-        <h3 class="privacy__heading">第9条（お問い合わせ窓口）</h3>
+      <!-- 第10条 -->
+      <section class="privacy__section" id="pp-10">
+        <h3 class="privacy__heading">第10条（お問い合わせ窓口）</h3>
         <address class="privacy__contact">
           <p class="privacy__text">本ポリシーに関するお問い合わせは、以下の窓口までお願いいたします。</p>
           <dl class="privacy__contact-list">

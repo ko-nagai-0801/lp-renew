@@ -1,7 +1,13 @@
-/* ===============================================================
-   Privacy Policy Styles (BEM only)
-   File: assets/css/privacy.css
-   ============================================================ */
+/**
+ * リンク可視性を強化（下線・コントラスト・フォーカスリング）
+ * assets/css/privacy.css
+ *
+ * @package LP_WP_Theme
+ * @since 1.1.1
+ *
+ * 更新履歴:
+ * - 1.1.1 (2025-09-09): プライバシーページ内リンクの視認性を改善（色/下線/hover/focus/visited）
+ */
 
 /* -----------------------------
    基本設定 / カラーバリアント
@@ -147,4 +153,48 @@
   .privacy.section.container { padding-block: 32px 64px; }
   .privacy__heading { padding-left: .7rem; }
   .privacy__heading::before { width: .24rem; }
+}
+
+/* 基本：本文内のすべてのリンクをブランド色＋下線で明示 */
+.privacy__content a {
+  color: var(--pp-accent);                  /* #005b94 → 白地でコントラスト 7.18:1 */
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+  text-decoration-thickness: 0.1em;
+  text-decoration-skip-ink: auto;
+  -webkit-text-decoration-skip: ink;
+  word-break: break-word;
+}
+
+/* 箇条書き内リンクは少し強めに */
+.privacy__list a { font-weight: 600; }
+
+/* 既存のメールリンククラスも統一感を出す */
+.privacy__contact-link {
+  color: var(--pp-accent);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+  text-decoration-thickness: 0.1em;
+}
+
+/* ホバー/フォーカス：色を濃く＋フォーカスリング */
+.privacy__content a:hover {
+  color: #004e80;                           /* 濃いめのブルー */
+  text-decoration-thickness: 0.14em;
+  background: linear-gradient(transparent 70%, rgba(0,91,148,.18) 0);
+}
+.privacy__content a:focus-visible {
+  outline: 2px solid var(--pp-accent);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* 訪問済み：少しだけ落ち着いた色に（でもコントラストは確保） */
+.privacy__content a:visited { color: #3d5e79; }
+
+/* ダークモード時の微調整（任意） */
+@media (prefers-color-scheme: dark){
+  .privacy__content a:hover{
+    background: linear-gradient(transparent 70%, rgba(155,208,255,.22) 0);
+  }
 }

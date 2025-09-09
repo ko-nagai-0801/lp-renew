@@ -2,13 +2,12 @@
 
 /**
  * theme root /functions.php
- * 
+ *
  * @package LP_WP_Theme
  * @since 1.0.0
- *
- **/
+ */
 
-if (! defined('ABSPATH')) exit;
+if (!defined('ABSPATH')) exit;
 
 // inc フォルダーに置いたファイルを順に読み込む
 foreach ([
@@ -20,6 +19,8 @@ foreach ([
   'contact-config',
   'news-functions',
   // 'theme-filters',
+  'analytics',
+  'shortcodes',
 ] as $file) {
   $file_path = get_theme_file_path("inc/{$file}.php");
   if (file_exists($file_path)) {

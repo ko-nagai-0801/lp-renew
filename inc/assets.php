@@ -1,9 +1,16 @@
 <?php
 
 /**
- * inc/assets.php
  * CSS / JS の読み込み
+ * inc/assets.php
+ *
+ * @package LP_WP_Theme
+ * @since 1.0.0
+ *
+ * 更新履歴:
+ * - 1.3.0 (2025-09-09): GAイベント送信用スクリプト lp-ga-events を全ページで読み込み
  */
+
 if (! defined('ABSPATH')) {
     exit;
 }
@@ -269,7 +276,7 @@ function lp_enqueue_assets()
         wp_enqueue_script('front-page', "$theme_uri/assets/js/front-page.js", ['main'], $ver, true);
     }
 
-    /* ★ 追加: Contact/Confirm/Thanks だけで contact.js を読み込み */
+    /* Contact/Confirm/Thanks だけで contact.js を読み込み */
     $lp_is_contact_flow = (
         is_page_template('page-contact.php') ||
         is_page('contact') ||
@@ -285,6 +292,16 @@ function lp_enqueue_assets()
             true
         );
     }
+
+    // GA4 送信用の共通イベント束（cta_click / file_download / generate_lead など）
+    // gtag() は <head> 側（inc/analytics.php）で先に定義済みの前提
+    wp_enqueue_script(
+        'lp-ga-events',
+        "$theme_uri/assets/js/ga-events.js",
+        [],   // 依存がなければ空。main.js依存にしたいなら ['main'] に
+        $ver,
+        true  // フッター読込
+    );
 }
 add_action('wp_enqueue_scripts', 'lp_enqueue_assets');
 
