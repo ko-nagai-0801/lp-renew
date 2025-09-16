@@ -4,20 +4,15 @@
  * 個別投稿 本体（“戻る”動線最適化 + 前後リンクをゴースト化）
  * template-parts/single-post.php
  *
- * ポイント:
- *  - 「一覧へ戻る」は referrer が自サイト /news/ 由来なら history.back() を使い、
- *    それ以外は /news/（または投稿ページ設定）へフォールバック
- *  - from_page / from_q のURLクエリ依存は撤去
- *  - 前後リンクは青系ゴーストボタン（.c-ghost-btn）で表示
- *
  * @package LP_WP_Theme
  * @since 1.0.0
  *
  * 更新履歴:
- * - 1.4.0 (2025-09-16): from_page / from_q の復元を撤去。referrer ベースの history.back() に変更。
- * - 1.3.0 (2025-09-05): 「前の記事」「次の記事」を青系ゴーストボタンに変更（.c-ghost-btn）。
- * - 1.2.0 (2025-09-03): from_page / from_q を解釈して戻るボタン追加（※本版で撤去）。
- * - 1.1.0: 日付表示を「更新日：yyyy.mm.dd（投稿日：yyyy.mm.dd）」に変更。
+ * - 1.4.1 (2025-09-16): 戻り遷移時に sessionStorage の lpNewsBack を削除（次ページへ汚染防止）。
+ * - 1.4.0 (2025-09-16): from_page / from_q の復元を撤去。referrer + sessionStorage で戻る最適化。
+ * - 1.3.0 (2025-09-05): 前後リンクを青系ゴーストボタン（.c-ghost-btn）に。
+ * - 1.2.0 (2025-09-03): 一覧復元（※本版で撤去）。
+ * - 1.1.0: 日付表示を「更新日/投稿日」に変更。
  * - 1.0.0: 初版
  */
 if (!defined('ABSPATH')) exit;
@@ -35,26 +30,22 @@ function lp_get_news_base_url(): string
     if ($news && $news->post_status === 'publish') return get_permalink($news);
     return (get_post_type_archive_link('post') ?: home_url('/'));
 }
+
+// 使用フラグ（パーマリンク構造が“きれい”か）
+$pretty   = get_option('permalink_structure') ? 'true' : 'false';
+// 戻り先のデフォルト（/news/ など）
+$newsBase = lp_get_news_base_url();
 ?>
 
 <main class="page page--single" role="main">
-    <?php
-    // サブヒーロー（タイトル等）
-    get_template_part('template-parts/single-section', 'hero');
-    ?>
+    <?php get_template_part('template-parts/single-section', 'hero'); ?>
 
     <section class="section">
         <div class="container">
 
             <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
                     <?php
-                    /* =========================================================
-                 * 日付・カテゴリ等の基礎データ
-                 * ---------------------------------------------------------
-                 * - “有意な更新”の定義は inc/news-functions.php の
-                 *   lp_news_has_significant_update() に従う（ε=60秒など）。
-                 * - 未定義なら「公開時刻と更新時刻が異なる」で代替。
-                 * ======================================================= */
+                    // ===== 基礎メタ =====
                     $pub_machine = get_the_date('c');
                     $pub_human   = get_the_date('Y.m.d');
                     $mod_machine = get_the_modified_date('c');
@@ -64,7 +55,6 @@ function lp_get_news_base_url(): string
                         ? lp_news_has_significant_update()
                         : (get_the_modified_time('U') !== get_the_time('U'));
 
-                    // カテゴリ（post のみ先頭カテゴリ、無い場合はフォールバック）
                     $cats        = get_the_category();
                     $primary_cat = !empty($cats) ? $cats[0]->name : 'お知らせ';
                     ?>
@@ -98,12 +88,7 @@ function lp_get_news_base_url(): string
                         <div class="entry__content section__text">
                             <?php
                             the_content();
-
-                            // ページ分割された投稿用のページャ
-                            wp_link_pages([
-                                'before' => '<nav class="entry__pager" aria-label="ページ">',
-                                'after'  => '</nav>',
-                            ]);
+                            wp_link_pages(['before' => '<nav class="entry__pager" aria-label="ページ">', 'after' => '</nav>']);
                             ?>
                         </div>
 
@@ -119,9 +104,7 @@ function lp_get_news_base_url(): string
                         <?php endif; ?>
 
                         <?php
-                        /* ---------------------------------------------------------
-                     * 前後ナビを“ゴーストボタン（青系）”で表示
-                     * ------------------------------------------------------ */
+                        // 前後ナビ
                         $prev_post = get_adjacent_post(false, '', true);
                         $next_post = get_adjacent_post(false, '', false);
                         ?>
@@ -152,51 +135,78 @@ function lp_get_news_base_url(): string
 
             <?php
             // 戻り先（デフォルトはニュース一覧URL）
-            $back_url = lp_get_news_base_url();
+            $back_url = $newsBase;
             ?>
             <div class="entry__backline my-4">
                 <?php
-                // コンポーネントの中の <a> に JS を付与するため、識別用クラスを付けておく
+                // コンポーネントの中の <a> に JS を付与するため、識別用クラスを付与
                 get_template_part('components/cta-ghost-black', null, [
                     'url'         => $back_url,
                     'label'       => '一覧へ戻る',
-                    'with_icon'   => true, // 左アイコンON
+                    'with_icon'   => true,
                     'icon'        => 'chevron-double-left',
                     'size'        => 'sm',
                     'border_w'    => '1px',
-                    'extra_class' => 'entry__backlink', // ← この中の <a> をフックする
+                    'extra_class' => 'entry__backlink',
                 ]);
                 ?>
             </div>
 
             <script>
-                // referrer が自サイトの /news/ 由来なら「戻る」押下で history.back() を使う
+                // 一覧の状態を復元して戻す（URLを汚さない）
                 (function() {
                     var wrap = document.querySelector('.entry__backlink');
                     if (!wrap) return;
                     var a = wrap.querySelector('a');
                     if (!a) return;
 
-                    var ref = document.referrer;
+                    var built = null;
                     try {
-                        if (ref) {
-                            var u = new URL(ref);
-                            if (u.host === location.host && /^\/news(\/|$)/.test(u.pathname)) {
-                                a.addEventListener('click', function(e) {
-                                    e.preventDefault();
-                                    history.back();
-                                });
+                        var raw = sessionStorage.getItem('lpNewsBack');
+                        if (raw) {
+                            var st = JSON.parse(raw);
+                            var url = st.base || <?php echo json_encode($newsBase); ?>;
+                            if (st.q) url += (url.indexOf('?') >= 0 ? '&' : '?') + 'q=' + encodeURIComponent(st.q);
+                            if (st.page && st.page >= 2) {
+                                if (<?php echo $pretty; ?>) {
+                                    if (!/\/$/.test(url)) url += '/';
+                                    url += 'page/' + st.page + '/';
+                                } else {
+                                    url += (url.indexOf('?') >= 0 ? '&' : '?') + 'paged=' + st.page;
+                                }
                             }
+                            built = url + '#news-index';
                         }
                     } catch (e) {}
+
+                    a.addEventListener('click', function(e) {
+                        if (built) {
+                            e.preventDefault();
+                            try {
+                                sessionStorage.removeItem('lpNewsBack');
+                            } catch (e) {} // ← 保存値をクリア
+                            location.href = built;
+                            return;
+                        }
+                        // referrer が /news/ っぽいなら history.back()
+                        try {
+                            var ref = document.referrer;
+                            if (ref) {
+                                var u = new URL(ref);
+                                if (u.host === location.host && /^\/news(\/|$)/.test(u.pathname)) {
+                                    e.preventDefault();
+                                    history.back();
+                                    return;
+                                }
+                            }
+                        } catch (e) {}
+                        // それ以外は a.href（= /news/ ベース）へ通常遷移
+                    });
                 })();
             </script>
 
         </div><!-- /.container -->
     </section>
 
-    <?php
-    // 共通の問い合わせCTA
-    get_template_part('template-parts/section', 'contact-cta');
-    ?>
+    <?php get_template_part('template-parts/section', 'contact-cta'); ?>
 </main>

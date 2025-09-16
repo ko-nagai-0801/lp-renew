@@ -4,27 +4,11 @@
  * NEWS Index 一覧ループ（検索＆ハイライト＆安定ページャ／★投稿日優先）
  * template-parts/news-index-section-list.php
  *
- * 機能:
- *  - 検索（ひら/カナ・半/全・大/小・数字半全 正規化 OR）
- *  - タイトル・抜粋のヒット強調（抜粋はサーバ側で短く切る）+ 本文後半の一致箇所リスト（既定で非表示）
- *  - ページャは検索語を保持しつつ #news-index へ
- *  - 総ページ数が 1 でも “1” を出してレイアウト安定
- *  - ★ 並び順＝投稿日（post_date）優先、表示の日付も投稿日を採用
- *  - ★ 一覧→シングルのURLに余計なクエリ（from_page / from_q）を付けない
- *
- * 依存ヘルパ（inc/news-functions.php 想定）:
- *  - lp_news_build_query_args()
- *  - lp_news_get_label()
- *  - lp_news_get_flags()
- *  - lp_news_plain_content()
- *  - lp_build_main_and_extra_snippets()
- *  - lp_news_highlight_html()
- *  - lp_to_hiragana(), lp_to_katakana(), lp_fold_for_search(), lp_normalize_spaces()
- *
  * @package LP_WP_Theme
  * @since 1.0.0
  *
  * 更新履歴:
+ * - 1.8.1 (2025-09-16): シングル復元用の state（page/q/base）を sessionStorage に保存。クリック時のみ保存。
  * - 1.8.0 (2025-09-16): 一覧→シングルの from_page / from_q 付与を廃止（純粋なパーマリンクに統一）。
  * - 1.7.0 (2025-09-08): 抜粋をサーバ側で短縮（既定80）・一致箇所リストは既定非表示。
  * - 1.6.0 (2025-09-08): ★並び順を投稿日 DESC に統一。ignore_sticky_posts を追加。
@@ -353,3 +337,26 @@ $build_links = function (int $mid_size, bool $is_compact = false) use ($q, $page
 
   </div><!-- /.news__inner -->
 </section>
+
+<script>
+  /**
+   * 一覧→シングルの“戻る状態”を sessionStorage に保存
+   * - クリックした時だけ {page, q, base} を保存（他ページで汚れにくい）
+   */
+  (function() {
+    var state = {
+      page: <?php echo (int) $paged; ?>,
+      q: <?php echo json_encode($q_word); ?>,
+      base: <?php echo json_encode(get_permalink()); ?>
+    };
+    document.addEventListener('click', function(e) {
+      var a = e.target.closest('.news__link');
+      if (!a) return;
+      try {
+        sessionStorage.setItem('lpNewsBack', JSON.stringify(state));
+      } catch (e) {}
+    }, {
+      passive: true
+    });
+  })();
+</script>

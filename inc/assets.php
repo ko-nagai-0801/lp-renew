@@ -252,9 +252,6 @@ function lp_enqueue_assets()
         );
     }
 
-
-
-
     // ＊) Google Fonts
     wp_enqueue_style(
         'lp-fonts-pack',
