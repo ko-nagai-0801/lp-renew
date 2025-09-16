@@ -263,7 +263,7 @@ function lp_enqueue_assets()
         null
     );
     wp_enqueue_style('lp-font-playball', 'https://fonts.googleapis.com/css2?family=Playball&display=swap', [], null);
-    wp_enqueue_style('lp-font-kaushan', 'https://fonts.googleapis.com/css2?family=KaushanScript&display=swap', [], null);
+    wp_enqueue_style('lp-font-kaushan', 'https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap', [], null);
 
     /* ---------- 2. JavaScript ---------- */
     wp_enqueue_script('swiper', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', [], '11', true);
