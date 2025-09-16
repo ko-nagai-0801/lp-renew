@@ -1,15 +1,22 @@
 <?php
 
 /**
- * 個別投稿 本体（“戻る”ボタン + 前後リンクをゴースト化）
+ * 個別投稿 本体（“戻る”動線最適化 + 前後リンクをゴースト化）
  * template-parts/single-post.php
+ *
+ * ポイント:
+ *  - 「一覧へ戻る」は referrer が自サイト /news/ 由来なら history.back() を使い、
+ *    それ以外は /news/（または投稿ページ設定）へフォールバック
+ *  - from_page / from_q のURLクエリ依存は撤去
+ *  - 前後リンクは青系ゴーストボタン（.c-ghost-btn）で表示
  *
  * @package LP_WP_Theme
  * @since 1.0.0
  *
  * 更新履歴:
+ * - 1.4.0 (2025-09-16): from_page / from_q の復元を撤去。referrer ベースの history.back() に変更。
  * - 1.3.0 (2025-09-05): 「前の記事」「次の記事」を青系ゴーストボタンに変更（.c-ghost-btn）。
- * - 1.2.0 (2025-09-03): from_page / from_q を解釈して「← 一覧に戻る」ボタンを追加。
+ * - 1.2.0 (2025-09-03): from_page / from_q を解釈して戻るボタン追加（※本版で撤去）。
  * - 1.1.0: 日付表示を「更新日：yyyy.mm.dd（投稿日：yyyy.mm.dd）」に変更。
  * - 1.0.0: 初版
  */
@@ -27,30 +34,6 @@ function lp_get_news_base_url(): string
     $news = get_page_by_path('news');
     if ($news && $news->post_status === 'publish') return get_permalink($news);
     return (get_post_type_archive_link('post') ?: home_url('/'));
-}
-
-/**
- * from_page / from_q から “戻るURL” を生成（#news-indexへ）
- */
-function lp_build_back_to_news_url(): string
-{
-    $base      = lp_get_news_base_url();
-    $from_page = isset($_GET['from_page']) ? max(0, (int) $_GET['from_page']) : 0;
-    $from_q    = isset($_GET['from_q']) ? sanitize_text_field(wp_unslash($_GET['from_q'])) : '';
-
-    // ページ番号
-    if ($from_page >= 2) {
-        if (get_option('permalink_structure')) {
-            $base = trailingslashit($base) . user_trailingslashit('page/' . $from_page, 'paged');
-        } else {
-            $base = add_query_arg('paged', $from_page, $base);
-        }
-    }
-    // 検索クエリを復元したい場合
-    if ($from_q !== '') $base = add_query_arg('q', $from_q, $base);
-
-    // 一覧セクションへスクロール
-    return $base . '#news-index';
 }
 ?>
 
@@ -70,14 +53,13 @@ function lp_build_back_to_news_url(): string
                  * ---------------------------------------------------------
                  * - “有意な更新”の定義は inc/news-functions.php の
                  *   lp_news_has_significant_update() に従う（ε=60秒など）。
-                 * - 同関数が未定義の場合は「公開時刻と更新時刻が異なる」で代替。
+                 * - 未定義なら「公開時刻と更新時刻が異なる」で代替。
                  * ======================================================= */
-                    $pub_machine = get_the_date('c');     // 例: 2025-09-02T12:34:56+09:00
-                    $pub_human   = get_the_date('Y.m.d'); // 例: 2025.09.02
+                    $pub_machine = get_the_date('c');
+                    $pub_human   = get_the_date('Y.m.d');
                     $mod_machine = get_the_modified_date('c');
                     $mod_human   = get_the_modified_date('Y.m.d');
 
-                    // “有意な更新”があれば true（フィルタで閾値可変）
                     $has_sig_update = function_exists('lp_news_has_significant_update')
                         ? lp_news_has_significant_update()
                         : (get_the_modified_time('U') !== get_the_time('U'));
@@ -96,7 +78,6 @@ function lp_build_back_to_news_url(): string
 
                             <div class="entry__meta">
                                 <?php if ($has_sig_update): ?>
-                                    <!-- 更新が“有意”な場合は更新日を先に出す -->
                                     <time class="entry__date entry__date--updated" datetime="<?php echo esc_attr($mod_machine); ?>">
                                         更新日：<?php echo esc_html($mod_human); ?>
                                     </time>
@@ -106,7 +87,6 @@ function lp_build_back_to_news_url(): string
                                     </time>
                                     <span class="entry__date-sep">）</span>
                                 <?php else: ?>
-                                    <!-- 通常は投稿日のみ -->
                                     <time class="entry__date entry__date--published" datetime="<?php echo esc_attr($pub_machine); ?>">
                                         投稿日：<?php echo esc_html($pub_human); ?>
                                     </time>
@@ -141,13 +121,10 @@ function lp_build_back_to_news_url(): string
                         <?php
                         /* ---------------------------------------------------------
                      * 前後ナビを“ゴーストボタン（青系）”で表示
-                     * - get_adjacent_post() 経由で取得し、存在時のみ出力
-                     * - 矢印は Bootstrap Icons を使用（bi-chevron-◀/▶）
                      * ------------------------------------------------------ */
                         $prev_post = get_adjacent_post(false, '', true);
                         $next_post = get_adjacent_post(false, '', false);
                         ?>
-
                         <nav class="entry__nav" aria-label="前後の記事">
                             <div class="entry__nav-prev">
                                 <?php if ($prev_post): ?>
@@ -174,22 +151,46 @@ function lp_build_back_to_news_url(): string
             endif; ?>
 
             <?php
-            // 戻り先URL（from_page / from_q を考慮）
-            $back_url = lp_build_back_to_news_url();
+            // 戻り先（デフォルトはニュース一覧URL）
+            $back_url = lp_get_news_base_url();
             ?>
             <div class="entry__backline my-4">
                 <?php
+                // コンポーネントの中の <a> に JS を付与するため、識別用クラスを付けておく
                 get_template_part('components/cta-ghost-black', null, [
                     'url'         => $back_url,
                     'label'       => '一覧へ戻る',
                     'with_icon'   => true, // 左アイコンON
-                    'icon'        => 'chevron-double-left', // 「<<」
+                    'icon'        => 'chevron-double-left',
                     'size'        => 'sm',
                     'border_w'    => '1px',
-                    'extra_class' => 'entry__backlink',
+                    'extra_class' => 'entry__backlink', // ← この中の <a> をフックする
                 ]);
                 ?>
             </div>
+
+            <script>
+                // referrer が自サイトの /news/ 由来なら「戻る」押下で history.back() を使う
+                (function() {
+                    var wrap = document.querySelector('.entry__backlink');
+                    if (!wrap) return;
+                    var a = wrap.querySelector('a');
+                    if (!a) return;
+
+                    var ref = document.referrer;
+                    try {
+                        if (ref) {
+                            var u = new URL(ref);
+                            if (u.host === location.host && /^\/news(\/|$)/.test(u.pathname)) {
+                                a.addEventListener('click', function(e) {
+                                    e.preventDefault();
+                                    history.back();
+                                });
+                            }
+                        }
+                    } catch (e) {}
+                })();
+            </script>
 
         </div><!-- /.container -->
     </section>
