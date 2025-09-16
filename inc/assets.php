@@ -257,13 +257,11 @@ function lp_enqueue_assets()
 
     // ＊) Google Fonts
     wp_enqueue_style(
-        'lp-fonts',
-        'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap',
+        'lp-fonts-pack',
+        'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Roboto:wght@400;500;700&family=Playball&family=Kaushan+Script&display=swap',
         [],
         null
     );
-    wp_enqueue_style('lp-font-playball', 'https://fonts.googleapis.com/css2?family=Playball&display=swap', [], null);
-    wp_enqueue_style('lp-font-kaushan', 'https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap', [], null);
 
     /* ---------- 2. JavaScript ---------- */
     wp_enqueue_script('swiper', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', [], '11', true);

@@ -135,7 +135,7 @@
   transform: translateY(-50%);
   width: 60%;
   height: 600px;
-  background: url(../img/phiso_bg.svg) center / contain no-repeat;
+  background: url(../img/phiso-bg.svg) center / contain no-repeat;
   opacity: 0.1;
   z-index: 0;
 }

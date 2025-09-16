@@ -73,20 +73,20 @@ if (!defined('ABSPATH')) exit;
   </div>
 
   <!-- Vision Flow Animation -->
-  <div class="vision__flow">
+  <!-- <div class="vision__flow">
     <div class="vision__flow-track">
       <div class="vision__flow-list">
-        <img src="<?php echo esc_url($theme_uri . '/img/phiso-flow.svg'); ?>" alt="" class="vision__flow-item">
-        <img src="<?php echo esc_url($theme_uri . '/img/phiso-flow.svg'); ?>" alt="" class="vision__flow-item">
-        <img src="<?php echo esc_url($theme_uri . '/img/phiso-flow.svg'); ?>" alt="" class="vision__flow-item">
-        <img src="<?php echo esc_url($theme_uri . '/img/phiso-flow.svg'); ?>" alt="" class="vision__flow-item">
+        <img src="<?php echo esc_url($theme_uri . '/assets/img/phiso-flow.svg'); ?>" alt="" class="vision__flow-item">
+        <img src="<?php echo esc_url($theme_uri . '/assets/img/phiso-flow.svg'); ?>" alt="" class="vision__flow-item">
+        <img src="<?php echo esc_url($theme_uri . '/assets/img/phiso-flow.svg'); ?>" alt="" class="vision__flow-item">
+        <img src="<?php echo esc_url($theme_uri . '/assets/img/phiso-flow.svg'); ?>" alt="" class="vision__flow-item">
       </div>
       <div class="vision__flow-list" aria-hidden="true">
-        <img src="<?php echo esc_url($theme_uri . '/img/phiso-flow.svg'); ?>" alt="" class="vision__flow-item">
-        <img src="<?php echo esc_url($theme_uri . '/img/phiso-flow.svg'); ?>" alt="" class="vision__flow-item">
-        <img src="<?php echo esc_url($theme_uri . '/img/phiso-flow.svg'); ?>" alt="" class="vision__flow-item">
-        <img src="<?php echo esc_url($theme_uri . '/img/phiso-flow.svg'); ?>" alt="" class="vision__flow-item">
+        <img src="<?php echo esc_url($theme_uri . '/assets/img/phiso-flow.svg'); ?>" alt="" class="vision__flow-item">
+        <img src="<?php echo esc_url($theme_uri . '/assets/img/phiso-flow.svg'); ?>" alt="" class="vision__flow-item">
+        <img src="<?php echo esc_url($theme_uri . '/assets/img/phiso-flow.svg'); ?>" alt="" class="vision__flow-item">
+        <img src="<?php echo esc_url($theme_uri . '/assets/img/phiso-flow.svg'); ?>" alt="" class="vision__flow-item">
       </div>
     </div>
-  </div>
+  </div> -->
 </section>
