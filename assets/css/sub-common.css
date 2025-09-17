@@ -199,11 +199,11 @@ assets / css / sub-common.css
   .info-table__label {
     width: 40%;
     padding: 1.2rem 0.8rem;
-    font-size: 0.85rem;
+    font-size: 0.7rem;
   }
   .info-table__data {
-    padding: 1.2rem 0.8rem;
-    font-size: 0.85rem;
+    padding: 1rem 0.2rem;
+    font-size: 0.7rem;
   }
 }
 

@@ -29,7 +29,7 @@
 
 .message__catch {
   text-align: center;
-  font-size: clamp(1.3rem, 2.5vw, 2rem);
+  font-size: clamp(1.2rem, 2.5vw, 2rem);
   font-weight: 700;
   color: var(--c-navy);
   line-height: 1.5;
