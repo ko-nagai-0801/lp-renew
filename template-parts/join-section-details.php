@@ -37,6 +37,8 @@ if (function_exists('get_page_by_path')) {
 if (!$access_url) {
   $access_url = home_url('/access/'); // 念のためのフォールバック
 }
+/* 問い合わせページの内部URLを取得（slug が 'contact' の固定ページ想定）
+   - 上記の処理のcontact版  */
 $contact_url = '';
 if (function_exists('get_page_by_path')) {
   $contact_page = get_page_by_path('contact');
