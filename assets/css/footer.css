@@ -204,6 +204,14 @@
 .footer__nav-item:nth-of-type(2) .footer__nav-title {
   margin-bottom: 16px;
 }
+@media (max-width: 576px) {
+.footer__nav-link:first-of-type {
+  margin-bottom: 0;
+}
+.footer__nav-item:nth-of-type(2) .footer__nav-title {
+  margin-bottom: 0;
+}
+}
 
 /* =============================================================
    4. コピーライト
