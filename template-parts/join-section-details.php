@@ -25,7 +25,7 @@ $img_work     = get_theme_file_uri('assets/img/join/work.webp');
 $img_datetime = get_theme_file_uri('assets/img/join/datetime.webp');
 $img_access   = get_theme_file_uri('assets/img/join/access.webp');
 $img_visit    = get_theme_file_uri('assets/img/join/visit.webp');
-$img_apply    = get_theme_file_uri('assets/img/join/apply.webp'); // 無ければ既存を流用可
+$img_apply    = get_theme_file_uri('assets/img/join/apply.webp');
 
 /* ================================
  * 2) 内部リンク（/access, /contact）
