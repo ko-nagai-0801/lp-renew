@@ -15,7 +15,6 @@
 if (!defined('ABSPATH')) exit;
 
 // inc フォルダーに置いたファイルを順に読み込む
-// 既存に加えて inc/seo/*.php を追加（存在チェックありなので未作成でも落ちない）
 $modules = [
   'setup',
   'assets',
@@ -34,6 +33,7 @@ $modules = [
   'seo/disable-feeds',        // すべての /feed/ 系を 410 Gone にしてインデックス外へ
   'seo/strip-query-redirect', // privacy等の余計なクエリ (?consent, ?from_page など) を正規URLへ301
   'seo/canonical-cleaner',    // Yoastのcanonicalから内部用/トラッキングクエリを除去
+  'seo/document-title', // ドキュメントタイトル整形（区切り変更＆空タイトルの簡易フォールバック）
 ];
 
 foreach ($modules as $file) {
